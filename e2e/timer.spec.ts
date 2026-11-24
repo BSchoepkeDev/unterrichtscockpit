@@ -58,6 +58,7 @@ test('Zeitwarnungen und Wake-Lock-Einstellung bleiben nach Neuladen erhalten',as
  await yellow.fill('20');
  const wake=page.getByRole('combobox',{name:'Bildschirmaktivhaltung'});
  await wake.selectOption('off');
+ await page.waitForFunction(async()=>{const request=indexedDB.open('unterrichtscockpit-v1');const database=await new Promise<IDBDatabase>((resolve,reject)=>{request.onsuccess=()=>resolve(request.result);request.onerror=()=>reject(request.error);});const transaction=database.transaction('settings','readonly');const values=await new Promise<{yellowSeconds:number;redSeconds:number;wakeLock:boolean}|undefined>((resolve,reject)=>{const read=transaction.objectStore('settings').get('settings');read.onsuccess=()=>resolve(read.result);read.onerror=()=>reject(read.error);});database.close();return values?.yellowSeconds===20&&values.redSeconds===240&&values.wakeLock===false;});
  await page.reload();
  await expect(yellow).toHaveValue('20');
  await expect(red).toHaveValue('240');

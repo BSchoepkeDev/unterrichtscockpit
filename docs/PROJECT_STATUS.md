@@ -1,25 +1,29 @@
-# Projektstatus – Stufe 5 abgeschlossen / Version 0.5.0 veröffentlicht
-Stand: 24.11.2026. Main: `cc8668ae842d3745ea83790e565caac0a56c6760`. Produktiv: https://bschoepkedev.github.io/unterrichtscockpit/.
+# Projektstatus – Entwicklungsstufe 6 / Version 0.6.0
+Stand: 24.11.2026. Basis: `main`-Commit `1aa7e390bf11df992fd68dd42704b404e47af878`. Produktivversion 0.5.0: https://bschoepkedev.github.io/unterrichtscockpit/.
 
-## Stufe 5 abgeschlossen
-- Jede gestartete Durchführung besitzt einen unabhängigen Session-Snapshot. Derselbe Plan ist wiederholt ausführbar; beendete Durchführungen bleiben in der Historie.
-- Globale transaktionale Prüfung verhindert parallel laufende Durchführungen. Offene Timer werden nach Neuladen wiederhergestellt.
-- Unterrichtspunkte überspringen, erneut aktivieren, umsortieren, ergänzen und in der Durchführung bearbeiten; Sollwerte und Ist-Intervalle werden getrennt protokolliert.
-- Historie/Nachbereitung zeigt Dauerabweichungen, Pausen, Status und Zeiten je Punkt. Änderungen können einzeln in den ursprünglichen Plan übernommen werden; Planlöschung verändert Sessions nicht.
-- Historische Einträge sind schreibgeschützt und nur nach Bestätigung löschbar. Eine neue Durchführung entsteht durch erneutes Starten, nicht durch Zurücksetzen einer alten.
-- Schema bleibt IndexedDB v1; Migration nicht erforderlich.
+## Stufe 6 implementiert
+- Lokaler Import aus PDF, TXT, Markdown, CSV und eingefügtem Text; nativer Dateidialog, Dateityp-/Größenprüfung sowie verständliche Fehlerbehandlung.
+- PDF.js-Textextraktion seitenweise mit Textpositionen; spaltenweise Sortierung bei erkannten Layoutspalten und zeilen-/tabellenbasierte Ausgabe.
+- Deutsche Tesseract-OCR im Worker bei Seiten mit weniger als 80 nicht-leeren Zeichen. OCR-Sprachmodell, WASM und Worker-Dateien sind selbst gehostet und für den PWA-Precache vorgesehen.
+- Regelbasierte Erkennung von Phasen, Reihenfolge, Zeitangaben, Planmetadaten und benannten Feldern; Tabellen-/CSV-Kopfzeilen, unsichere Zeiten, Quellen- und OCR-Prüfhinweise. Nicht erkannte Zeilen und Originaltext bleiben nachvollziehbar.
+- Importvorschau mit editierbaren Feldern, Quelltext, Warnungen, Teilen, Zusammenführen, Umordnen und Entfernen. Übergang in den bestehenden Planeditor.
+- Plan und Originaldatei werden nach Bestätigung atomar in IndexedDB gespeichert; Originaldownload erscheint am Plan in der Bibliothek und bleibt nach Reload erreichbar.
+- Keine Datenbankmigration. Dateien über 30 MB und PDFs über 120 Seiten werden zur Begrenzung des mobilen Speicherverbrauchs abgewiesen.
 
-## Verifizierte Ergebnisse
-- PR #4: CI [Run 45475637496](https://github.com/BSchoepkeDev/unterrichtscockpit/actions/runs/45475637496) – 31/31 Unit-Tests und 26/26 Playwright-Tests in Chromium/WebKit bestanden, Audit ohne gemeldete Schwachstellen.
-- Main und Pages: [Run 45476621002](https://github.com/BSchoepkeDev/unterrichtscockpit/actions/runs/45476621002) für Commit `cc8668ae842d3745ea83790e565caac0a56c6760` – Build, Audit und alle Tests erfolgreich; Deployjob meldet `Reported success!`.
-- Lokaler Playwright-Browserdownload war in dieser Umgebung per HTTP 403 blockiert; die Browserläufe wurden in GitHub Actions ausgeführt.
-- Kein neuer iPad-Praxistest für Stufe 5. Die bisherige iPad-Rückmeldung aus Stufe 3/4 belegt diese neuen Historien- und Änderungsfunktionen nicht.
+## Qualitätssicherung
+- Lokal erfolgreich: `npm ci`, TypeScript, 41/41 Unit-Tests, Produktions-Build und `npm audit --audit-level=moderate` (0 Befunde).
+- Importfixtures enthalten ausschließlich synthetische Inhalte. Es wurden keine realen Unterrichtspläne zum Tuning verwendet.
+- iPad/iPadOS-Safari-Abnahme steht aus; sie ist der abschließende Nutzertest dieser Stufe.
 
-## Offen / Grenzen
-- Stufe 5 auf dem 10–11-Zoll-iPad mit iPadOS 26 praktisch prüfen: Durchführung starten, überspringen/reaktivieren, spontane Anpassung, beenden, Historie öffnen und erneute Plan-Ausführung.
-- Altbestände mit mehreren aktiven Durchführungen werden nicht automatisch verändert. Neue Starts werden blockiert, der Konflikt wird angezeigt und kann manuell beendet werden.
-- Pausierte Durchführung bleibt erhalten; eine andere darf laufen. Die pausierte kann erst fortgesetzt werden, wenn keine andere läuft.
-- Vollständige Datensicherung folgt Stufe 9. IndexedDB ersetzt kein externes Backup.
+## Bekannte Grenzen
+- OCR- und Parsergebnisse müssen manuell geprüft werden; Mehrspaltenfluss und tabellarische Feldzuordnung sind layoutabhängig.
+- CSV unterstützt einfache Trennzeichen und Tabellenköpfe, aber nicht jede komplexe Anführungszeichen-/Escape-Konvention.
+- DOCX, Bilder als eigenständige Uploads und andere Office-Formate werden nicht direkt importiert.
+- IndexedDB ist kein Backup. Der Originalanhang wird bei Planlöschung vorerst nicht automatisch entfernt, um historische Referenzen nicht zu beschädigen.
+- Importressourcen werden für Offlinebetrieb vorgemerkt; vollständige Offline- und Safari-Abnahme folgt in Stufe 10.
 
-## Nächste Stufen
-Stufen 1–5 sind implementiert und Stufe 5 ist veröffentlicht. Als Nächstes Stufe 6: PDF-/Textimport, lokale OCR, Strukturierung und Importvorschau. Danach Stufen 7–12 gemäß Master-Prompt.
+## Nächste Schritte
+1. PR-CI und Audit auf dem echten GitHub-Branch erfolgreich abschließen.
+2. Auf `main` integrieren, Main-CI und GitHub-Pages-Deployment verifizieren.
+3. Nutzerabnahme auf dem echten 10–11-Zoll-iPad anfordern.
+4. Stufe 6 dokumentieren und Übergabestand für Stufe 7 erstellen.

@@ -31,3 +31,13 @@
 24. Überspringen ist ein eigener Status und zählt nicht als erledigt. Reaktivierung und erneute Aktivierung öffnen ein zusätzliches Intervall.
 25. Ein Reset des aktuellen Timers ist nicht zulässig. Beenden erhält die Historie; eine neue Durchführung wird ausdrücklich über erneutes Starten erzeugt.
 26. Historische Sitzungen können nur nach Bestätigung gelöscht werden. Übernahme in die Bibliothek ist eine explizite Auswahl und verwendet den bestehenden Schreibkonfliktschutz.
+
+## Stufe 6
+27. Import bleibt lokal und ohne externe API. PDF.js, Tesseract.js und die deutsche Sprachdatei werden aus der eigenen Bereitstellung geladen.
+28. Der Import nimmt PDF, TXT, Markdown, CSV und eingefügten Text an. Die native Planeditor-Eingabe bleibt der Weg für manuelle Pläne.
+29. Dateien über 30 MB und PDFs über 120 Seiten werden abgewiesen, bevor ein Plan angelegt wird. Die Begrenzung schützt den Arbeitsspeicher mobiler Geräte; sie kann bei Bedarf anhand echter iPad-Erfahrung angepasst werden.
+30. OCR wird seitenweise bei weniger als 80 nicht-leeren Textzeichen ausgelöst. Ergebnisse aus OCR und mehrspaltigen Seiten tragen einen Prüfhinweis und ersetzen nicht die Bestätigung der Lehrkraft.
+31. Importplan und Original-Blob werden in einer IndexedDB-Transaktion geschrieben. Abbruch oder Extraktionsfehler schreiben keine Teildaten.
+32. Anhänge bleiben nach Planlöschung erhalten, damit Session-Snapshots nicht auf nicht mehr vorhandene Dateien zeigen. Anhänge werden beim Duplizieren eines Plans nicht automatisch kopiert.
+
+33. Der Audit-Fund `GHSA-hq66-cqwq-w95j` in PDF.js 5.x wird durch Upgrade auf 6.2.108 behoben; der abschließende lokale Audit meldet 0 Schwachstellen.

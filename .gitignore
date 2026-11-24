@@ -4,3 +4,7 @@ playwright-report/
 test-results/
 .env*
 .DS_Store
+public/ocr/tesseract.worker.min.js
+public/ocr/tesseract-core-lstm.wasm
+public/ocr/tesseract-core-lstm.wasm.js
+public/tessdata/deu.traineddata.gz

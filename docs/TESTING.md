@@ -41,3 +41,11 @@ Auf einem echten 10–11-Zoll-iPad mit iPadOS 26: Safari/Standalone, Querformat/
 - Frühere PR-Läufe deckten fehlende Browser-Selektoren und den nicht vorhandenen `startedAt`-Index auf. Korrektur: History scannt Sitzungen und sortiert im Speicher; kein DB-Schema-Update nötig.
 - Der lokale Browserdownload wurde in dieser Umgebung mit HTTP 403 blockiert; die Browserläufe wurden daher in Actions ausgeführt.
 - Stufe 5 wurde nicht auf einem echten iPad abgenommen.
+
+## Stufe 6 – Import
+
+- Unit-Tests prüfen deutsche Zeitformate und Mehrdeutigkeit, tabellarische Zeilen, Planmetadaten, unbekannte Inhalte, OCR-Hinweise, Seitenbezug, spaltenweise PDF-Textreihenfolge und atomare Plan-/Anhangspeicherung.
+- Browserprüfungen erzeugen zur Laufzeit ein synthetisches dreiseitiges PDF mit PDF-Textebene, gerenderter Rasterseite und weiterer Textebene. Sie kontrollieren seitenweise Extraktion, OCR, Korrektur, Teilen, Zusammenführen, Umordnen, Persistenz des Originalanhangs, Reload, Abbruch, leere/beschädigte PDFs und den Offline-Cache von Sprachdaten/WASM.
+- Lokal: TypeScript erfolgreich; Unit-Suite: 41/41 bestanden; TypeScript und Produktions-Build erfolgreich. Nach PDF.js-Upgrade auf 6.2.108 meldete `npm audit --audit-level=moderate` 0 Schwachstellen.
+- Der lokale Chromium-Download wurde mit HTTP 403 abgewiesen. Das systemweite Chromium startete im verwalteten Laufzeitcontainer wegen `socket() failed: Operation not permitted` nicht. Der End-to-End-Lauf ist daher lokal nicht als bestanden gewertet; der verbindliche Chromium-/WebKit-Lauf erfolgt in GitHub Actions.
+- Nach Abschluss der GitHub-Prüfung werden hier deren tatsächlicher Lauf, Unit-/Browser-Testzahlen, Audit und Deployment protokolliert. Echte Unterrichtsdokumente und ein echtes iPad sind nicht durch diese synthetischen Tests abgedeckt.
