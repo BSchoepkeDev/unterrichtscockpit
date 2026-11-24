@@ -18,13 +18,13 @@ test('Textdatei wird geprüft, atomar gespeichert und Original bleibt nach Reloa
  await page.getByRole('button',{name:'Im Planeditor weiterbearbeiten'}).click();await expect(page.getByRole('dialog')).toBeVisible();await page.getByRole('button',{name:'Unterrichtsplan speichern'}).click();
  const card=page.locator('article').filter({has:page.getByRole('heading',{name:'Naturstunde'})});await expect(card.getByRole('link',{name:'Originaldatei: Naturstunde.txt'})).toBeVisible();await expect(card.getByText('1 Unterrichtspunkte')).toBeVisible();
  await page.reload();const reloaded=page.locator('article').filter({has:page.getByRole('heading',{name:'Naturstunde'})});const original=reloaded.getByRole('link',{name:'Originaldatei: Naturstunde.txt'});await expect(original).toBeVisible();await expect(original).toHaveAttribute('download','Naturstunde.txt');
- await reloaded.getByRole('button',{name:'Cockpit öffnen'}).click();await expect(page.getByRole('heading',{level:2,name:'Unterrichtscockpit'})).toBeVisible();await expect(page.getByText('Einstieg',{exact:true}).first()).toBeVisible();
+ await reloaded.getByRole('button',{name:'Cockpit öffnen'}).click();await expect(page.getByRole('heading',{level:2,name:'Unterrichtscockpit'})).toBeVisible();await expect(page.getByText(/1 · Einstieg/)).toBeVisible();
 });
 
 test('mehrseitiges gemischtes PDF extrahiert Textebene und scannt die Bildseite lokal',async({page})=>{
  test.setTimeout(180_000);await page.goto('./');await page.getByRole('link',{name:'Import'}).click();
  await page.locator('input[type=file]').setInputFiles({name:'stage6-mixed.pdf',mimeType:'application/pdf',buffer:await mixedPdf(page)});
- await expect(page.getByRole('heading',{name:'Vorschau bearbeiten'})).toBeVisible({timeout:150_000});
+ const outcome=await Promise.race([page.getByRole('heading',{name:'Vorschau bearbeiten'}).waitFor({state:'visible',timeout:150_000}).then(()=> 'preview'),page.getByRole('alert').waitFor({state:'visible',timeout:150_000}).then(()=> 'error')]);expect(outcome).toBe('preview');
  await expect(page.getByText(/3 Seite\(n\)/)).toBeVisible();await expect(page.getByText(/1 per OCR gelesen/)).toBeVisible();
  await page.getByText('Vollständiger erkannter Quelltext').click();await expect(page.getByRole('heading',{name:'Seite 2 · OCR'})).toBeVisible();
  await expect(page.locator('.import-source')).toContainText('Gescannte Phase');
