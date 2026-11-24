@@ -13,8 +13,6 @@ jobs:
       - uses: actions/setup-node@v5
         with:
           node-version: 22
-      - name: Generate lockfile if missing
-        run: test -f package-lock.json || npm install --package-lock-only
       - uses: actions/upload-artifact@v5
         with:
           name: npm-lockfile
@@ -26,8 +24,8 @@ jobs:
         with:
           name: npm-audit
           path: npm-audit.json
-      - name: Production dependency audit
-        run: npm audit --omit=dev --audit-level=high
+      - name: Full dependency audit
+        run: npm audit --audit-level=moderate
       - run: npm run typecheck
       - run: npm run test
       - run: npm run build
