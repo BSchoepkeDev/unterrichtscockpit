@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.5.0 – Entwicklungsstufe 5 (in Prüfung)
+## 0.5.0 – Entwicklungsstufe 5 (veröffentlicht)
 - Jede beendete Durchführung bleibt eigenständig erhalten; derselbe Plan erzeugt beim nächsten Start einen neuen Datensatz.
 - Globale transaktionale Prüfung verhindert zwei gleichzeitig laufende Durchführungen, auch bei konkurrierenden Tabs.
 - Sitzungen nach Neustart wieder aufnehmen; pausierte und laufende Timerintervalle bleiben erhalten.

@@ -33,3 +33,11 @@ Auf einem echten 10–11-Zoll-iPad mit iPadOS 26: Safari/Standalone, Querformat/
 - Playwright lokal: nicht ausführbar, da Browser nicht vorinstalliert waren und der CDN-Download mit HTTP 403 scheiterte.
 - [PR-Run 45475637496](https://github.com/BSchoepkeDev/unterrichtscockpit/actions/runs/45475637496), Commit `f1d8badce9ea9fda97e8651d7fa478724255e6b2`: npm ci, Audit ohne gemeldete Schwachstellen, TypeScript, Produktions-Build, 31/31 Unit-Tests und 26/26 E2E-Tests in Chromium/WebKit bestanden. PR-Deployment übersprungen.
 - Vorherige fehlgeschlagene Läufe: [45474210887](https://github.com/BSchoepkeDev/unterrichtscockpit/actions/runs/45474210887) fand Selektorprobleme und [45475070121](https://github.com/BSchoepkeDev/unterrichtscockpit/actions/runs/45475070121) den Zugriff auf einen nicht vorhandenen Index. Beide Fehler wurden korrigiert und der spätere erfolgreiche PR-Lauf bestätigt den Stand.
+
+
+## Stufe 5 – Veröffentlichung
+- PR-CI [Run 45475637496](https://github.com/BSchoepkeDev/unterrichtscockpit/actions/runs/45475637496): npm ci, Audit ohne gemeldete Schwachstellen, TypeScript, Produktions-Build, 31/31 Unit-Tests und 26/26 E2E-Tests in Chromium/WebKit bestanden.
+- Main-CI und Pages [Run 45476621002](https://github.com/BSchoepkeDev/unterrichtscockpit/actions/runs/45476621002) auf `cc8668ae842d3745ea83790e565caac0a56c6760`: dieselben Prüfungen bestanden; Pages-Deploy meldet `Reported success!`.
+- Frühere PR-Läufe deckten fehlende Browser-Selektoren und den nicht vorhandenen `startedAt`-Index auf. Korrektur: History scannt Sitzungen und sortiert im Speicher; kein DB-Schema-Update nötig.
+- Der lokale Browserdownload wurde in dieser Umgebung mit HTTP 403 blockiert; die Browserläufe wurden daher in Actions ausgeführt.
+- Stufe 5 wurde nicht auf einem echten iPad abgenommen.
