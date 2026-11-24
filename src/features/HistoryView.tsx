@@ -2,13 +2,13 @@ import {useLiveQuery} from 'dexie-react-hooks';
 import {useState} from 'react';
 import {db} from '../database';
 import type {LessonItem} from '../models';
-import {historySummary} from './cockpitRepository';
+import {historySummary,listSessions} from './cockpitRepository';
 import {updateLessonPlan} from './lessonRepository';
 
 function itemChanged(original:LessonItem|undefined,adjusted:LessonItem){if(!original)return true;const keys=new Set([...Object.keys(original),...Object.keys(adjusted)] as (keyof LessonItem)[]);return [...keys].some(key=>original[key]!==adjusted[key]||Object.hasOwn(original,key)!==Object.hasOwn(adjusted,key));}
 
 export function HistoryView({onOpen}:{onOpen:(id:string)=>void}){
- const sessions=useLiveQuery(()=>db.sessions.orderBy('startedAt').reverse().toArray(),[]);
+ const sessions=useLiveQuery(()=>listSessions(),[]);
  const plans=useLiveQuery(()=>db.plans.toArray(),[]);
  const recordings=useLiveQuery(()=>db.audio.toArray(),[]);
  const notes=useLiveQuery(()=>db.notes.toArray(),[]);

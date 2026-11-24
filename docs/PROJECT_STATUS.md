@@ -11,10 +11,10 @@ Stand: 24.11.2026. Live-Ausgangspunkt: `main` bei `64a7fc0b277d794201a79b8f86254
 
 ## Verifikation
 - `npm run typecheck`: erfolgreich.
-- `npm test`: 30/30 Unit-Tests erfolgreich.
+- `npm test`: 31/31 Unit-Tests erfolgreich.
 - `npm run build`: erfolgreich (Vite PWA); Drittanbieter-Kommentare von Zod werden durch Rollup-Warnung entfernt.
 - `npm run test:e2e`: in dieser Umgebung nicht ausführbar, weil Chromium/WebKit-Binärdateien fehlen. `npx playwright install chromium webkit` scheiterte beim Download mit HTTP 403. E2E-Prüfung muss durch CI/Playwright-Umgebung erfolgen.
-- Keine Änderungen auf `main`, kein Merge/Deploy bis erfolgreiche PR-CI. iPad-Praxistest steht aus.
+- Der erste PR-CI-Lauf fand einen fehlenden `startedAt`-Index in der Historienabfrage; die Abfrage sortiert nun nach dem vollständigen Session-Scan und besitzt einen Unit-Test. Ein weiterer CI-Lauf muss dies mit Chromium/WebKit bestätigen. Keine Änderungen auf `main`, kein Merge/Deploy bis erfolgreiche PR-CI. iPad-Praxistest steht aus.
 
 ## Offen / Risiken
 - CI und Browserläufe auf PR prüfen. Wenn Tests scheitern, Ursachen beheben und erneut prüfen.

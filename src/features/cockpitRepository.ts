@@ -5,6 +5,7 @@ export function makeSession(plan:LessonPlan, now=Date.now()):LessonSession {
  const id=crypto.randomUUID(), snapshot=structuredClone(plan);
  return {id,planId:plan.id,snapshot,date:new Date(now).toISOString(),group:plan.group,startedAt:now,pauses:[],status:'active',changes:[],executions:snapshot.items.map(item=>({id:crypto.randomUUID(),sessionId:id,originalItemId:item.id,original:structuredClone(item),adjusted:structuredClone(item),order:item.order,intervals:[],status:'pending',changes:[]}))};
 }
+export async function listSessions(database:Database=db){return (await database.sessions.toArray()).sort((a,b)=>b.startedAt-a.startedAt);}
 export async function openSession(planId:string,database:Database=db){
  return database.transaction('rw',database.plans,database.sessions,async()=>{
  const existing=(await database.sessions.where('planId').equals(planId).toArray()).find(s=>s.status!=='ended');

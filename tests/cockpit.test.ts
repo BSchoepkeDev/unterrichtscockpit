@@ -2,7 +2,7 @@ import 'fake-indexeddb/auto';
 import {test,expect} from 'vitest';
 import {Database} from '../src/database';
 import {examples} from '../src/fixtures';
-import {density,makeSession,openSession,progress,setDone} from '../src/features/cockpitRepository';
+import {density,listSessions,makeSession,openSession,progress,setDone} from '../src/features/cockpitRepository';
 import {dispatch} from '../src/features/TimerService';
 
 async function withDb(run:(db:Database)=>Promise<void>){
@@ -54,6 +54,9 @@ test('Fehlerhafte Checkbox-Aktion verändert keine gespeicherten Daten',async()=
 }));
 test('Derselbe Plan kann nach Abschluss als neue unabhängige Durchführung gestartet werden',async()=>withDb(async db=>{
  const plan=examples()[0];await db.plans.add(plan);const first=await openSession(plan.id,db);await dispatch(first,{type:'start'},db,1000);await dispatch(first,{type:'end'},db,2000);const second=await openSession(plan.id,db);expect(second).not.toBe(first);expect((await db.sessions.get(first))?.status).toBe('ended');expect((await db.sessions.get(second))?.timerStartedAt).toBeUndefined();
+}));
+test('Historie wird nach Startzeit sortiert, ohne einen IndexedDB-Index vorauszusetzen',async()=>withDb(async db=>{
+ const plan=examples()[0],older=makeSession(plan,1000),newer=makeSession(plan,3000);await db.sessions.bulkAdd([newer,older]);expect((await listSessions(db)).map(session=>session.startedAt)).toEqual([3000,1000]);
 }));
 test('Dichteauswahl bevorzugt bei Platzmangel optionale Inhalte zu reduzieren',()=>{
  expect(density(1000,1000,3,20)).toBe('generous');
