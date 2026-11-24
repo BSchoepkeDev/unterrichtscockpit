@@ -7,18 +7,24 @@ permissions:
   contents: read
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
       - run: npm install --package-lock-only
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         with:
           name: npm-lockfile
           path: package-lock.json
       - run: npm ci
+      - name: Dependency audit
+        run: npm audit --json > npm-audit.json || true
+      - uses: actions/upload-artifact@v5
+        with:
+          name: npm-audit
+          path: npm-audit.json
       - run: npm run typecheck
       - run: npm run test
       - run: npm run build
