@@ -1,4 +1,10 @@
-# Projektstatus – Entwicklungsstufe 2 (Version 0.2.0)
+# Projektstatus – Entwicklungsstufe 3 (Version 0.3.0)
+
+Entwicklungsbranch `feature/stufe-3-cockpit` / PR #2: adaptive Karte mit drei Darstellungsstufen, unabhängig öffnender Detaildialog, progressbasierte Anzeige, Checkboxen mit optimistischer Rückmeldung und persistenter Speicherung in eigenständigen Unterrichtsdurchführungen. Der ursprüngliche Plan bleibt unberührt. Bestehendes Schema v1 unverändert. Eine offene Sitzung pro Plan wird wiederverwendet. Die zuletzt gewählte Session-ID wird in localStorage gespeichert; Fachdaten bleiben in IndexedDB. Timer, Unterrichtsende und Historie folgen in Stufen 4/5.
+
+Verifizierter CI-Lauf: [45460218272](https://github.com/BSchoepkeDev/unterrichtscockpit/actions/runs/45460218272), Commit `626dbedef6d6c9293ab6fee531675f8d1bc732ce`: Audit 0 Schwachstellen, TypeScript und Vite-Build, 16/16 Unit-Tests, 14/14 Chromium/WebKit-Browser-Tests erfolgreich. Ein älterer Lauf [45459533810](https://github.com/BSchoepkeDev/unterrichtscockpit/actions/runs/45459533810) scheiterte an asynchron zurückspringenden Checkboxen; die optimistische Zustandsdarstellung beseitigte diesen Fehler im Folgelauf. Reine Versions-/Dokumentationsänderungen werden anschließend geprüft. Produktiv-Deployment und reale iPad-Abnahme gesondert bestätigen. Keine vollständige Sicherung – keine unersetzlichen Daten speichern.
+
+## Historie: Entwicklungsstufe 2
 
 Stand: 24.11.2026. Die Implementierung wurde im Pull Request #1 geprüft: https://github.com/BSchoepkeDev/unterrichtscockpit/pull/1
 
@@ -30,5 +36,7 @@ Vorheriger CI-Fehler in Run 45453768870: uneindeutiger Playwright-Selektor; beho
 - Planduplikate übernehmen vorerst keine Originaldokument-Referenzen; deren sichere Kopie wird in der Import-/Anhangsstufe behandelt.
 - GitHub Actions meldet eine nicht blockierende Node-Runtime-Warnung für Actions mit älterer Laufzeit.
 
-## Nächster Schritt
-Deployment auf `main` einschließlich Pages-Status verifizieren. Danach Stufe 2 auf dem realen 10–11-Zoll-iPad mit Safari/iPadOS 26 im Querformat, Hochformat und als installierte PWA prüfen. Erst dann die iPad-Abnahme abschließen.
+## Noch offen
+- Stufe 3 auf `main` zusammenführen und den tatsächlichen GitHub-Pages-Deployment-Lauf prüfen.
+- Reale iPad-Abnahme (10–11 Zoll, Safari/iPadOS 26, beide Ausrichtungen, PWA, Light/Dark, Tastatur, VoiceOver, Persistenz).
+- Stufe 4: Live-Zeitmanagement. Stufe 5: vollständiger Durchführungslebenszyklus. Später: Import, Export, Backup und Offline-Vollabnahme.

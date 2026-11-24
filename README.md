@@ -2,7 +2,7 @@
 
 Local-first Progressive Web App für Unterrichtsplanung auf iPads. Deployment: https://bschoepkedev.github.io/unterrichtscockpit/
 
-Entwicklungsstufe 2 ergänzt Unterrichtsbibliothek und manuellen Planungseditor. Import, Live-Cockpit, Timer, vollständige Datensicherung und Wiederherstellung folgen in späteren Stufen.
+Entwicklungsstufe 3 ergänzt das interaktive Unterrichtscockpit mit adaptiven Karten, Detailfenstern, persistentem Abhaken und Fortschrittsanzeige. Live-Timer (Stufe 4), vollständiger Durchführungslebenszyklus (Stufe 5), Import und Datensicherung folgen in späteren Stufen.
 
 ## Lokale Entwicklung
 Node.js 22 verwenden. Befehle: `npm ci`, `npm run dev`, `npm run typecheck`, `npm run test`, `npm run build`, `npm run preview`, `npm run test:e2e`. Für E2E `npx playwright install chromium webkit` vorab ausführen. Der GitHub-Actions-Workflow prüft Abhängigkeiten und veröffentlicht erfolgreiche Builds von `main`.
