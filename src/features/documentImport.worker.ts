@@ -18,7 +18,7 @@ scope.onmessage=async(event:MessageEvent<Request>)=>{
    const entries=content.items.filter((x):x is typeof x & {str:string;transform:number[];width:number}=>'str' in x&&typeof x.str==='string').map(item=>({text:item.str,x:item.transform[4],y:item.transform[5],width:item.width}));
    const extracted=orderPdfTextItems(entries,page.getViewport({scale:1}).width);let text=extracted.text.trim();let layout=extracted.layout;let usedOcr=false;
    if(ocr&&text.replace(/\s/g,'').length<80){
-    if(!ocrWorker){report(id,(n-.35)/pdf.numPages,'Deutsche OCR wird lokal gestartet');ocrWorker=await createWorker('deu',OEM.LSTM_ONLY,{workerPath:`${base}ocr/tesseract.worker.min.js`,corePath:`${base}ocr/`,langPath:`${base}tessdata`,gzip:true,logger:m=>report(id,(n-1+Math.min(1,m.progress||0)*.8)/pdf.numPages,'OCR: '+(m.status||'Verarbeitung'))});}
+    if(!ocrWorker){report(id,(n-.35)/pdf.numPages,'Deutsche OCR wird lokal gestartet');ocrWorker=await createWorker('deu',OEM.LSTM_ONLY,{workerPath:`${base}ocr/tesseract.worker.min.js`,workerBlobURL:false,corePath:`${base}ocr/`,langPath:`${base}tessdata`,gzip:true,logger:m=>report(id,(n-1+Math.min(1,m.progress||0)*.8)/pdf.numPages,'OCR: '+(m.status||'Verarbeitung'))});}
     const viewport=page.getViewport({scale:1.6});const canvas=new OffscreenCanvas(Math.ceil(viewport.width),Math.ceil(viewport.height));const ctx=canvas.getContext('2d',{willReadFrequently:true});if(!ctx)throw new Error('Canvas für OCR konnte nicht angelegt werden.');
     await page.render({canvasContext:ctx as never,viewport,canvas:canvas as never}).promise;const result=await ocrWorker.recognize(canvas,{}) as {data:{text:string}};text=result.data.text.trim();usedOcr=true;
     canvas.width=1;canvas.height=1;
