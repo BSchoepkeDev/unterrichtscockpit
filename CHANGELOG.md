@@ -1,13 +1,15 @@
 # Changelog
 
-## 0.6.0 – Entwicklungsstufe 6
+## 0.6.0 – Entwicklungsstufe 6 (veröffentlicht)
 - Lokaler Import aus PDF, TXT, Markdown, CSV oder eingefügtem Text; PDF.js und deutsche Tesseract-OCR werden selbst gehostet.
 - PDF-Seiten mit Textebene, Scans und gemischte PDFs werden seitenweise verarbeitet; Fortschritt und Abbruch sind verfügbar.
 - Regelbasierte Erkennung von Zeiten, Phasen, Planmetadaten und Unterrichtsfeldern mit editierbarer Vorschau und Prüfhinweisen.
 - Importinhalte können vor dem Speichern geteilt, zusammengeführt, umsortiert und korrigiert werden.
 - Originaldateien werden zusammen mit dem bestätigten Plan lokal gespeichert und über die Bibliothek zugänglich.
 - Maximale Eingabegröße 30 MB, maximal 120 PDF-Seiten; Schema v1 bleibt ohne Migration erhalten.
-- QA und Veröffentlichung werden nach CI-Abschluss protokolliert.
+- PR-CI Run 45503729937: 41/41 Unit-Tests, 34/34 Chromium-/WebKit-E2E-Tests, TypeScript, Produktions-Build und npm-Audit (0 Befunde) erfolgreich.
+- Main-CI/Pages Run 45504167366 auf `717da34be78d81a6a059c932be8b8eed03ad703d`: dieselben Prüfungen erfolgreich und GitHub-Pages-Deployment bestätigt.
+- Live: https://bschoepkedev.github.io/unterrichtscockpit/. Echter iPad-Praxistest steht aus.
 
 ## 0.5.0 – Entwicklungsstufe 5 (veröffentlicht)
 - Jede beendete Durchführung bleibt eigenständig erhalten; derselbe Plan erzeugt beim nächsten Start einen neuen Datensatz.

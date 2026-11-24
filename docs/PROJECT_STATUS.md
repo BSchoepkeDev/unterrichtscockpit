@@ -1,5 +1,5 @@
 # Projektstatus – Entwicklungsstufe 6 / Version 0.6.0
-Stand: 24.11.2026. Basis: `main`-Commit `1aa7e390bf11df992fd68dd42704b404e47af878`. Produktivversion 0.5.0: https://bschoepkedev.github.io/unterrichtscockpit/.
+Stand: 24.11.2026. Basis: `main`-Commit `717da34be78d81a6a059c932be8b8eed03ad703d`. Produktivversion 0.6.0: https://bschoepkedev.github.io/unterrichtscockpit/.
 
 ## Stufe 6 implementiert
 - Lokaler Import aus PDF, TXT, Markdown, CSV und eingefügtem Text; nativer Dateidialog, Dateityp-/Größenprüfung sowie verständliche Fehlerbehandlung.
@@ -12,6 +12,8 @@ Stand: 24.11.2026. Basis: `main`-Commit `1aa7e390bf11df992fd68dd42704b404e47af87
 
 ## Qualitätssicherung
 - Lokal erfolgreich: `npm ci`, TypeScript, 41/41 Unit-Tests, Produktions-Build und `npm audit --audit-level=moderate` (0 Befunde).
+- PR [Run 45503729937](https://github.com/BSchoepkeDev/unterrichtscockpit/actions/runs/45503729937): 41/41 Unit-Tests, 34/34 Chromium-/WebKit-E2E-Tests, Audit (0 Befunde), TypeScript und Build erfolgreich.
+- Main/Pages [Run 45504167366](https://github.com/BSchoepkeDev/unterrichtscockpit/actions/runs/45504167366): dieselben Prüfungen erfolgreich; Pages-Deployment erfolgreich gemeldet. Produktiv: https://bschoepkedev.github.io/unterrichtscockpit/.
 - Importfixtures enthalten ausschließlich synthetische Inhalte. Es wurden keine realen Unterrichtspläne zum Tuning verwendet.
 - iPad/iPadOS-Safari-Abnahme steht aus; sie ist der abschließende Nutzertest dieser Stufe.
 
@@ -23,7 +25,6 @@ Stand: 24.11.2026. Basis: `main`-Commit `1aa7e390bf11df992fd68dd42704b404e47af87
 - Importressourcen werden für Offlinebetrieb vorgemerkt; vollständige Offline- und Safari-Abnahme folgt in Stufe 10.
 
 ## Nächste Schritte
-1. PR-CI und Audit auf dem echten GitHub-Branch erfolgreich abschließen.
-2. Auf `main` integrieren, Main-CI und GitHub-Pages-Deployment verifizieren.
-3. Nutzerabnahme auf dem echten 10–11-Zoll-iPad anfordern.
-4. Stufe 6 dokumentieren und Übergabestand für Stufe 7 erstellen.
+1. Abnahme auf echtem 10–11-Zoll-iPad mit iPadOS-Safari durchführen; Rückmeldung zu Import, OCR, Bearbeitung und Originaldatei dokumentieren.
+2. Bei Bedarf iPad-spezifische Befunde beheben und erneut über CI/Pages veröffentlichen.
+3. Danach den dokumentierten Übergabestand für Stufe 7 fortsetzen.
