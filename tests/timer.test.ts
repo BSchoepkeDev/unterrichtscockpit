@@ -11,3 +11,39 @@ test('nonactive check does not interrupt active phase; active check skips comple
 test('unknown duration is stopwatch and uncertain forecast',()=>{let s=initial();s.executions[0].adjusted.durationSeconds=undefined;s=transition(s,{type:'start'},1000);expect(phaseView(s.executions[0],9999999).over).toBeUndefined();expect(clockView(s,2000).uncertain).toBe(true);});
 test('timer persists across database reopening',async()=>{const db=new Database(crypto.randomUUID());try{const s=initial();await db.sessions.add(s);await dispatch(s.id,{type:'start'},db,1000);db.close();const restored=new Database(db.name);expect(clockView((await restored.sessions.get(s.id))!,61000).total).toBe(60);restored.close();}finally{await db.delete();}});
 test('manual switch, end and reset preserve plan',()=>{let s=transition(initial(),{type:'start'},1000);s=transition(s,{type:'activate',id:s.executions[1].id},3000);expect(s.executions[0].status).toBe('pending');expect(s.executions[1].status).toBe('active');const reset=transition(s,{type:'reset'},4000);expect(reset.timerStartedAt).toBeUndefined();expect(reset.snapshot).toEqual(s.snapshot);const ended=transition(s,{type:'end'},5000);expect(clockView(ended,9000).total).toBe(4);});
+
+test('Pausen verschieben das geplante Unterrichtsende, ohne Unterrichtszeit mitzuzählen',()=>{
+ let s=transition(initial(),{type:'start'},1000);
+ s=transition(s,{type:'pause'},11000);
+ const v=clockView(s,71000);
+ expect(v.total).toBe(10);
+ expect(v.plannedEnd).toBe(1000+2700000+60000);
+ expect(v.forecast).toBe(71000+2690000);
+ s=transition(s,{type:'resume'},71000);
+ expect(clockView(s,81000).total).toBe(20);
+ expect(clockView(s,81000).plannedEnd).toBe(1000+2700000+60000);
+});
+test('Abhaken während Pause übernimmt den nächsten Punkt erst beim Fortsetzen',()=>{
+ let s=transition(initial(),{type:'start'},1000);
+ s=transition(s,{type:'pause'},4000);
+ s=transition(s,{type:'check',id:s.executions[0].id,done:true},6000);
+ expect(s.executions[1].status).toBe('paused');
+ expect(s.executions[1].intervals).toHaveLength(0);
+ s=transition(s,{type:'resume'},8000);
+ expect(s.executions[1].status).toBe('active');
+ expect(s.executions[1].intervals[0].start).toBe(8000);
+ expect(clockView(s,10000).total).toBe(5);
+});
+test('Zeitüberschreitung schaltet selbst nach Stunden nicht automatisch zur nächsten Phase',()=>{
+ const s=transition(initial(),{type:'start'},1000);
+ expect(phaseView(s.executions[0],1000+900000+3600000).color).toBe('red');
+ expect(s.executions[0].status).toBe('active');
+ expect(s.executions[1].status).toBe('pending');
+});
+test('Abschaltbare automatische Weiterschaltung stoppt am abgeschlossenen Punkt',()=>{
+ let s=transition(initial(),{type:'start'},1000);
+ s=transition(s,{type:'check',id:s.executions[0].id,done:true},3000,{id:'settings',theme:'system',yellowSeconds:0,redSeconds:180,wakeLock:true,sound:false,autoAdvance:false,phases:[]});
+ expect(s.executions[0].status).toBe('done');
+ expect(s.executions[1].status).toBe('pending');
+ expect(s.executions.some(x=>x.status==='active')).toBe(false);
+});
