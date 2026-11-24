@@ -1,8 +1,11 @@
 import {useLiveQuery} from 'dexie-react-hooks';
 import {useState} from 'react';
 import {db} from '../database';
+import type {LessonItem} from '../models';
 import {historySummary} from './cockpitRepository';
 import {updateLessonPlan} from './lessonRepository';
+
+function itemChanged(original:LessonItem|undefined,adjusted:LessonItem){if(!original)return true;const keys=new Set([...Object.keys(original),...Object.keys(adjusted)] as (keyof LessonItem)[]);return [...keys].some(key=>original[key]!==adjusted[key]||Object.hasOwn(original,key)!==Object.hasOwn(adjusted,key));}
 
 export function HistoryView({onOpen}:{onOpen:(id:string)=>void}){
  const sessions=useLiveQuery(()=>db.sessions.orderBy('startedAt').reverse().toArray(),[]);
@@ -53,7 +56,7 @@ export function HistoryView({onOpen}:{onOpen:(id:string)=>void}){
   {sessions?.map(s=>{
    const summary=historySummary(s),open=expanded===s.id;
    const plan=s.planId?plans?.find(p=>p.id===s.planId):undefined;
-   const candidates=s.executions.filter(i=>!i.originalItemId||JSON.stringify(i.original)!==JSON.stringify(i.adjusted)||Boolean(i.original&&i.order!==i.original.order));
+   const candidates=s.executions.filter(i=>!i.originalItemId||itemChanged(i.original,i.adjusted)||Boolean(i.original&&i.order!==i.original.order));
    return <article key={s.id} className="history-card">
     <div className="dialog-heading"><div><h3>{s.snapshot.title}</h3><p>{new Date(s.startedAt).toLocaleString('de-DE')} · {s.group||'Lerngruppe offen'} · {s.status==='ended'?'Beendet':s.timerStartedAt===undefined?'Noch nicht gestartet':s.status==='paused'?'Pausiert':'Läuft'}</p></div><button onClick={()=>setExpanded(open?null:s.id)} aria-expanded={open}>{open?'Schließen':'Nachbereitung öffnen'}</button></div>
     <p>Ursprüngliche Sollzeit {summary.planned===undefined?'offen':`${summary.planned/60} Min.`} · angepasst {summary.adjusted===undefined?'offen':`${summary.adjusted/60} Min.`} · Ist {Math.floor(summary.actual/60)} Min. · Abweichung {summary.delta===undefined?'offen':`${summary.delta>=0?'+':''}${Math.floor(summary.delta/60)} Min.`} · Pausen {Math.floor(summary.pauseSeconds/60)} Min. · {summary.done} erledigt · {summary.skipped} übersprungen · {summary.notDone} nicht durchgeführt · {summary.changeCount} spontane Änderungen</p>

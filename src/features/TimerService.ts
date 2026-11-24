@@ -5,7 +5,7 @@ export const elapsed=(intervals:Interval[],now:number)=>Math.floor(intervals.red
 const close=(intervals:Interval[],now:number)=>{for(const i of intervals)if(i.end===undefined)i.end=Math.max(i.start,now);};
 const active=(s:LessonSession)=>s.executions.find(i=>i.status==='active'||i.status==='paused');
 const next=(s:LessonSession)=>[...s.executions].sort((a,b)=>a.order-b.order).find(i=>i.status==='pending');
-function activate(s:LessonSession,i:LessonItemExecution,now:number){i.status=s.status==='paused'?'paused':'active';if(s.status==='active')i.intervals.push({start:now});}
+function activate(s:LessonSession,i:LessonItemExecution,now:number){const before=i.status;i.status=s.status==='paused'?'paused':'active';i.changes.push({at:now,field:'status',before,after:i.status});if(s.status==='active')i.intervals.push({start:now});}
 export function transition(source:LessonSession,a:Action,clock:number,settings:Settings=defaults):LessonSession{
  const s=structuredClone(source),now=Math.max(clock,s.timerLastAt??0,s.timerStartedAt??0);
  if(s.status==='ended')throw new Error('Unterricht bereits beendet.');
@@ -17,7 +17,7 @@ export function transition(source:LessonSession,a:Action,clock:number,settings:S
  case 'end':if(s.timerStartedAt===undefined)return s;close(s.pauses,now);if(current){close(current.intervals,now);current.status='pending';}s.endedAt=now;s.status='ended';break;
  case 'reset':throw new Error('Eine laufende Durchführung kann nicht zurückgesetzt werden. Beende sie und starte den Plan erneut.');
  case 'duration':if(!Number.isInteger(a.seconds??0)||(a.seconds??0)<0)throw new Error('Ungültige Sollzeit.');{const before=s.durationAdjusted?s.adjustedDurationSeconds:s.snapshot.durationSeconds;s.adjustedDurationSeconds=a.seconds;s.durationAdjusted=true;s.changes.push({at:now,field:'duration',before,after:a.seconds});}break;
- case 'activate':{if(s.timerStartedAt===undefined)throw new Error('Unterricht zuerst starten.');const i=s.executions.find(x=>x.id===a.id);if(!i||i.status!=='pending')return s;if(current){close(current.intervals,now);current.status='pending';}activate(s,i,now);break;}
+ case 'activate':{if(s.timerStartedAt===undefined)throw new Error('Unterricht zuerst starten.');const i=s.executions.find(x=>x.id===a.id);if(!i||i.status!=='pending')return s;if(current){const before=current.status;close(current.intervals,now);current.status='pending';current.changes.push({at:now,field:'status',before,after:'pending'});}activate(s,i,now);break;}
  case 'skip':{const i=s.executions.find(x=>x.id===a.id);if(!i||i.status==='done'||i.status==='skipped')return s;const before=i.status;close(i.intervals,now);i.status='skipped';i.changes.push({at:now,field:'status',before,after:'skipped'});if(i===current&&settings.autoAdvance){const n=next(s);if(n)activate(s,n,now);}break;}
  case 'reactivate':{const i=s.executions.find(x=>x.id===a.id);if(!i||!['done','skipped'].includes(i.status))return s;const before=i.status;i.status='pending';i.changes.push({at:now,field:'status',before,after:'pending'});break;}
  case 'check':{const i=s.executions.find(x=>x.id===a.id);if(!i||i.status==='skipped')throw new Error('Unterrichtspunkt nicht bearbeitbar.');if((i.status==='done')===a.done)return s;const wasActive=i===current;const before=i.status;close(i.intervals,now);i.status=a.done?'done':'pending';i.changes.push({at:now,field:'status',before,after:i.status});if(wasActive&&a.done&&settings.autoAdvance){const n=next(s);if(n)activate(s,n,now);}break;}
