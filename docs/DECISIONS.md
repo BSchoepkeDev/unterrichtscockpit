@@ -12,3 +12,13 @@
 9. Persistenter Zustand wird mit sofortiger optimistischer UI-Rückmeldung angezeigt; bei IndexedDB-Fehler erfolgt ein Rücksetzen mit sichtbarem Hinweis.
 10. Große Details werden als natives modales Dialogelement dargestellt; Checkbox und Detailöffnung sind separate Interaktionsflächen.
 11. Drei Dichteprofile nutzen viewport-/ResizeObserver-Messung und Anzahl sowie Textlängen der Karten, ohne Pflichtangaben abzuschneiden. Timer folgen Stufe 4.
+
+## Stufe 4
+12. Timerwerte sind zeitstempelbasiert und über Browser-Suspendierung hinweg rekonstruierbar; Interval-Callbacks verändern keine Zeitkonten.
+13. Unterricht muss ausdrücklich gestartet und beendet werden; beim Start wird der erste noch offene Punkt automatisch aktiv.
+14. Eine zentrale Pause stoppt die Aktivitätsintervalle von Gesamtunterricht und aktiver Phase; das geplante Ende verschiebt sich um Pausenzeit.
+15. Standardampel Gelb ab +00:01, Rot ab +03:00; Schwellen und automatischer Phasenwechsel sind als lokale Einstellungen änderbar.
+16. Abschluss der aktiven Phase erzeugt einen transaktionalen Wechsel, das Abhaken einer nicht aktiven Phase unterbricht die laufende Zeitmessung nicht; reine Überziehung löst keine Umschaltung aus.
+17. Screen Wake Lock ist optional, zeigt seinen tatsächlichen Zustand und benutzt keine Browser-Umgehung für nicht unterstützte Geräte.
+18. Das Zurücksetzen ist ausdrücklich bestätigt, setzt Timer und Erledigungszustände zurück und ändert niemals den ursprünglichen Plan.
+19. Die bestehende IndexedDB-Schema-Version v1 bleibt erhalten; optionale Session-Zeitstempel sind abwärtskompatibel.
