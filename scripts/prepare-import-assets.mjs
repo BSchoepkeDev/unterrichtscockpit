@@ -7,7 +7,9 @@ const assets=[
  ['node_modules/tesseract.js/dist/worker.min.js','public/ocr/tesseract.worker.min.js'],
  ['node_modules/tesseract.js-core/tesseract-core-lstm.wasm.js','public/ocr/tesseract-core-lstm.wasm.js'],
  ['node_modules/tesseract.js-core/tesseract-core-lstm.wasm','public/ocr/tesseract-core-lstm.wasm'],
- ['node_modules/@tesseract.js-data/deu/4.0.0/deu.traineddata.gz','public/tessdata/deu.traineddata.gz'],
+ ['node_modules/tesseract.js-core/tesseract-core-simd-lstm.wasm.js','public/ocr/tesseract-core-simd-lstm.wasm.js'],
+ ['node_modules/tesseract.js-core/tesseract-core-simd-lstm.wasm','public/ocr/tesseract-core-simd-lstm.wasm'],
+ ['node_modules/@tesseract.js-data/deu/4.0.0_best_int/deu.traineddata.gz','public/tessdata/deu.traineddata.gz'],
 ];
 for(const [source,target] of assets){const destination=resolve(root,target);await mkdir(dirname(destination),{recursive:true});await copyFile(resolve(root,source),destination);}
 console.info('Lokale deutsche OCR-Ressourcen wurden aus den gesperrten npm-Abhängigkeiten vorbereitet.');

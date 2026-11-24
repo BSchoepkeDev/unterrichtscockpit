@@ -13,7 +13,7 @@ test('Textdatei wird geprüft, atomar gespeichert und Original bleibt nach Reloa
  await page.goto('./');await page.getByRole('link',{name:'Import'}).click();
  await page.locator('input[type=file]').setInputFiles({name:'Naturstunde.txt',mimeType:'text/plain',buffer:Buffer.from('# Naturstunde\nPhase 1: Einstieg · 5 Min.\nArbeitsauftrag: Beobachte den Becher.\nMaterialien: Glas, Wasser\n')});
  await expect(page.getByRole('heading',{name:'Vorschau bearbeiten'})).toBeVisible();await expect(page.getByLabel('Unterrichtstitel')).toHaveValue('Naturstunde');
- const first=page.locator('.import-item').first();await first.getByLabel('Inhalt').fill('Beobachte den Becher. || Notiere die Veränderung.');await first.getByRole('button',{name:'Punkt teilen'}).click();await expect(page.locator('.import-item')).toHaveCount(2);await page.locator('.import-item').nth(1).locator('summary').click();await page.locator('.import-item').nth(1).getByLabel('Titel').fill('Notiz');
+ const first=page.locator('.import-item').first();await first.getByLabel('Inhalt').fill('Beobachte den Becher. || Notiere die Veränderung.');await first.getByRole('button',{name:'Punkt teilen'}).click();await first.getByLabel(/Teilungsstelle/).fill('Beobachte den Becher. || Notiere die Veränderung.');await first.getByRole('button',{name:'An dieser Stelle teilen'}).click();await expect(page.locator('.import-item')).toHaveCount(2);await page.locator('.import-item').nth(1).locator('summary').click();await page.locator('.import-item').nth(1).getByLabel('Titel').fill('Notiz');
  await page.locator('.import-item').nth(1).getByRole('button',{name:'Nach oben'}).click();await page.locator('.import-item').first().getByRole('button',{name:'Mit nächstem zusammenführen'}).click();await expect(page.locator('.import-item')).toHaveCount(1);
  await page.getByRole('button',{name:'Im Planeditor weiterbearbeiten'}).click();await expect(page.getByRole('dialog')).toBeVisible();await page.getByRole('button',{name:'Unterrichtsplan speichern'}).click();
  const card=page.locator('article').filter({has:page.getByRole('heading',{name:'Naturstunde'})});await expect(card.getByRole('link',{name:'Originaldatei: Naturstunde.txt'})).toBeVisible();await expect(card.getByText('1 Unterrichtspunkte')).toBeVisible();
@@ -43,6 +43,6 @@ test('Abbruch und ungültige PDF-Datei speichern keinen Plan',async({page})=>{
 
 test('deutsche OCR-Ressourcen bleiben nach PWA-Einrichtung offline verfügbar',async({page})=>{
  test.setTimeout(90_000);await page.goto('./');await page.evaluate(async()=>{await navigator.serviceWorker.ready;});await page.reload();await page.context().setOffline(true);
- const statuses=await page.evaluate(async()=>Promise.all(['./tessdata/deu.traineddata.gz','./ocr/tesseract-core-lstm.wasm','./ocr/tesseract.worker.min.js'].map(async path=>(await fetch(path)).status)));
- expect(statuses).toEqual([200,200,200]);await page.reload();await expect(page.getByRole('heading',{name:'Bibliothek',level:2})).toBeVisible();
+ const statuses=await page.evaluate(async()=>Promise.all(['./tessdata/deu.traineddata.gz','./ocr/tesseract-core-lstm.wasm','./ocr/tesseract-core-simd-lstm.wasm','./ocr/tesseract.worker.min.js'].map(async path=>(await fetch(path)).status)));
+ expect(statuses).toEqual([200,200,200,200]);await page.reload();await expect(page.getByRole('heading',{name:'Bibliothek',level:2})).toBeVisible();
 });
