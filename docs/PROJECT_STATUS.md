@@ -1,5 +1,5 @@
 # Projektstatus – Entwicklungsstufe 6 / Version 0.6.0
-Stand: 24.11.2026. Basis: `main`-Commit `717da34be78d81a6a059c932be8b8eed03ad703d`. Produktivversion 0.6.0: https://bschoepkedev.github.io/unterrichtscockpit/.
+Stand: 24.11.2026. Basis: `main`-Commit `1f7de48126058492b640df717510bcec9ba5fe04`. Produktivversion 0.6.0: https://bschoepkedev.github.io/unterrichtscockpit/.
 
 ## Stufe 6 implementiert
 - Lokaler Import aus PDF, TXT, Markdown, CSV und eingefügtem Text; nativer Dateidialog, Dateityp-/Größenprüfung sowie verständliche Fehlerbehandlung.
@@ -13,7 +13,8 @@ Stand: 24.11.2026. Basis: `main`-Commit `717da34be78d81a6a059c932be8b8eed03ad703
 ## Qualitätssicherung
 - Lokal erfolgreich: `npm ci`, TypeScript, 41/41 Unit-Tests, Produktions-Build und `npm audit --audit-level=moderate` (0 Befunde).
 - PR [Run 45503729937](https://github.com/BSchoepkeDev/unterrichtscockpit/actions/runs/45503729937): 41/41 Unit-Tests, 34/34 Chromium-/WebKit-E2E-Tests, Audit (0 Befunde), TypeScript und Build erfolgreich.
-- Main/Pages [Run 45504167366](https://github.com/BSchoepkeDev/unterrichtscockpit/actions/runs/45504167366): dieselben Prüfungen erfolgreich; Pages-Deployment erfolgreich gemeldet. Produktiv: https://bschoepkedev.github.io/unterrichtscockpit/.
+- Main/Pages [Run 45505615271](https://github.com/BSchoepkeDev/unterrichtscockpit/actions/runs/45505615271): 41/41 Unit-Tests, 34/34 Chromium-/WebKit-E2E-Tests, Audit ohne Befunde, TypeScript, Build und Pages-Deployment erfolgreich. Produktiv: https://bschoepkedev.github.io/unterrichtscockpit/.
+- Folgekorrektur [PR #6](https://github.com/BSchoepkeDev/unterrichtscockpit/pull/6), [Run 45505311877](https://github.com/BSchoepkeDev/unterrichtscockpit/actions/runs/45505311877): Settings-Writes werden transaktional zusammengeführt, damit schnelle Feldänderungen einander nicht überschreiben.
 - Importfixtures enthalten ausschließlich synthetische Inhalte. Es wurden keine realen Unterrichtspläne zum Tuning verwendet.
 - iPad/iPadOS-Safari-Abnahme steht aus; sie ist der abschließende Nutzertest dieser Stufe.
 

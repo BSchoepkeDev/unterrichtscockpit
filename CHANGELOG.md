@@ -8,7 +8,8 @@
 - Originaldateien werden zusammen mit dem bestätigten Plan lokal gespeichert und über die Bibliothek zugänglich.
 - Maximale Eingabegröße 30 MB, maximal 120 PDF-Seiten; Schema v1 bleibt ohne Migration erhalten.
 - PR-CI Run 45503729937: 41/41 Unit-Tests, 34/34 Chromium-/WebKit-E2E-Tests, TypeScript, Produktions-Build und npm-Audit (0 Befunde) erfolgreich.
-- Main-CI/Pages Run 45504167366 auf `717da34be78d81a6a059c932be8b8eed03ad703d`: dieselben Prüfungen erfolgreich und GitHub-Pages-Deployment bestätigt.
+- Folgekorrektur PR #6 behebt konkurrierende Einstellungsänderungen durch transaktionale Zusammenführung; PR-CI Run 45505311877 erfolgreich.
+- Main-CI/Pages Run 45505615271 auf `1f7de48126058492b640df717510bcec9ba5fe04`: 41/41 Unit-Tests, 34/34 Browser-E2E-Tests, Audit (0 Befunde), TypeScript und Produktions-Build erfolgreich; GitHub-Pages-Deployment bestätigt.
 - Live: https://bschoepkedev.github.io/unterrichtscockpit/. Echter iPad-Praxistest steht aus.
 
 ## 0.5.0 – Entwicklungsstufe 5 (veröffentlicht)
