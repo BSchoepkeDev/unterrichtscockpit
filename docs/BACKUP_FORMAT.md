@@ -1,3 +1,4 @@
-# Sicherungsformat
+# Datensicherung – geplant
+Ein vollständiger, versionierter Sicherungsexport und eine sichere Wiederherstellung sind Bestandteil der Entwicklungsstufe 9 und derzeit nicht implementiert. IndexedDB kann vom Browser oder System gelöscht werden. Bis zur geprüften Sicherung dürfen keine unersetzlichen Unterrichtsdaten gespeichert werden.
 
-Noch nicht implementiert oder freigegeben. Geplant: versioniertes vollständiges Backup aller lokalen Entitäten einschließlich Anhängen und Audio; Validierung und atomare Wiederherstellung. Keine produktiven Daten bis zur Abnahme.
+Das spätere Format muss Pläne, Durchführungen einschließlich Snapshots, Notizen, Einstellungen, Originaldokumente und Audioaufnahmen erfassen, Integritätsprüfungen enthalten und eine Vorschau mit bestätigter Konfliktbehandlung bieten.
