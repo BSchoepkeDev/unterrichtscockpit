@@ -1,0 +1,30 @@
+name: Geprüfte Lockdatei übernehmen
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+jobs:
+  lockfile:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/download-artifact@v5
+        with:
+          name: npm-lockfile
+          run-id: 45437411680
+          github-token: ${{ github.token }}
+          path: verified-lock
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      - run: |
+          cp verified-lock/package-lock.json package-lock.json
+          npm ci --ignore-scripts
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add package-lock.json
+          if ! git diff --cached --quiet; then
+            git commit -m "build: commit verified dependency lockfile"
+            git push origin HEAD:main
+          fi
