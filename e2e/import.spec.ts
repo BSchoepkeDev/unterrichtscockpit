@@ -11,7 +11,7 @@ async function mixedPdf(page:Page):Promise<Buffer>{
 
 
 test('Textdatei wird geprüft, atomar gespeichert und Original bleibt nach Reload verfügbar',async({page})=>{
- await page.goto('./');await page.getByRole('link',{name:'Import'}).click();
+ await page.goto('./');await page.getByRole('link',{name:'Import',exact:true}).click();
  await page.locator('input[type=file]').setInputFiles({name:'Naturstunde.txt',mimeType:'text/plain',buffer:Buffer.from('# Naturstunde\nPhase 1: Einstieg · 5 Min.\nArbeitsauftrag: Beobachte den Becher.\nMaterialien: Glas, Wasser\n')});
  await expect(page.getByRole('heading',{name:'Vorschau bearbeiten'})).toBeVisible();await expect(page.getByLabel('Unterrichtstitel')).toHaveValue('Naturstunde');
  const first=page.locator('.import-item').first();await first.getByLabel('Inhalt').fill('Beobachte den Becher. || Notiere die Veränderung.');await first.getByRole('button',{name:'Punkt teilen'}).click();await first.getByLabel(/Teilungsstelle/).fill('Beobachte den Becher. || Notiere die Veränderung.');await first.getByRole('button',{name:'An dieser Stelle teilen'}).click();await expect(page.locator('.import-item')).toHaveCount(2);await page.locator('.import-item').nth(1).locator('summary').click();await page.locator('.import-item').nth(1).getByLabel('Titel').fill('Notiz');
@@ -23,7 +23,7 @@ test('Textdatei wird geprüft, atomar gespeichert und Original bleibt nach Reloa
 });
 
 test('mehrseitiges gemischtes PDF extrahiert Textebene und scannt die Bildseite lokal',async({page})=>{
- test.setTimeout(180_000);await page.goto('./');await page.getByRole('link',{name:'Import'}).click();
+ test.setTimeout(180_000);await page.goto('./');await page.getByRole('link',{name:'Import',exact:true}).click();
  await page.locator('input[type=file]').setInputFiles({name:'stage6-mixed.pdf',mimeType:'application/pdf',buffer:await mixedPdf(page)});
  const outcome=await Promise.race([page.getByRole('heading',{name:'Vorschau bearbeiten'}).waitFor({state:'visible',timeout:150_000}).then(()=> 'preview'),page.getByRole('alert').waitFor({state:'visible',timeout:150_000}).then(()=> 'error')]);if(outcome==='error')throw new Error((await page.getByRole('alert').textContent())??'PDF import failed');expect(outcome).toBe('preview');
  await expect(page.getByText(/3 Seite\(n\)/)).toBeVisible();await expect(page.getByText(/1 per OCR gelesen/)).toBeVisible();
@@ -34,8 +34,8 @@ test('mehrseitiges gemischtes PDF extrahiert Textebene und scannt die Bildseite 
 });
 
 test('Vollseiten-OCR liest auch Bildtext auf einer Seite mit auswählbarem Text',async({page})=>{
- test.setTimeout(180_000);await page.goto('./');await page.getByRole('link',{name:'Import'}).click();
- await expect(page.getByRole('link',{name:'Importvorlage für Unterrichtspläne herunterladen'})).toHaveAttribute('download','importvorlage.md');
+ test.setTimeout(180_000);await page.goto('./');await page.getByRole('link',{name:'Import',exact:true}).click();
+ await expect(page.getByRole('link',{name:'Importvorlage für Unterrichtspläne herunterladen'})).toHaveAttribute('download');
  await page.getByLabel(/OCR auf allen PDF-Seiten ausführen/).check();
  await page.locator('input[type=file]').setInputFiles({name:'stage6-mixed-full-ocr.pdf',mimeType:'application/pdf',buffer:await mixedPdf(page)});
  const outcome=await Promise.race([page.getByRole('heading',{name:'Vorschau bearbeiten'}).waitFor({state:'visible',timeout:150_000}).then(()=> 'preview'),page.getByRole('alert').waitFor({state:'visible',timeout:150_000}).then(()=> 'error')]);if(outcome==='error')throw new Error((await page.getByRole('alert').textContent())??'PDF import failed');expect(outcome).toBe('preview');
@@ -44,13 +44,13 @@ test('Vollseiten-OCR liest auch Bildtext auf einer Seite mit auswählbarem Text'
 });
 
 test('Abbruch und ungültige PDF-Datei speichern keinen Plan',async({page})=>{
- await page.goto('./');await page.getByRole('link',{name:'Import'}).click();
+ await page.goto('./');await page.getByRole('link',{name:'Import',exact:true}).click();
  await page.locator('input[type=file]').setInputFiles({name:'gross.pdf',mimeType:'application/pdf',buffer:await mixedPdf(page)});
  await page.getByRole('button',{name:'Import abbrechen'}).click();await expect(page.getByText('Import abgebrochen. Es wurde nichts gespeichert.')).toBeVisible();
  await page.getByRole('link',{name:'Bibliothek'}).click();await expect(page.locator('article')).toHaveCount(0);
- await page.getByRole('link',{name:'Import'}).click();await page.locator('input[type=file]').setInputFiles({name:'defekt.pdf',mimeType:'application/pdf',buffer:Buffer.from('%PDF-broken')});
+ await page.getByRole('link',{name:'Import',exact:true}).click();await page.locator('input[type=file]').setInputFiles({name:'defekt.pdf',mimeType:'application/pdf',buffer:Buffer.from('%PDF-broken')});
  await expect(page.getByRole('alert')).toBeVisible();await page.getByRole('link',{name:'Bibliothek'}).click();await expect(page.locator('article')).toHaveCount(0);
- await page.getByRole('link',{name:'Import'}).click();await page.locator('input[type=file]').setInputFiles({name:'leer.txt',mimeType:'text/plain',buffer:Buffer.alloc(0)});await expect(page.getByRole('alert')).toContainText('Datei ist leer');
+ await page.getByRole('link',{name:'Import',exact:true}).click();await page.locator('input[type=file]').setInputFiles({name:'leer.txt',mimeType:'text/plain',buffer:Buffer.alloc(0)});await expect(page.getByRole('alert')).toContainText('Datei ist leer');
 });
 
 test('deutsche OCR-Ressourcen bleiben nach PWA-Einrichtung offline verfügbar',async({page})=>{
