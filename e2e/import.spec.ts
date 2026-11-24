@@ -24,7 +24,7 @@ test('Textdatei wird geprüft, atomar gespeichert und Original bleibt nach Reloa
 test('mehrseitiges gemischtes PDF extrahiert Textebene und scannt die Bildseite lokal',async({page})=>{
  test.setTimeout(180_000);await page.goto('./');await page.getByRole('link',{name:'Import'}).click();
  await page.locator('input[type=file]').setInputFiles({name:'stage6-mixed.pdf',mimeType:'application/pdf',buffer:await mixedPdf(page)});
- const outcome=await Promise.race([page.getByRole('heading',{name:'Vorschau bearbeiten'}).waitFor({state:'visible',timeout:150_000}).then(()=> 'preview'),page.getByRole('alert').waitFor({state:'visible',timeout:150_000}).then(()=> 'error')]);expect(outcome).toBe('preview');
+ const outcome=await Promise.race([page.getByRole('heading',{name:'Vorschau bearbeiten'}).waitFor({state:'visible',timeout:150_000}).then(()=> 'preview'),page.getByRole('alert').waitFor({state:'visible',timeout:150_000}).then(()=> 'error')]);if(outcome==='error')throw new Error((await page.getByRole('alert').textContent())??'PDF import failed');expect(outcome).toBe('preview');
  await expect(page.getByText(/3 Seite\(n\)/)).toBeVisible();await expect(page.getByText(/1 per OCR gelesen/)).toBeVisible();
  await page.getByText('Vollständiger erkannter Quelltext').click();await expect(page.getByRole('heading',{name:'Seite 2 · OCR'})).toBeVisible();
  await expect(page.locator('.import-source')).toContainText('Gescannte Phase');
