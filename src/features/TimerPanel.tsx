@@ -1,7 +1,7 @@
 import {useEffect,useState} from 'react';
 import type {LessonSession,Settings,LessonItemExecution} from '../models';
 import {clockView,phaseView,formatSeconds,type Action} from './TimerService';
-export function useClock(){const [now,setNow]=useState(Date.now);useEffect(()=>{const wall=Date.now(),mono=performance.now();const tick=()=>setNow(Math.max(Date.now(),wall+performance.now()-mono));const id=window.setInterval(tick,250);document.addEventListener('visibilitychange',tick);window.addEventListener('pageshow',tick);return()=>{clearInterval(id);document.removeEventListener('visibilitychange',tick);window.removeEventListener('pageshow',tick);};},[]);return now;}
+export function useClock(){const [now,setNow]=useState(Date.now);useEffect(()=>{const wall=Date.now(),mono=performance.now();const tick=()=>setNow(Math.max(Date.now(),wall+performance.now()-mono));const id=window.setInterval(tick,500);document.addEventListener('visibilitychange',tick);window.addEventListener('pageshow',tick);return()=>{clearInterval(id);document.removeEventListener('visibilitychange',tick);window.removeEventListener('pageshow',tick);};},[]);return now;}
 function useWakeLock(enabled:boolean){
  const [status,setStatus]=useState('Aus');
  useEffect(()=>{let disposed=false,lock:WakeLockSentinel|undefined,requesting=false;
@@ -18,5 +18,7 @@ export function TimerPanel({session,now,settings,busy,onAction}:{session:LessonS
 export function PhaseClock({item,session,now,settings,busy,onAction}:{item:LessonItemExecution;session:LessonSession;now:number;settings:Settings;busy:boolean;onAction:(a:Action)=>void}){
  const v=phaseView(item,now,settings),active=item.status==='active'||item.status==='paused',started=session.timerStartedAt!==undefined;
  const label={neutral:'Offen',green:'Im Zeitrahmen',yellow:'Zeit überschritten',red:'Stark überschritten',done:'Erledigt',paused:'Pausiert',skipped:'Übersprungen'}[v.color];
- return <div className={'phase-clock phase-'+v.color}><span>{label} · {v.over===undefined?formatSeconds(v.actual):v.over>0?'+'+formatSeconds(v.over):formatSeconds(-v.over)}</span>{active&&<strong>Aktive Phase</strong>}{started&&item.status==='pending'&&<button disabled={busy} onClick={()=>onAction({type:'activate',id:item.id})}>Phase starten</button>}{started&&item.status==='pending'&&<small>Prognose: {time(clockView(session,now).predictions[item.id])}</small>}</div>;
+ const planned=item.adjusted.durationSeconds;
+ const indicator=item.status==='pending'?(planned===undefined?'Zeit offen':'Geplant '+formatSeconds(planned)):item.status==='done'?('Ist '+formatSeconds(v.actual)+(v.over===undefined?'':v.over>=0?' · +'+formatSeconds(v.over):' · -'+formatSeconds(-v.over))):planned===undefined?'Stoppuhr '+formatSeconds(v.actual):v.over!==undefined&&v.over>0?'Über '+formatSeconds(v.over):'Rest '+formatSeconds(Math.max(0,-(v.over??0)));
+ return <div className={'phase-clock phase-'+v.color}><span>{label} · {indicator}</span>{active&&<strong>Aktive Phase</strong>}{started&&item.status==='pending'&&<button disabled={busy} onClick={()=>onAction({type:'activate',id:item.id})}>Phase starten</button>}{started&&item.status==='pending'&&<small>Prognose: {time(clockView(session,now).predictions[item.id])}</small>}</div>;
 }
