@@ -3,7 +3,8 @@ import {PDFDocument,StandardFonts} from 'pdf-lib';
 
 async function mixedPdf(page:Page):Promise<Buffer>{
  const png=await page.evaluate(()=>{const canvas=document.createElement('canvas');canvas.width=1500;canvas.height=500;const context=canvas.getContext('2d')!;context.fillStyle='white';context.fillRect(0,0,canvas.width,canvas.height);context.fillStyle='black';context.font='bold 78px Arial';context.fillText('2. Versuch: Gescannte Phase',100,150);context.font='bold 66px Arial';context.fillText('Arbeitsauftrag: Beobachtung notieren',100,280);context.fillText('Dauer: 10 Minuten',100,400);return canvas.toDataURL('image/png');});
- const pdf=await PDFDocument.create();const font=await pdf.embedFont(StandardFonts.Helvetica);const first=pdf.addPage([595,842]);first.drawText('# Synthetischer Importtest',{x:55,y:780,size:18,font});first.drawText('Phase 1: Einstieg 5 Min.',{x:55,y:735,size:13,font});first.drawText('Arbeitsauftrag: Nenne ein erstes Beispiel.',{x:55,y:705,size:13,font});first.drawText('Ziel: Die Lernenden vergleichen verschiedene Beobachtungen',{x:55,y:675,size:11,font});first.drawText('und beschreiben das Ergebnis anschliessend mit eigenen Worten.',{x:55,y:655,size:11,font});
+ const inlinePng=await page.evaluate(()=>{const canvas=document.createElement('canvas');canvas.width=1200;canvas.height=300;const context=canvas.getContext('2d')!;context.fillStyle='white';context.fillRect(0,0,canvas.width,canvas.height);context.fillStyle='black';context.font='bold 78px Arial';context.fillText('Zusatztext im Bild',60,180);return canvas.toDataURL('image/png');});
+ const pdf=await PDFDocument.create();const font=await pdf.embedFont(StandardFonts.Helvetica);const first=pdf.addPage([595,842]);first.drawText('# Synthetischer Importtest',{x:55,y:780,size:18,font});first.drawText('Phase 1: Einstieg 5 Min.',{x:55,y:735,size:13,font});first.drawText('Arbeitsauftrag: Nenne ein erstes Beispiel.',{x:55,y:705,size:13,font});first.drawText('Ziel: Die Lernenden vergleichen verschiedene Beobachtungen',{x:55,y:675,size:11,font});first.drawText('und beschreiben das Ergebnis anschliessend mit eigenen Worten.',{x:55,y:655,size:11,font});first.drawImage(await pdf.embedPng(inlinePng),{x:55,y:500,width:485,height:121});
  const scan=pdf.addPage([595,842]);const image=await pdf.embedPng(png);scan.drawImage(image,{x:45,y:560,width:505,height:168});
  const last=pdf.addPage([595,842]);last.drawText('3. Sicherung 08:15-08:25',{x:55,y:780,size:16,font});last.drawText('Materialien: Karten und Tafel',{x:55,y:745,size:12,font});last.drawText('Die Lerngruppe erklaert die beobachtete Veraenderung und nennt offene Fragen.',{x:55,y:715,size:12,font});return Buffer.from(await pdf.save());
 }
@@ -28,6 +29,7 @@ test('mehrseitiges gemischtes PDF extrahiert Textebene und scannt die Bildseite 
  await expect(page.getByText(/3 Seite\(n\)/)).toBeVisible();await expect(page.getByText(/1 per OCR gelesen/)).toBeVisible();
  await page.getByText('Vollständiger erkannter Quelltext').click();await expect(page.getByRole('heading',{name:'Seite 2 · OCR'})).toBeVisible();
  await expect(page.locator('.import-source')).toContainText('Gescannte Phase');
+ await expect(page.locator('.import-source section').first()).not.toContainText('Zusatztext im Bild');
  await expect(page.getByText(/OCR wurde auf Seite 2 lokal ausgeführt/)).toBeVisible();
 });
 
@@ -38,6 +40,7 @@ test('Vollseiten-OCR liest auch Bildtext auf einer Seite mit auswählbarem Text'
  await page.locator('input[type=file]').setInputFiles({name:'stage6-mixed-full-ocr.pdf',mimeType:'application/pdf',buffer:await mixedPdf(page)});
  const outcome=await Promise.race([page.getByRole('heading',{name:'Vorschau bearbeiten'}).waitFor({state:'visible',timeout:150_000}).then(()=> 'preview'),page.getByRole('alert').waitFor({state:'visible',timeout:150_000}).then(()=> 'error')]);if(outcome==='error')throw new Error((await page.getByRole('alert').textContent())??'PDF import failed');expect(outcome).toBe('preview');
  await expect(page.getByText(/3 Seite\(n\) · 3 per OCR gelesen/)).toBeVisible();
+ await page.getByText('Vollständiger erkannter Quelltext').click();await expect(page.locator('.import-source section').first()).toContainText(/Zusatztext im Bild/i);
 });
 
 test('Abbruch und ungültige PDF-Datei speichern keinen Plan',async({page})=>{
