@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.3.0 – Entwicklungsstufe 3 (in Prüfung)
+## 0.3.0 – Entwicklungsstufe 3 (CI-geprüft, Deployment ausstehend)
 - Adaptives Kartenraster mit drei Informationsdichtestufen und Detailfenstern.
 - Persistente, unabhängige Durchführungszustände, Checkboxen und Fortschritt.
 - Optimistische Checkbox-Aktualisierung mit Rücknahme bei Speicherfehlern.
