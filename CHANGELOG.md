@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.4.0 – Entwicklungsstufe 4 (CI-Abnahme / Deployment ausstehend)
+## 0.4.0 – Entwicklungsstufe 4 (veröffentlicht)
 - Expliziter Unterrichtsstart, Pause, Fortsetzen, Beenden und bestätigtes Zurücksetzen.
 - Zeitstempel- und intervallbasierte Gesamtunterrichts- und Phasentimer; Zustand in IndexedDB.
 - Ampel: Grün bis einschließlich geplanter Dauer, Gelb danach und Rot ab +03:00; Warnschwellen konfigurierbar.

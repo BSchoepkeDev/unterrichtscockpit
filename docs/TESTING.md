@@ -19,7 +19,8 @@ Ein vorheriger Browser-Test meldete in Run 45453768870 einen mehrdeutigen Selekt
 
 ## Stufe 4 – Automatisierte Prüfungen
 - [Run 45464037384](https://github.com/BSchoepkeDev/unterrichtscockpit/actions/runs/45464037384) auf Commit `43b9829af333adda21e9d013bb736d7ec2d27e0c`: npm ci, Audit (0 gemeldete Schwachstellen), TypeScript, Vite-Build erfolgreich; 22/22 Unit-Tests und 14/14 Chromium/WebKit-Browser-Tests erfolgreich. PR-Deployment erwartungsgemäß übersprungen.
-- Nachfolgend ergänzt: konfigurierbare Zeitwarnschwellen, Pause in Endzeitprognosen, Wake-Lock-Neuversuch, vier zusätzliche Unit-Tests und vier neue E2E-Szenarien für Start, Pause, Phasenwechsel, Persistenz, Beenden, Einstellungswerte und simulierte Ampelgrenzen. Diese Folgeänderungen gelten erst nach gesondert überprüftem CI als verifiziert.
+- Die Erweiterungen (konfigurierbare Warnschwellen, Pausen-Endzeitprognose, Wake-Lock-Neuversuch, vier weitere Unit-Tests und vier E2E-Szenarien pro Browser) sind durch [PR-Run 45465587436](https://github.com/BSchoepkeDev/unterrichtscockpit/actions/runs/45465587436) bestätigt: 26/26 Unit-Tests und 22/22 Browser-Tests bestanden.
+- Nach Squash-Merge auf `main` bestätigt [Run 45466009831](https://github.com/BSchoepkeDev/unterrichtscockpit/actions/runs/45466009831): npm ci, 0 Audit-Befunde, TypeScript, Build, 26/26 Unit-Tests, 22/22 Chromium/WebKit-Tests und Pages-Deployment erfolgreich. Deployment-Log: `Reported success!`, URL https://bschoepkedev.github.io/unterrichtscockpit/.
 - Echte iPad-Safari-Tests für Timer, Sperrbildschirm, Standalone-PWA, App-Wechsel und lange Pausen stehen aus.
 
 ## Offene Geräteabnahme
