@@ -1,3 +1,6 @@
-# Testprotokoll
+# Tests
+Ausführen mit `npm ci`, `npm audit --audit-level=moderate`, `npm run typecheck`, `npm run test`, `npm run build`, `npx playwright install --with-deps chromium webkit`, `npm run test:e2e`.
 
-24.11.2026: Workflow 45435634060, Job 138592532705, Commit fdc9e19: TypeScript, Build, 3 Unit-Tests und 4 Browsertests erfolgreich. Sicherheitsbefunde: 2 kritisch, 4 hoch, 4 mittel. Paketupdates danach vorgenommen; erneute Prüfung ausstehend. WebKit ist kein Ersatz für iPadOS-Gerätetest.
+Unit-Tests der Stufe 2 prüfen Erstellen, Speichern, persistentes Wiederöffnen, unabhängige Duplikate, historische Snapshots nach Löschung, Konkurrenzkonflikte, Suche/Sortierung/Filter, Reihenfolge und Validierung.
+
+Browser-Tests prüfen Erstellen, Bearbeiten, Duplizieren, Suche und Neuladen sowie bestätigtes Löschen und Abbruch. Chromium und WebKit sind in CI konfiguriert. Reale Safari-/iPadOS-Tests sind gesondert erforderlich. Aktuelle CI-Ergebnisse nicht durch frühere Stufe-1-Ergebnisse ersetzen.
