@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.5.0 – Entwicklungsstufe 5 (in Prüfung)
+- Jede beendete Durchführung bleibt eigenständig erhalten; derselbe Plan erzeugt beim nächsten Start einen neuen Datensatz.
+- Globale transaktionale Prüfung verhindert zwei gleichzeitig laufende Durchführungen, auch bei konkurrierenden Tabs.
+- Sitzungen nach Neustart wieder aufnehmen; pausierte und laufende Timerintervalle bleiben erhalten.
+- Unterrichtspunkte überspringen, erneut aufnehmen, umsortieren, ergänzen und sitzungsspezifisch bearbeiten; bisherige Ist-Zeit bleibt erhalten.
+- Angepasste Gesamt- und Phasensollzeiten, Inhalte und Reihenfolge werden neben dem unveränderten Plansnapshot gespeichert.
+- Historie und Nachbereitung mit Soll-/Istwerten, Punktstatus und Änderungen; bestätigtes Löschen sowie explizite Auswahl zur Planübernahme.
+- Reset einer laufenden Durchführung entfernt keine Historie mehr; zum Neustart wird die aktuelle Durchführung beendet und der Plan erneut gestartet.
+- 30 Unit-Tests; Playwright-Lauf lokal durch fehlende Browser-Binärdateien verhindert, Bereitstellungsdownload in der Umgebung mit HTTP 403 blockiert.
+
 ## 0.4.0 – Entwicklungsstufe 4 (veröffentlicht)
 - Expliziter Unterrichtsstart, Pause, Fortsetzen, Beenden und bestätigtes Zurücksetzen.
 - Zeitstempel- und intervallbasierte Gesamtunterrichts- und Phasentimer; Zustand in IndexedDB.

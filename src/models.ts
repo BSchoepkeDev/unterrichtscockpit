@@ -6,7 +6,7 @@ export type LessonPlan=z.infer<typeof planSchema>; export type LessonItem=z.infe
 export interface Interval {start:number;end?:number}
 export interface Change {at:number;field:string;before:unknown;after:unknown}
 export interface LessonItemExecution {id:string;sessionId:string;originalItemId?:string;original?:LessonItem;adjusted:LessonItem;order:number;intervals:Interval[];status:'pending'|'active'|'paused'|'done'|'skipped';changes:Change[]}
-export interface LessonSession {timerStartedAt?:number;timerLastAt?:number;id:string;planId?:string;snapshot:LessonPlan;date:string;group?:string;adjustedDurationSeconds?:number;startedAt:number;endedAt?:number;pauses:Interval[];status:'active'|'paused'|'ended';executions:LessonItemExecution[];changes:Change[]}
+export interface LessonSession {timerStartedAt?:number;timerLastAt?:number;id:string;planId?:string;snapshot:LessonPlan;date:string;group?:string;adjustedDurationSeconds?:number;durationAdjusted?:boolean;startedAt:number;endedAt?:number;pauses:Interval[];status:'active'|'paused'|'ended';executions:LessonItemExecution[];changes:Change[]}
 export interface LessonNote {id:string;ownerType:'plan'|'session';ownerId:string;itemId?:string;text:string;createdAt:string;updatedAt:string;mode:'manual'|'dictated'}
 export interface Attachment {id:string;name:string;mimeType:string;blob:Blob}
 export interface AudioRecording {id:string;sessionId:string;executionId?:string;attachmentId:string;title:string;createdAt:string;durationSeconds:number;mimeType:string;transcript?:string}

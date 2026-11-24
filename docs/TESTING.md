@@ -25,3 +25,9 @@ Ein vorheriger Browser-Test meldete in Run 45453768870 einen mehrdeutigen Selekt
 
 ## Offene Geräteabnahme
 Auf einem echten 10–11-Zoll-iPad mit iPadOS 26: Safari/Standalone, Querformat/Hochformat, Bildschirmtastatur, Touch, VoiceOver, Dark/Light Mode, Neuladen und PWA-Neustart. Browser-Persistenz ist keine garantierte Datensicherung. Vollständige Offline- und Backup-Abnahme erst in den entsprechenden späteren Entwicklungsstufen.
+
+## Stufe 5 – aktuelle lokale Prüfung
+- TypeScript: erfolgreich (`npm run typecheck`).
+- Vitest: 30/30 Tests in 4 Dateien bestanden (`npm test`), einschließlich zweitem unabhängigen Durchlauf, globalem Startkonflikt, Überspringen/Reaktivieren mit additiven Intervallen und Sollzeitänderung ohne Ist-Verlust.
+- Produktions-Build: erfolgreich (`npm run build`). Vite meldet nur Drittanbieter-Kommentare in Zod, die Rollup entfernt.
+- Playwright lokal: nicht ausgeführt, da Browser nicht vorinstalliert waren. Downloadversuch `npx playwright install chromium webkit` wurde vom Browser-CDN mit HTTP 403 abgewiesen. Neue E2E-Fälle liegen vor und müssen im PR-CI ausgeführt werden. Keine lokale Browserpassrate behauptet.
