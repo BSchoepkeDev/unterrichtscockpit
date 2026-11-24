@@ -32,3 +32,7 @@ Vorheriger CI-Fehler in Run 45453768870: uneindeutiger Playwright-Selektor; beho
 
 ## Nächster Schritt
 Deployment auf `main` einschließlich Pages-Status verifizieren. Danach Stufe 2 auf dem realen 10–11-Zoll-iPad mit Safari/iPadOS 26 im Querformat, Hochformat und als installierte PWA prüfen. Erst dann die iPad-Abnahme abschließen.
+
+
+## Stufe 3 – Entwicklungsbranch (noch nicht freigegeben)
+PR #2: Kartenraster mit drei Dichtestufen, Detaildialog, Fortschritt und persistente Checkboxen in unabhängigen Session-Snapshots. Datenbankschema unverändert. Pro Plan wird eine offene Durchführung wiederverwendet; vollständiger Lebenszyklus folgt in Stufe 5. Auswahl der zuletzt geöffneten Durchführung in localStorage. Timer folgen in Stufe 4. Browser-Test ergänzt; CI-Ergebnis, reale iPad-Abnahme und Deployment noch offen. Paketversion erst nach Freigabe aktualisieren.
