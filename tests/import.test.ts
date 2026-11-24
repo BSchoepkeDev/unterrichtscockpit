@@ -54,7 +54,7 @@ test('Mehrspaltige PDF-Texte werden spaltenweise und nicht zeilenweise verflocht
  expect(layout.layout).toBe('columns');expect(layout.text.indexOf('Links unten')).toBeLessThan(layout.text.indexOf('Rechts oben'));
 });
 test('Plan und Originalanhang werden gemeinsam und atomar gespeichert',async()=>{
- const name=crypto.randomUUID(),database=new Database(name);const parsed=parseLessonText('1. Einstieg · 5 Min.\nAufgabe: Lesen','Plan.txt');const attachment={id:crypto.randomUUID(),name:'Plan.txt',mimeType:'text/plain',blob:new Blob(['originaler Text'])};parsed.plan.attachmentIds=[attachment.id];
+ const name=crypto.randomUUID(),database=new Database(name);const parsed=parseLessonText('1. Einstieg · 5 Min.\nAufgabe: Lesen','Plan.txt');const attachment={id:crypto.randomUUID(),name:'Plan.txt',mimeType:'text/plain',data:new TextEncoder().encode('originaler Text').buffer as ArrayBuffer};parsed.plan.attachmentIds=[attachment.id];
  try{await createImportedLessonPlan(parsed.plan,attachment,database);expect(await database.attachments.get(attachment.id)).toMatchObject({name:'Plan.txt'});expect(await database.plans.get(parsed.plan.id)).toMatchObject({attachmentIds:[attachment.id]});
   const other={...attachment,id:crypto.randomUUID(),name:'nicht-angelegt.txt'};await expect(createImportedLessonPlan(parsed.plan,other,database)).rejects.toThrow('existiert bereits');expect(await database.attachments.get(other.id)).toBeUndefined();
  }finally{database.close();await database.delete();}
