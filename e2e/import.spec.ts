@@ -31,6 +31,15 @@ test('mehrseitiges gemischtes PDF extrahiert Textebene und scannt die Bildseite 
  await expect(page.getByText(/OCR wurde auf Seite 2 lokal ausgeführt/)).toBeVisible();
 });
 
+test('Vollseiten-OCR liest auch Bildtext auf einer Seite mit auswählbarem Text',async({page})=>{
+ test.setTimeout(180_000);await page.goto('./');await page.getByRole('link',{name:'Import'}).click();
+ await expect(page.getByRole('link',{name:'Importvorlage für Unterrichtspläne herunterladen'})).toHaveAttribute('download','importvorlage.md');
+ await page.getByLabel(/OCR auf allen PDF-Seiten ausführen/).check();
+ await page.locator('input[type=file]').setInputFiles({name:'stage6-mixed-full-ocr.pdf',mimeType:'application/pdf',buffer:await mixedPdf(page)});
+ const outcome=await Promise.race([page.getByRole('heading',{name:'Vorschau bearbeiten'}).waitFor({state:'visible',timeout:150_000}).then(()=> 'preview'),page.getByRole('alert').waitFor({state:'visible',timeout:150_000}).then(()=> 'error')]);if(outcome==='error')throw new Error((await page.getByRole('alert').textContent())??'PDF import failed');expect(outcome).toBe('preview');
+ await expect(page.getByText(/3 Seite\(n\) · 3 per OCR gelesen/)).toBeVisible();
+});
+
 test('Abbruch und ungültige PDF-Datei speichern keinen Plan',async({page})=>{
  await page.goto('./');await page.getByRole('link',{name:'Import'}).click();
  await page.locator('input[type=file]').setInputFiles({name:'gross.pdf',mimeType:'application/pdf',buffer:await mixedPdf(page)});

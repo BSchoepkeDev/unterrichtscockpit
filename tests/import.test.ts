@@ -34,6 +34,11 @@ test('Plan-Metadaten werden zugeordnet und Unterrichtsziele bleiben erhalten',()
  expect(parsed.plan).toMatchObject({subject:'Sachunterricht',group:'5b',goals:'Die Lernenden beschreiben Verdunstung.'});
  expect(parsed.plan.items[0].description).toContain('Impulsfragen stellen.');
 });
+test('Vorlagenstruktur ordnet Metadaten und Phasenfelder den Importfeldern zu',()=>{
+ const parsed=parseLessonText('# Unterrichtstitel\nFach: Biologie\nThema: Pflanzen und Wachstum\nLerngruppe: 7a\nKlassenstufe: 7\nDatum: 2026-11-25\nUnterrichtsziele: Pflanzenwachstum beschreiben.\nKompetenzen: Beobachten und begründen.\n\nPhase 1: Einstieg · 5 Min.\nZiel: Vorwissen sammeln.\nBeschreibung: Bild betrachten.\nArbeitsauftrag: Eine Frage notieren.\nMaterialien: Bildkarte\nMethode: Impulsbild\nSozialform: Plenum\nLehreraktivität: Bild zeigen.\nSchüleraktivität: Vermutungen äußern.\nLehrerhinweise: Lösung nicht vorwegnehmen.\nNotizen: Beispiel','Unterrichtsplan.md');
+ expect(parsed.plan).toMatchObject({title:'Unterrichtstitel',subject:'Biologie',topic:'Pflanzen und Wachstum',group:'7a',grade:'7',date:'2026-11-25',goals:'Pflanzenwachstum beschreiben.',competencies:'Beobachten und begründen.'});
+ expect(parsed.plan.items).toHaveLength(1);expect(parsed.plan.items[0]).toMatchObject({title:'Einstieg',phase:'Einstieg',durationSeconds:300,summary:'Vorwissen sammeln.',description:'Bild betrachten.',assignment:'Eine Frage notieren.',materials:'Bildkarte',method:'Impulsbild',socialForm:'Plenum',teacherActivity:'Bild zeigen.',studentActivity:'Vermutungen äußern.',teacherNotes:'Lösung nicht vorwegnehmen.',notes:'Beispiel'});
+});
 test('unstrukturierter und mehrdeutiger Inhalt wird erhalten und markiert',()=>{
  const parsed=parseLessonText('Kopfzeile unbekannt\n12-7 min vielleicht','Plan.txt');
  expect(parsed.plan.items[0].description).toContain('12-7 min vielleicht');
