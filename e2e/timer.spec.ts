@@ -55,3 +55,17 @@ test('Zeitwarnungen und Wake-Lock-Einstellung bleiben nach Neuladen erhalten',as
  await expect(red).toHaveValue('240');
  await expect(wake).toHaveValue('off');
 });
+
+test('Zeitampel wird genau bei +1 Sekunde gelb und ab +3 Minuten rot',async({page})=>{
+ await page.clock.install({time:new Date('2026-11-24T08:00:00.000Z')});
+ await openExample(page);
+ await page.getByRole('button',{name:'Unterricht starten'}).click();
+ const first=page.getByRole('article').filter({has:page.getByRole('button',{name:'Details: Impuls (1)'})}).locator('.phase-clock');
+ await expect(first).toHaveClass(/phase-green/);
+ await page.clock.fastForward(900000);
+ await expect(first).toHaveClass(/phase-green/);
+ await page.clock.fastForward(1000);
+ await expect(first).toHaveClass(/phase-yellow/);
+ await page.clock.fastForward(179000);
+ await expect(first).toHaveClass(/phase-red/);
+});
