@@ -1,0 +1,3 @@
+import {test,expect} from '@playwright/test';
+test('Beispiele bleiben nach Neuladen erhalten',async({page})=>{await page.goto('./');await page.getByRole('button',{name:'Beispieldaten laden'}).click();await expect(page.locator('article')).toHaveCount(7);await page.reload();await expect(page.locator('article')).toHaveCount(7);});
+test('Navigation und Erscheinungsbild',async({page})=>{await page.goto('./');await page.getByRole('link',{name:'Einstellungen'}).click();await expect(page.getByRole('heading',{name:'Einstellungen'})).toBeVisible();await page.getByLabel('Erscheinungsbild').selectOption('dark');await expect(page.locator('html')).toHaveAttribute('data-theme','dark');await page.reload();await expect(page.locator('html')).toHaveAttribute('data-theme','dark');});
