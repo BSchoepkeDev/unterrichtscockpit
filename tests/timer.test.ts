@@ -1,0 +1,13 @@
+import 'fake-indexeddb/auto';
+import {test,expect} from 'vitest';
+import {examples} from '../src/fixtures';
+import {makeSession} from '../src/features/cockpitRepository';
+import {transition,clockView,phaseView,dispatch} from '../src/features/TimerService';
+import {Database} from '../src/database';
+const initial=()=>makeSession(examples()[0],1000);
+test('explicit start and exact warning boundaries',()=>{let s=initial();expect(clockView(s,50000).total).toBe(0);s=transition(s,{type:'start'},1000);const i=s.executions[0];expect(i.status).toBe('active');expect(phaseView(i,901000).color).toBe('green');expect(phaseView(i,902000).color).toBe('yellow');expect(phaseView(i,1080000).color).toBe('yellow');expect(phaseView(i,1081000).color).toBe('red');});
+test('pause freezes both clocks and resume excludes pause',()=>{let s=transition(initial(),{type:'start'},1000);s=transition(s,{type:'pause'},11000);expect(clockView(s,71000).total).toBe(10);expect(phaseView(s.executions[0],71000).actual).toBe(10);s=transition(s,{type:'resume'},71000);expect(clockView(s,81000).total).toBe(20);expect(phaseView(s.executions[0],81000).actual).toBe(20);});
+test('nonactive check does not interrupt active phase; active check skips completed',()=>{let s=transition(initial(),{type:'start'},1000);s=transition(s,{type:'check',id:s.executions[1].id,done:true},2000);expect(s.executions[0].status).toBe('active');s=transition(s,{type:'check',id:s.executions[0].id,done:true},3000);expect(s.executions[2].status).toBe('active');expect(s.executions[0].intervals[0].end).toBe(3000);});
+test('unknown duration is stopwatch and uncertain forecast',()=>{let s=initial();s.executions[0].adjusted.durationSeconds=undefined;s=transition(s,{type:'start'},1000);expect(phaseView(s.executions[0],9999999).over).toBeUndefined();expect(clockView(s,2000).uncertain).toBe(true);});
+test('timer persists across database reopening',async()=>{const db=new Database(crypto.randomUUID());try{const s=initial();await db.sessions.add(s);await dispatch(s.id,{type:'start'},db,1000);db.close();const restored=new Database(db.name);expect(clockView((await restored.sessions.get(s.id))!,61000).total).toBe(60);restored.close();}finally{await db.delete();}});
+test('manual switch, end and reset preserve plan',()=>{let s=transition(initial(),{type:'start'},1000);s=transition(s,{type:'activate',id:s.executions[1].id},3000);expect(s.executions[0].status).toBe('pending');expect(s.executions[1].status).toBe('active');const reset=transition(s,{type:'reset'},4000);expect(reset.timerStartedAt).toBeUndefined();expect(reset.snapshot).toEqual(s.snapshot);const ended=transition(s,{type:'end'},5000);expect(clockView(ended,9000).total).toBe(4);});
