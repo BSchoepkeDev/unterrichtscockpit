@@ -17,5 +17,10 @@ Ein vorheriger Browser-Test meldete in Run 45453768870 einen mehrdeutigen Selekt
 - [Run 45460218272](https://github.com/BSchoepkeDev/unterrichtscockpit/actions/runs/45460218272), Commit `626dbedef6d6c9293ab6fee531675f8d1bc732ce`: npm ci, zwei Audits (je 0 Schwachstellen), Typprüfung und Produktions-Build erfolgreich; 16/16 Unit-Tests, 14/14 Playwright-Tests in Chromium und WebKit erfolgreich. Neu: Sitzungssnapshot, DB-Persistenz, Planunabhängigkeit, Fehlhandlung, Dichteauswahl und Checkbox-Detailfenster-Neuladen.
 - Die nachfolgenden Versionierungs-/Dokumentationscommits und der Deployment-Lauf werden gesondert geprüft. Keine Behauptung einer iPad-Geräteabnahme.
 
+## Stufe 4 – Automatisierte Prüfungen
+- [Run 45464037384](https://github.com/BSchoepkeDev/unterrichtscockpit/actions/runs/45464037384) auf Commit `43b9829af333adda21e9d013bb736d7ec2d27e0c`: npm ci, Audit (0 gemeldete Schwachstellen), TypeScript, Vite-Build erfolgreich; 22/22 Unit-Tests und 14/14 Chromium/WebKit-Browser-Tests erfolgreich. PR-Deployment erwartungsgemäß übersprungen.
+- Nachfolgend ergänzt: konfigurierbare Zeitwarnschwellen, Pause in Endzeitprognosen, Wake-Lock-Neuversuch, vier zusätzliche Unit-Tests und vier neue E2E-Szenarien für Start, Pause, Phasenwechsel, Persistenz, Beenden, Einstellungswerte und simulierte Ampelgrenzen. Diese Folgeänderungen gelten erst nach gesondert überprüftem CI als verifiziert.
+- Echte iPad-Safari-Tests für Timer, Sperrbildschirm, Standalone-PWA, App-Wechsel und lange Pausen stehen aus.
+
 ## Offene Geräteabnahme
 Auf einem echten 10–11-Zoll-iPad mit iPadOS 26: Safari/Standalone, Querformat/Hochformat, Bildschirmtastatur, Touch, VoiceOver, Dark/Light Mode, Neuladen und PWA-Neustart. Browser-Persistenz ist keine garantierte Datensicherung. Vollständige Offline- und Backup-Abnahme erst in den entsprechenden späteren Entwicklungsstufen.
