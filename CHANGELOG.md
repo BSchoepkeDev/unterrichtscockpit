@@ -8,7 +8,7 @@
 - Angepasste Gesamt- und Phasensollzeiten, Inhalte und Reihenfolge werden neben dem unveränderten Plansnapshot gespeichert.
 - Historie und Nachbereitung mit Soll-/Istwerten, Punktstatus und Änderungen; bestätigtes Löschen sowie explizite Auswahl zur Planübernahme.
 - Reset einer laufenden Durchführung entfernt keine Historie mehr; zum Neustart wird die aktuelle Durchführung beendet und der Plan erneut gestartet.
-- 31 Unit-Tests; Playwright-Lauf lokal durch fehlende Browser-Binärdateien verhindert, Bereitstellungsdownload in der Umgebung mit HTTP 403 blockiert.
+- 31 Unit-Tests und 26/26 Chromium/WebKit-Tests durch PR-CI Run 45475637496 bestätigt; lokaler Browserdownload in der Umgebung mit HTTP 403 blockiert.
 
 ## 0.4.0 – Entwicklungsstufe 4 (veröffentlicht)
 - Expliziter Unterrichtsstart, Pause, Fortsetzen, Beenden und bestätigtes Zurücksetzen.
