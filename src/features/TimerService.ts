@@ -15,7 +15,7 @@ export function transition(source:LessonSession,a:Action,clock:number,settings:S
  case 'pause':if(s.timerStartedAt===undefined||s.status!=='active')return s;s.status='paused';s.pauses.push({start:now});if(current){close(current.intervals,now);current.status='paused';}break;
  case 'resume':if(s.status!=='paused')return s;close(s.pauses,now);s.status='active';if(current)activate(s,current,now);break;
  case 'end':if(s.timerStartedAt===undefined)return s;close(s.pauses,now);if(current){close(current.intervals,now);current.status='pending';}s.endedAt=now;s.status='ended';break;
- case 'reset':s.timerStartedAt=undefined;s.pauses=[];s.status='active';for(const i of s.executions){i.intervals=[];i.status='pending';}break;
+ case 'reset':s.timerStartedAt=undefined;s.startedAt=now;s.endedAt=undefined;s.pauses=[];s.status='active';for(const i of s.executions){i.intervals=[];i.status='pending';}break;
  case 'activate':{if(s.timerStartedAt===undefined)throw new Error('Unterricht zuerst starten.');const i=s.executions.find(x=>x.id===a.id);if(!i||i.status!=='pending')return s;if(current){close(current.intervals,now);current.status='pending';}activate(s,i,now);break;}
  case 'check':{const i=s.executions.find(x=>x.id===a.id);if(!i||i.status==='skipped')throw new Error('Unterrichtspunkt nicht bearbeitbar.');if((i.status==='done')===a.done)return s;const wasActive=i===current;const before=i.status;close(i.intervals,now);i.status=a.done?'done':'pending';i.changes.push({at:now,field:'status',before,after:i.status});if(wasActive&&a.done&&settings.autoAdvance){const n=next(s);if(n)activate(s,n,now);}break;}
  }
@@ -34,9 +34,10 @@ export function clockView(s:LessonSession,clock:number){
  if(i.status==='done'){if(duration!==undefined)delta+=actual-duration;continue;}
  if(i.status==='skipped')continue;
  predictions[i.id]=now+remaining*1000;
- if(duration===undefined)uncertain=true;else remaining+=Math.max(0,duration-actual);
+ if(duration===undefined)uncertain=true;else{remaining+=Math.max(0,duration-actual);if(i.status==='active'||i.status==='paused')delta+=Math.max(0,actual-duration);}
  }
- return {total,planned,remaining:planned===undefined?undefined:planned-total,plannedEnd:planned===undefined||s.timerStartedAt===undefined?undefined:s.timerStartedAt+planned*1000,forecast:now+remaining*1000,uncertain,delta,predictions};
+ const plannedEnd=planned===undefined||s.timerStartedAt===undefined?undefined:s.timerStartedAt+planned*1000+elapsed(s.pauses,end)*1000;
+ return {total,planned,remaining:planned===undefined?undefined:planned-total,plannedEnd,forecast:now+remaining*1000,uncertain,delta,predictions};
 }
 export function phaseView(i:LessonItemExecution,now:number,settings:Settings=defaults){
  const actual=elapsed(i.intervals,now),planned=i.adjusted.durationSeconds,over=planned===undefined?undefined:actual-planned;
