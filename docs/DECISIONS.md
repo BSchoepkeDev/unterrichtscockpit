@@ -20,5 +20,14 @@
 15. Standardampel Gelb ab +00:01, Rot ab +03:00; Schwellen und automatischer Phasenwechsel sind als lokale Einstellungen änderbar.
 16. Abschluss der aktiven Phase erzeugt einen transaktionalen Wechsel, das Abhaken einer nicht aktiven Phase unterbricht die laufende Zeitmessung nicht; reine Überziehung löst keine Umschaltung aus.
 17. Screen Wake Lock ist optional, zeigt seinen tatsächlichen Zustand und benutzt keine Browser-Umgehung für nicht unterstützte Geräte.
-18. Das Zurücksetzen ist ausdrücklich bestätigt, setzt Timer und Erledigungszustände zurück und ändert niemals den ursprünglichen Plan.
+18. In Stufe 4 war Reset ausdrücklich bestätigt. In Stufe 5 wurde er entfernt, weil ein Reset die historische Durchführung verfälschen könnte.
 19. Die bestehende IndexedDB-Schema-Version v1 bleibt erhalten; optionale Session-Zeitstempel sind abwärtskompatibel.
+
+## Stufe 5
+20. Ein abgeschlossener Session-Snapshot wird unveränderlich als Historie erhalten; derselbe Planstart nach Ende erzeugt neue UUIDs und einen neuen Snapshot.
+21. Höchstens eine laufende (nicht pausierte) Session ist global zulässig. Prüfung und Persistierung liegen in einer Dexie-Transaktion, damit konkurrierende Tabs nicht gleichzeitig starten.
+22. Pausierte Sitzungen dürfen für einen anderen Unterricht unterbrochen bleiben. Fortsetzen wird abgewiesen, solange eine andere Sitzung läuft.
+23. Planänderungen während der Durchführung wirken nur auf `adjusted`; `original` und `snapshot` bleiben Vergleichsgrundlage. Ist-Intervalle werden nicht zurückgesetzt.
+24. Überspringen ist ein eigener Status und zählt nicht als erledigt. Reaktivierung und erneute Aktivierung öffnen ein zusätzliches Intervall.
+25. Ein Reset des aktuellen Timers ist nicht zulässig. Beenden erhält die Historie; eine neue Durchführung wird ausdrücklich über erneutes Starten erzeugt.
+26. Historische Sitzungen können nur nach Bestätigung gelöscht werden. Übernahme in die Bibliothek ist eine explizite Auswahl und verwendet den bestehenden Schreibkonfliktschutz.

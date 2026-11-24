@@ -1,27 +1,31 @@
-# Projektstatus – Stufe 4 abgeschlossen / Version 0.4.0 veröffentlicht
-Stand: 24.11.2026. Repository: https://github.com/BSchoepkeDev/unterrichtscockpit/
-Produktiv: Version 0.4.0, https://bschoepkedev.github.io/unterrichtscockpit/ – Deployment [45466009831](https://github.com/BSchoepkeDev/unterrichtscockpit/actions/runs/45466009831) erfolgreich.
+# Projektstatus – Stufe 5 / Version 0.5.0 in Prüfung
+Stand: 24.11.2026. Live-Ausgangspunkt: `main` bei `64a7fc0b277d794201a79b8f86254b75bbb5b363`. PR #4, Branch `feature/stage-5-sessions`, aktueller geprüfter Commit `f1d8badce9ea9fda97e8651d7fa478724255e6b2`.
 
-## Abgeschlossene Stufen
-- Stufe 1 – PWA-Grundlage, GitHub Pages, React/TypeScript/Dexie, Beispielpläne und Tests.
-- Stufe 2 – Unterrichtsbibliothek und Editor, CRUD, Suche/Sortierung, sichere Planungs-Snapshots und Tests. Veröffentlichung nach PR #1.
-- Stufe 3 – Adaptives Cockpit, Detailfenster, persistente Checkboxen und Fortschritt. PR #2 gemergt in `d1fc721238f8168135b94bc0357cad56179e2991`; GitHub-Pages-Deployment [45461157246](https://github.com/BSchoepkeDev/unterrichtscockpit/actions/runs/45461157246) erfolgreich. Nutzer bestätigte die Grundfunktionen auf dem iPad.
+## Stufe 5 implementiert
+- Eigenständige Durchführungen: beendete Sitzungen werden nicht wiederverwendet; erneutes Starten erzeugt einen neuen Snapshot mit eigenen Execution-IDs und Zeiten. Noch offene Sitzungen werden nach Reload wieder angezeigt.
+- Transaktionale globale Prüfung vor Start/Fortsetzen verhindert parallele laufende Durchführungen; vorhandene Sitzungsdatensätze bleiben erhalten. IndexedDB-Schema bleibt v1, da neue Felder optional sind und keine Datenmigration notwendig ist.
+- Überspringen zählt nicht als erledigt. Reaktivieren und erneutes Aktivieren ergänzen ein neues Zeitintervall, ohne vorhandene Ist-Zeit zu löschen.
+- Durchführungspunkte und Gesamtdauer können während der Sitzung bearbeitet werden; Änderungen bleiben im Session-Snapshot protokolliert und verändern den Bibliotheksplan nicht automatisch. Neue Punkte, Verschieben sowie zentrale Inhalte (Titel, Dauer, Kurzbeschreibung, Arbeitsauftrag, Lehrerhinweise) sind unterstützt.
+- Historie/Nachbereitung zeigt Durchführungen, Datum, Lerngruppe, Plan- und angepasste Gesamtdauer, Ist-Zeit, Statussummen sowie Soll-/Istzeit pro Punkt. Sitzungen können nach Bestätigung gelöscht werden. Selektive Übernahme geänderter Inhalte, Reihenfolge, neuer Punkte und angepasster Gesamtdauer ist ausdrücklich gesteuert. Gelöschte Originalpläne beeinträchtigen den Session-Snapshot nicht.
+- Reset einer laufenden Sitzung wurde aus der Oberfläche entfernt und kann die Historie nicht mehr löschen. Neustart: beenden, danach denselben Plan neu starten.
 
-## Stufe 4 – Pull Request #3, in `main` übernommen (`50b18e2ec75812649dda0533f0c7f1327930828f`)
-- Gesamtunterrichtstimer mit ausdrücklich gesteuertem Start, Pause/Fortsetzen, bestätigtem Ende und Reset.
-- Unabhängige Phasenintervalle, Countdown/Überziehung, Stoppuhr ohne geplante Dauer, Ampelschwellen, manueller/automatischer Wechsel.
-- Zeitprognose, kumulative Abweichung, Pausenverrechnung, Screen Wake Lock und Wiederherstellung über gespeicherte Zeitstempel.
-- Warnschwellen, automatischer Wechsel und Wake Lock in den Einstellungen.
-- Keine IndexedDB-Migration, keine Änderungen an ursprünglichen Unterrichtsplänen.
+## Verifikation
+- `npm run typecheck`: erfolgreich.
+- `npm test`: 31/31 Unit-Tests erfolgreich.
+- `npm run build`: erfolgreich (Vite PWA); Drittanbieter-Kommentare von Zod werden durch Rollup-Warnung entfernt.
+- `npm run test:e2e`: lokal nicht ausführbar, weil die Browser-CDN-Downloads mit HTTP 403 blockiert wurden.
+- PR-CI [Run 45475637496](https://github.com/BSchoepkeDev/unterrichtscockpit/actions/runs/45475637496) auf Commit `f1d8badce9ea9fda97e8651d7fa478724255e6b2`: Audit ohne Schwachstellen, TypeScript, Produktions-Build, 31/31 Unit-Tests und 26/26 Playwright-Tests in Chromium/WebKit erfolgreich. Die PR-Deployment-Stufe wurde erwartungsgemäß übersprungen. Frühere CI-Läufe deckten einen fehlenden `startedAt`-Index auf; die Historie liest/sortiert nun ohne Schemaänderung.
+- PR #4 ist bereit zum Merge. Main-Deploy und anschließende Geräteabnahme sind noch offen.
 
-CI vor Merge: [45465587436](https://github.com/BSchoepkeDev/unterrichtscockpit/actions/runs/45465587436) – alle Prüfungen erfolgreich. Produktiver Build und Pages-Deployment: [45466009831](https://github.com/BSchoepkeDev/unterrichtscockpit/actions/runs/45466009831) – npm ci, zwei Sicherheitsprüfungen (je 0 Schwachstellen), TypeScript, Produktions-Build, **26/26 Unit-Tests und 22/22 Chromium/WebKit-Browser-Tests** erfolgreich; Deployjob meldet `Reported success!`. Der frühere Run [45464037384](https://github.com/BSchoepkeDev/unterrichtscockpit/actions/runs/45464037384) war ebenfalls erfolgreich (22 Unit-/14 Browser-Tests).
+## Offen / Risiken
+- Merge von PR #4 durchführen, Main-CI und Pages-Deployment verifizieren.
+- Manuelle iPad-Abnahme getrennt anfragen und protokollieren.
+- Altbestand mit mehreren gleichzeitig aktiven Sitzungen bleibt unverändert; neue Starts werden blockiert und zeigen Titel der konfliktierenden Sitzung. Die Lehrkraft kann sie im Cockpit auswählen und beenden.
+- Pause erlaubt, eine andere Durchführung zu starten; Fortsetzen der alten Sitzung ist gesperrt, solange eine andere Sitzung läuft.
+- Browserdaten sind noch nicht extern gesichert. Vollständiges Backup folgt in Stufe 9.
 
-## Bekannte Grenzen und offene Abnahme
-- Reale Timer-Abnahme auf 10–11-Zoll-iPad/iPadOS 26 in Safari und installierter PWA ausstehend, besonders Gerätesperre, App-Wechsel, Hintergrund-Suspendierung, Screen Wake Lock und Zeitampel.
-- Systemuhrmanipulationen über Neustarts können ohne vertrauenswürdige Zeitquelle nicht vollständig kompensiert werden. Browserdatenverlust kann lokale Timer und Planung löschen; bis zur vollständigen Sicherung (Stufe 9) keine unersetzlichen Daten verwenden.
-- Bei unsicheren/gefehlten Phasendauern sind Zeitprognosen markiert, aber nicht vollständig.
-- Abschluss speichert Sitzungen dauerhaft; die eigenständige Historien-/Nachbereitungsoberfläche folgt in Stufe 5.
-- Vollständige Offline-Funktion und Update-Strategie folgen in Stufe 10. Nicht blockierende npm/Actions-Node-Abkündigungswarnungen möglich.
+## Nächster Schritt
+PR #4 nach grüner CI mergen, Main-CI und Pages-Deployment verifizieren; anschließend den iPad-Praxistest durchführen.
 
-## Entwicklungsfahrplan
-Als Nächstes: Stufe 4 mit echtem iPad (Safari, Standalone-PWA, Portrait/Querformat, Hintergrund/Sperre, Wake Lock, Pausen und Reload) praktisch abnehmen. Anschließend Stufe 5: unabhängige Sitzungen, Historie und spontane Änderungen; danach Stufen 6–12 gemäß Master-Prompt.
+## Fahrplan
+1–4 veröffentlicht. 5 implementiert; PR-CI bestanden, Merge/Deploy ausstehend. Danach: 6 Import, 7 Notizen/Spracheingabe, 8 PDF-Export, 9 Datensicherung, 10 Offline-Validierung/Bereitstellung, 11 längere Audioaufnahmen, 12 abschließende Qualitätssicherung.
