@@ -1,6 +1,6 @@
 # Projektstatus – Entwicklungsstufe 8 / Version 0.8.1
 
-Stand: 25.11.2026. Entwicklungsstufe 8 ist in Version 0.8.0 gemergt und auf GitHub Pages veröffentlicht. Ein Fehler in der Zuordnung von Plannotizen wird in Version 0.8.1 korrigiert; dessen Veröffentlichung steht aus. Produktiv: https://bschoepkedev.github.io/unterrichtscockpit/. Verifizierter Code-Release-Commit: `e35aa5bd640246225d38114fbe3d479d93f50eed`.
+Stand: 25.11.2026. Entwicklungsstufe 8 ist in Version 0.8.0 veröffentlicht; die Korrektur der Plannotiz-Zuordnung ist als Version 0.8.1 ebenfalls gemergt und veröffentlicht. Produktiv: https://bschoepkedev.github.io/unterrichtscockpit/. Verifizierter Code-Release-Commit: `e35aa5bd640246225d38114fbe3d479d93f50eed`.
 
 ## Stufe 8 umgesetzt
 
@@ -21,7 +21,12 @@ Stand: 25.11.2026. Entwicklungsstufe 8 ist in Version 0.8.0 gemergt und auf GitH
 
 ## Nachkorrektur 0.8.1
 
-Plannotizen können jetzt gezielt einem Punkt des aktuellen, wiederverwendbaren Unterrichtsplans zugeordnet werden. Auswahl und Anzeige nutzen die Planpunkt-ID. Die Auswahl wird nicht mehr über IDs von Durchführungspunkten gebildet. Ein End-to-End-Test prüft Zuordnung und Erhalt nach dem Neuladen.
+Plannotizen können gezielt einem Punkt des aktuellen, wiederverwendbaren Plans zugeordnet werden. Auswahl und Anzeige nutzen dessen Planpunkt-ID; Sitzungsnotizen bleiben an Durchführungspunkt-IDs gebunden. PR #14 wurde gemergt.
+
+- PR-CI [Run 45589186762](https://github.com/BSchoepkeDev/unterrichtscockpit/actions/runs/45589186762): Audit, TypeScript, Build, 56/56 Unit-Tests und 48/48 Chromium-/WebKit-E2E-Tests erfolgreich.
+- Main-/Pages-Lauf [45589622301](https://github.com/BSchoepkeDev/unterrichtscockpit/actions/runs/45589622301): vollständige CI und Deployment von Version 0.8.1 erfolgreich.
+- Die Live-Seite lieferte zum Code-Release Version `0.8.1` und Build-ID `2946c96` aus.
+- Der E2E-Test speichert eine Notiz für „Einstieg“ und prüft Zuordnung sowie Erhalt nach Reload.
 
 ## Noch offen für Stufe 8
 

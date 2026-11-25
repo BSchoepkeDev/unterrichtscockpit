@@ -76,4 +76,4 @@ Der Ausgangsstand `95b4dc3` hatte am 25.11.2026 einen erfolgreichen Main-/Pages-
 
 ## Nachkorrektur 0.8.1 – Plannotizen an Planpunkte binden
 
-- Playwright prüft, dass eine Plannotiz dem vorhandenen Planpunkt „Einstieg“ zugeordnet, unter diesem Punkt angezeigt und nach einem Reload wiedergefunden wird.
+- Playwright prüft, dass eine Plannotiz dem vorhandenen Planpunkt „Einstieg“ zugeordnet, unter diesem Punkt angezeigt und nach einem Reload wiedergefunden wird. PR-CI [Run 45589186762](https://github.com/BSchoepkeDev/unterrichtscockpit/actions/runs/45589186762): 48/48 Chromium-/WebKit-E2E-Tests sowie 56/56 Unit-Tests, Audit, TypeScript und Build erfolgreich. Main-/Pages-Lauf [45589622301](https://github.com/BSchoepkeDev/unterrichtscockpit/actions/runs/45589622301) veröffentlichte Version 0.8.1 erfolgreich.
