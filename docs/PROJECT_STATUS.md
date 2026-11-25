@@ -1,14 +1,19 @@
-# Projektstatus – Entwicklungsstufe 6 / Version 0.6.0
-Stand: 24.11.2026. Basis: `main`-Commit `1f7de48126058492b640df717510bcec9ba5fe04`. Produktivversion 0.6.0: https://bschoepkedev.github.io/unterrichtscockpit/.
+# Projektstatus – Entwicklungsstufe 6 / Version 0.6.1
+Stand: 25.11.2026. Basis: Version 0.6.1 mit sichtbarer Build-ID. Produktiv: https://bschoepkedev.github.io/unterrichtscockpit/.
 
 ## Stufe 6 implementiert
 - Lokaler Import aus PDF, TXT, Markdown, CSV und eingefügtem Text; nativer Dateidialog, Dateityp-/Größenprüfung sowie verständliche Fehlerbehandlung.
 - PDF.js-Textextraktion seitenweise mit Textpositionen; spaltenweise Sortierung bei erkannten Layoutspalten und zeilen-/tabellenbasierte Ausgabe.
-- Deutsche Tesseract-OCR im Worker bei Seiten mit weniger als 80 nicht-leeren Zeichen. OCR-Sprachmodell, WASM und Worker-Dateien sind selbst gehostet und für den PWA-Precache vorgesehen.
+- Deutsche Tesseract-OCR im Worker bei Seiten mit weniger als 80 nicht-leeren Zeichen; optional Vollseiten-OCR, wenn Bilder mit Text neben einer Textebene vorkommen. OCR-Sprachmodell, WASM und Worker-Dateien sind selbst gehostet und für den PWA-Precache vorgesehen.
+- Importvorlage mit passenden Feldbezeichnungen sowie sichtbare Versions- und Build-ID zur Prüfung des installierten PWA-Stands.
 - Regelbasierte Erkennung von Phasen, Reihenfolge, Zeitangaben, Planmetadaten und benannten Feldern; Tabellen-/CSV-Kopfzeilen, unsichere Zeiten, Quellen- und OCR-Prüfhinweise. Nicht erkannte Zeilen und Originaltext bleiben nachvollziehbar.
 - Importvorschau mit editierbaren Feldern, Quelltext, Warnungen, Teilen, Zusammenführen, Umordnen und Entfernen. Übergang in den bestehenden Planeditor.
 - Plan und Originaldatei werden nach Bestätigung atomar in IndexedDB gespeichert; Originaldownload erscheint am Plan in der Bibliothek und bleibt nach Reload erreichbar.
 - Keine Datenbankmigration. Dateien über 30 MB und PDFs über 120 Seiten werden zur Begrenzung des mobilen Speicherverbrauchs abgewiesen.
+
+## Versionsnachweis
+- Version 0.6.1 macht Versionsnummer und kurze Build-ID oben in der App sichtbar; Paketmetadaten, Sperrdatei und Dokumentation sind synchronisiert.
+- Der OCR-Fix für gemischte PDF-Seiten wurde in Version 0.6.0 ausgeliefert; PR-CI [Run 45511842972](https://github.com/BSchoepkeDev/unterrichtscockpit/actions/runs/45511842972) und Pages-Deployment [Run 45512184919](https://github.com/BSchoepkeDev/unterrichtscockpit/actions/runs/45512184919) bestanden.
 
 ## Qualitätssicherung
 - Lokal erfolgreich: `npm ci`, TypeScript, 41/41 Unit-Tests, Produktions-Build und `npm audit --audit-level=moderate` (0 Befunde).
