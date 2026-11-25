@@ -1,5 +1,5 @@
-# Projektstatus – Entwicklungsstufe 6 / Version 0.6.1
-Stand: 25.11.2026. Basis: Version 0.6.1 mit sichtbarer Build-ID. Produktiv: https://bschoepkedev.github.io/unterrichtscockpit/.
+# Projektstatus – Entwicklungsstufe 6 / Version 0.6.2
+Stand: 25.11.2026. Basis: Version 0.6.2 mit sichtbarer Build-ID. Produktiv: https://bschoepkedev.github.io/unterrichtscockpit/.
 
 ## Stufe 6 implementiert
 - Lokaler Import aus PDF, TXT, Markdown, CSV und eingefügtem Text; nativer Dateidialog, Dateityp-/Größenprüfung sowie verständliche Fehlerbehandlung.
@@ -12,8 +12,9 @@ Stand: 25.11.2026. Basis: Version 0.6.1 mit sichtbarer Build-ID. Produktiv: http
 - Keine Datenbankmigration. Dateien über 30 MB und PDFs über 120 Seiten werden zur Begrenzung des mobilen Speicherverbrauchs abgewiesen.
 
 ## Versionsnachweis
-- Version 0.6.1 macht Versionsnummer und kurze Build-ID oben in der App sichtbar; Paketmetadaten, Sperrdatei und Dokumentation sind synchronisiert.
-- Der OCR-Fix für gemischte PDF-Seiten wurde in Version 0.6.0 ausgeliefert; PR-CI [Run 45511842972](https://github.com/BSchoepkeDev/unterrichtscockpit/actions/runs/45511842972) und Pages-Deployment [Run 45512184919](https://github.com/BSchoepkeDev/unterrichtscockpit/actions/runs/45512184919) bestanden.
+- Version 0.6.2 behebt die iPadOS-Safari-Ausnahme beim Lesen des PDF.js-Textstreams, indem der Stream über `getReader()` statt AsyncIterator gesammelt wird.
+- Versionsnummer und kurze Build-ID sind oben in der App sichtbar; Paketmetadaten, Sperrdatei und Dokumentation sind synchronisiert.
+- Der OCR-Fix für gemischte PDF-Seiten wurde in Version 0.6.1 ausgeliefert; PR-CI [Run 45511842972](https://github.com/BSchoepkeDev/unterrichtscockpit/actions/runs/45511842972) und Pages-Deployment [Run 45512184919](https://github.com/BSchoepkeDev/unterrichtscockpit/actions/runs/45512184919) bestanden.
 
 ## Qualitätssicherung
 - Lokal erfolgreich: `npm ci`, TypeScript, 41/41 Unit-Tests, Produktions-Build und `npm audit --audit-level=moderate` (0 Befunde).

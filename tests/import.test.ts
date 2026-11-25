@@ -3,6 +3,7 @@ import {expect,test} from 'vitest';
 import {Database} from '../src/database';
 import {applyPageText,orderPdfTextItems,parseGermanDuration,parseLessonText} from '../src/features/importParser';
 import {createImportedLessonPlan} from '../src/features/lessonRepository';
+import {collectPdfTextContent} from '../src/features/pdfTextStream';
 
 test('deutsche Zeitangaben werden minutengenau ausgewertet',()=>{
  expect(parseGermanDuration('5 Min.').seconds).toBe(300);
@@ -12,6 +13,12 @@ test('deutsche Zeitangaben werden minutengenau ausgewertet',()=>{
  expect(parseGermanDuration('0–10 Min.').seconds).toBe(600);
  expect(parseGermanDuration('08:25–08:15').warning).toBeTruthy();
  expect(parseGermanDuration('5 Min. bis ca. 10 Minuten').warning).toContain('Mehrere Zahlen');
+});
+test('PDF-Textstream wird ohne AsyncIterator über getReader gesammelt',async()=>{
+ const chunks=[{items:[{str:'Erste Zeile'}],styles:{f1:{fontFamily:'Arial'}},lang:'de'},{items:[{str:'Zweite Zeile'}],styles:{f2:{fontFamily:'Arial'}},lang:null}];let index=0;let released=false;
+ const stream={getReader:()=>({read:async()=>index<chunks.length?{done:false,value:chunks[index++]}:{done:true},releaseLock:()=>{released=true;}})};
+ expect(Reflect.get(stream,Symbol.asyncIterator)).toBeUndefined();
+ await expect(collectPdfTextContent(stream)).resolves.toEqual({items:[{str:'Erste Zeile'},{str:'Zweite Zeile'}],styles:{f1:{fontFamily:'Arial'},f2:{fontFamily:'Arial'}},lang:'de'});expect(released).toBe(true);
 });
 test('ungefähre Zeiten im Fließtext behalten den Prüfhinweis',()=>{
  const parsed=parseLessonText('1. Einstieg\nDauer: ca. 15 Minuten','Plan.txt');
