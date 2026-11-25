@@ -16,6 +16,9 @@ test('Durchführungs-PDF lässt sich über das Cockpit anfordern',async({page})=
  await page.getByRole('article').filter({hasText:'Beispiel: 45 Minuten – Brüche'}).getByRole('button',{name:'Cockpit öffnen'}).click();
  await page.getByRole('button',{name:'PDF exportieren'}).click();
  await expect(page.getByText('Durchführung: Beispiel: 45 Minuten – Brüche')).toBeVisible();
+ await page.getByLabel('Exportgegenstand').selectOption('plan');
+ await expect(page.getByText('Plan: Beispiel: 45 Minuten – Brüche')).toBeVisible();
+ await page.getByLabel('Exportgegenstand').selectOption('session');
  const downloadPromise=page.waitForEvent('download');await page.getByRole('button',{name:'Herunterladen'}).click();
  expect((await downloadPromise).suggestedFilename()).toContain('durchfuehrung.pdf');
 });
