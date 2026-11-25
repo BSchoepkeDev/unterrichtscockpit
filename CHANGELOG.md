@@ -7,6 +7,8 @@
 - Herunterladen funktioniert ohne externe Dienste; Drucken öffnet die PDF lokal im Browser. Teilen wird optional über die Web Share API mit Feature Detection angeboten.
 - `pdf-lib` ist Laufzeitabhängigkeit, wird aber erst beim Öffnen der Exportaktion dynamisch geladen. IndexedDB-Daten werden beim Export nur gelesen.
 - Automatisierte Prüfungen decken Plan-/Durchführungsvarianten, Umlaute, lange Texte, Mehrseitigkeit und unveränderte Eingabedaten ab.
+- PR #12 gemergt. PR-CI [Run 45585317152](https://github.com/BSchoepkeDev/unterrichtscockpit/actions/runs/45585317152): 56/56 Unit- und 48/48 Chromium-/WebKit-E2E-Tests, Audit, TypeScript und Build erfolgreich. Main-/Pages-Run [45585798727](https://github.com/BSchoepkeDev/unterrichtscockpit/actions/runs/45585798727) veröffentlichte Version 0.8.0 erfolgreich.
+- Echter iPad-Safari-/PWA-Praxistest steht noch aus.
 
 ## 0.7.0 – Entwicklungsstufe 7
 - Schriftliche Notizen erfassen, bearbeiten und löschen; Zuordnung zum wiederverwendbaren Plan, zur unabhängigen Durchführung oder optional zu einem Durchführungspunkt.
