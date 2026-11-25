@@ -1,6 +1,6 @@
-# Projektstatus – Entwicklungsstufe 9 / Version 0.9.0 (Entwicklung)
+# Projektstatus – Entwicklungsstufe 9 / Version 0.9.0 (veröffentlicht)
 
-Stand: 25.11.2026. Ausgangspunkt `3f62f17f5d434d174c959532531210e1becf9b83` (main, Version 0.8.1). Die Stufe-9-Implementierung befindet sich im Branch `feat/stage-9-backup-restore`; sie ist lokal erstellt, noch nicht als PR-CI oder Pages-Deploy verifiziert. Der vorhandene Stand `main` und die Produktionsversion wurden zu Beginn abgeglichen.
+Stand: 25.11.2026. Stufe 9 wurde in PR #16 gemergt und als Version 0.9.0 veröffentlicht. Produktiv: https://bschoepkedev.github.io/unterrichtscockpit/. Main-Commit: `c00f49f0705f3206abb668f296ae02fa1408b79c`; Live-Build-ID: `c00f49f`.
 
 ## Stufe 9 implementiert
 
@@ -10,19 +10,20 @@ Stand: 25.11.2026. Ausgangspunkt `3f62f17f5d434d174c959532531210e1becf9b83` (mai
 - Datensicherungsansicht mit Exportzeit, veraltetem Backup-Hinweis, Speicherquotenschätzung, verständlichem iPadOS-Downloadhinweis.
 - Formatdokumentation ergänzt. Es gibt keine Verschlüsselung; der Browser kann die dauerhafte Speicherung eines Downloads nicht verifizieren.
 
-## Verifizierte Prüfungen Stufe 9 (lokal)
+## Qualitätssicherung und Veröffentlichung Stufe 9
 
-- TypeScript-Prüfung erfolgreich.
-- 61/61 Unit-Tests erfolgreich, einschließlich Roundtrip von Plan, Durchführung/Snapshot, Notizen, Einstellungen, Originaldatei und Audiodaten sowie Prüfsummenfehler, inkompatible Version, Merge-Konflikte, Schutz aktiver Sitzungen und veralteter Vorschau.
-- Produktionsbuild, vollständiges Audit und Chromium-/WebKit-E2E stehen noch aus. CI/PR, Merge und Pages-Deploy sind noch nicht erfolgt.
-- iPadOS-Dateidialog, Downloadablage und Wiederherstellung in Dateien-App bleiben echte Geräteabnahme.
+- Lokal: TypeScript, 61/61 Unit-Tests, Produktionsbuild und `npm audit --audit-level=moderate` (0 Schwachstellen) erfolgreich.
+- PR-CI [Run 45596595161](https://github.com/BSchoepkeDev/unterrichtscockpit/actions/runs/45596595161) auf `a8677e0457a5f9d5cb2596cb6e10d2827e464bed`: Audit, TypeScript, 61/61 Unit-Tests, Produktionsbuild sowie Chromium-/WebKit-E2E erfolgreich.
+- PR #16 wurde am 25.11.2026 gemergt.
+- Main-/Pages-Lauf [45597064513](https://github.com/BSchoepkeDev/unterrichtscockpit/actions/runs/45597064513) auf `c00f49f0705f3206abb668f296ae02fa1408b79c`: vollständige CI und Deployment erfolgreich.
+- Produktionsseite geprüft: Version `0.9.0` · Build `c00f49f`.
+- iPadOS-Dateidialog, Downloadablage und Restore in der Dateien-App bleiben echte Geräteabnahme; auch die Praxisabnahme von Stufe 8 ist noch offen.
 
 ## Nächste konkrete Schritte
 
-1. Vollständige lokale CI-Prüfungen ausführen und gefundene Fehler korrigieren.
-2. PR erstellen, grüne CI abwarten, Review-Findings beheben, mergen und Main-/Pages-Deploy verifizieren.
-3. Auf echtem iPad Export nach „Dateien“, Restorevorschau, Merge und ausdrücklich bestätigtes Replace testen; Ergebnisse anschließend dokumentieren.
-4. Offen bleibt zusätzlich die iPad-Praxisabnahme von Stufe 8.
+1. Auf echtem iPad Safari und installierter PWA testen: Exportdatei in „Dateien“ ablegen und wieder auswählen, Vorschau prüfen, Merge durchführen, Replace nur nach ausdrücklicher Bestätigung prüfen.
+2. Zusätzlich bleibt die iPad-Praxisabnahme des PDF-Exports aus Stufe 8 offen.
+3. Danach Entwicklungsstufe 10 (Offline-Validierung und Bereitstellung) beginnen.
 
 ---
 
