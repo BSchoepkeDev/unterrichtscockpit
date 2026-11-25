@@ -1,6 +1,6 @@
 # Projektstatus – Entwicklungsstufe 8 / Version 0.8.0
 
-Stand: 25.11.2026. Ausgangspunkt ist `main` Commit `9ed646e7656653179e73452ab7e0de91d79c26f7`, Produktivversion 0.7.0. Ziel dieser Feature-Branch ist Stufe 8 (PDF-Export); Veröffentlichung und iPad-Abnahme sind noch offen.
+Stand: 25.11.2026. Entwicklungsstufe 8 ist in Version 0.8.0 gemergt und auf GitHub Pages veröffentlicht. Produktiv: https://bschoepkedev.github.io/unterrichtscockpit/. Verifizierter Code-Release-Commit: `e35aa5bd640246225d38114fbe3d479d93f50eed`.
 
 ## Stufe 8 umgesetzt
 
@@ -11,18 +11,28 @@ Stand: 25.11.2026. Ausgangspunkt ist `main` Commit `9ed646e7656653179e73452ab7e0
 - Download; PDF lokal im Browser öffnen und über die Druckfunktion des Browsers drucken; optionales Teilen über Web Share API mit Capability-Prüfung und verständlichem Fallback.
 - Tests: PDF-Varianten, Mehrseitigkeit, Umlaute, leerer Plan und Unverändertheit der Eingabedaten.
 
-## Qualitätssicherung Stufe 8 – lokal
+## Qualitätssicherung und Veröffentlichung Stufe 8
 
-- TypeScript erfolgreich; Unit-Suite: 56/56 Tests erfolgreich.
-- Produktionsbuild erfolgreich; Exportcode liegt in einem dynamischen Chunk mit 437 kB unkomprimiert / 181 kB gzip. Initialer Anwendungschunk: 464 kB / 144 kB gzip.
-- `npm audit --audit-level=moderate`: 0 Schwachstellen.
-- Neue Playwright-Fälle für Plan- und Durchführungsdownload hinzugefügt. Lokaler Browserlauf nicht ausführbar: Chromium- und WebKit-Binärdateien fehlen; die CI-Prüfung steht aus.
+- Lokal: TypeScript erfolgreich, 56/56 Unit-Tests, Produktionsbuild und Audit (0 Schwachstellen) erfolgreich. PDF-Export liegt in einem dynamischen Chunk (437 kB unkomprimiert / 181 kB gzip); der initiale Anwendungschunk umfasst 464 kB / 144 kB gzip.
+- PR-CI [Run 45585317152](https://github.com/BSchoepkeDev/unterrichtscockpit/actions/runs/45585317152) auf `49eb4cb73fc4d85c07063d36ef7358e5a0b94068`: Audit, TypeScript, Build, 56/56 Unit-Tests und 48/48 Chromium-/WebKit-E2E-Tests erfolgreich.
+- PR #12 wurde am 25.11.2026 gemergt. Main-/Pages-Lauf [45585798727](https://github.com/BSchoepkeDev/unterrichtscockpit/actions/runs/45585798727) auf `e35aa5bd640246225d38114fbe3d479d93f50eed`: vollständige CI und Pages-Deployment erfolgreich.
+- Die Live-Seite lieferte nach dem Deployment Version `0.8.0` und Build-ID `e35aa5b` aus.
+- Playwright lokal nicht ausführbar, da Chromium-/WebKit-Binärdateien fehlen; die 48 Browserfälle liefen erfolgreich in GitHub Actions.
 
 ## Noch offen für Stufe 8
 
-- Review und vollständige PR-CI einschließlich Chromium-/WebKit-E2E.
-- Merge, Main-/Pages-CI und Bestätigung des produktiven Deployments.
-- Echter iPad-Safari-/PWA-Test zu PDF-Erstellung, Anzeige, Download, Teilen/Drucken, langen Inhalten und Light-/Dark-Mode.
+- Echter iPad-Safari-/PWA-Test: kompakter/vollständiger Plan- und Durchführungsexport, Öffnen, Drucken/Teilen, lange Inhalte, Umlaute, Light-/Dark-Mode und unveränderte lokale Daten. Automatisierte WebKit-Tests ersetzen diese Geräteabnahme nicht.
+
+## Roadmap
+
+| Stufe | Umfang | Status |
+|---|---|---|
+| 1–7 | PWA, Bibliothek, Cockpit, Timer, Sitzungen, Import, Notizen | abgeschlossen |
+| 8 | PDF-Export | veröffentlicht; iPad-Abnahme offen |
+| 9 | Datensicherung und Wiederherstellung | offen |
+| 10 | Offline-Validierung und Bereitstellung / MVP-Abschluss | offen |
+| 11 | Längere Audioaufnahmen | offen |
+| 12 | Abschließende Qualitätssicherung | offen |
 
 ---
 

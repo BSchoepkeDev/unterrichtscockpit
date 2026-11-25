@@ -69,5 +69,6 @@ Der Ausgangsstand `95b4dc3` hatte am 25.11.2026 einen erfolgreichen Main-/Pages-
 ## Stufe 8 – PDF-Export
 
 - Unit-Tests bauen PDF-Dateien für kompakte/vollständige Pläne sowie Durchführungen, laden die Ergebnisse erneut mit `pdf-lib` und prüfen, dass Quelldaten unverändert bleiben. Zusätzliche Fälle decken Umlaute, lange Inhalte mit Seitenumbruch und den leeren Plan ab.
-- Playwright deckt kompakten Download aus der Bibliothek und Durchführungsdownload aus dem Cockpit ab. Web Share, Browser-PDF-Druckoberflächen und echtes iPad-Verhalten müssen zusätzlich in CI beziehungsweise am Gerät geprüft werden.
-- Ein echter iPad-Test und produktive Veröffentlichung sind zum jetzigen Stand noch offen.
+- Playwright deckt kompakten Download aus der Bibliothek sowie Snapshot-/Durchführungswahl und Durchführungsdownload aus dem Cockpit ab. PR-CI [Run 45585317152](https://github.com/BSchoepkeDev/unterrichtscockpit/actions/runs/45585317152) bestand mit 48/48 Chromium-/WebKit-E2E-Tests, 56/56 Unit-Tests, TypeScript, Build und Audit (0 Schwachstellen).
+- Main-/Pages-Lauf [45585798727](https://github.com/BSchoepkeDev/unterrichtscockpit/actions/runs/45585798727) bestätigte die vollständige CI und das Deployment. Die Live-Seite lieferte Version 0.8.0 / Build `e35aa5b`.
+- Der reale iPad-Test bleibt offen; automatisierte WebKit-Prüfungen decken weder native Druck-/Teilen-Dialoge noch iPadOS-PWA-Verhalten ab.
