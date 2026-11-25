@@ -13,7 +13,7 @@ Stand: 25.11.2026. Ausgangspunkt `3f62f17f5d434d174c959532531210e1becf9b83` (mai
 ## Verifizierte Prüfungen Stufe 9 (lokal)
 
 - TypeScript-Prüfung erfolgreich.
-- 60/60 Unit-Tests erfolgreich, einschließlich Roundtrip von Plan, Durchführung/Snapshot, Notizen, Einstellungen, Originaldatei und Audiodaten sowie Prüfsummenfehler, inkompatible Version, Merge-Konflikte und Schutz aktiver Sitzungen.
+- 61/61 Unit-Tests erfolgreich, einschließlich Roundtrip von Plan, Durchführung/Snapshot, Notizen, Einstellungen, Originaldatei und Audiodaten sowie Prüfsummenfehler, inkompatible Version, Merge-Konflikte, Schutz aktiver Sitzungen und veralteter Vorschau.
 - Produktionsbuild, vollständiges Audit und Chromium-/WebKit-E2E stehen noch aus. CI/PR, Merge und Pages-Deploy sind noch nicht erfolgt.
 - iPadOS-Dateidialog, Downloadablage und Wiederherstellung in Dateien-App bleiben echte Geräteabnahme.
 

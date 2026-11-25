@@ -38,7 +38,7 @@ function validate(data: BackupData) {
   for (const setting of data.settings) if (setting.id !== 'settings' || !['system', 'light', 'dark'].includes(setting.theme) || !Array.isArray(setting.phases) || !Number.isInteger(setting.yellowSeconds) || !Number.isInteger(setting.redSeconds) || setting.yellowSeconds < 0 || setting.redSeconds <= setting.yellowSeconds) throw new Error('Die Einstellungen im Backup sind ungültig.');
 }
 export async function createBackup(database: Database = db) {
-  const [plans, sessions, notes, attachments, audio, settings] = await Promise.all([database.plans.toArray(), database.sessions.toArray(), database.notes.toArray(), database.attachments.toArray(), database.audio.toArray(), database.settings.toArray()]);
+  const [plans, sessions, notes, attachments, audio, settings] = await database.transaction('r', [database.plans, database.sessions, database.notes, database.attachments, database.audio, database.settings], () => Promise.all([database.plans.toArray(), database.sessions.toArray(), database.notes.toArray(), database.attachments.toArray(), database.audio.toArray(), database.settings.toArray()]));
   const createdAt = new Date().toISOString(); const settingsSnapshot = settings.length ? settings.map(row => ({ ...row, lastBackup: createdAt })) : [{ ...defaults, lastBackup: createdAt }];
   const data: BackupData = { plans, sessions, notes, attachments: attachments.map(a => ({ ...a, data: toBase64(a.data) })), audio, settings: settingsSnapshot };
   const payload = canonical(data); const backup: BackupFile = { format: BACKUP_FORMAT, version: BACKUP_VERSION, createdAt, appVersion: __APP_VERSION__, counts: Object.fromEntries(stores.map(k => [k, data[k].length])) as BackupFile['counts'], checksum: await digest(payload), data };
@@ -64,12 +64,21 @@ export async function previewRestore(backup: BackupFile, mode: RestoreMode, data
   }
   return { mode, ...counts, activeSessions: await database.sessions.where('status').anyOf('active', 'paused').count() };
 }
-export async function restoreBackup(backup: BackupFile, mode: RestoreMode, policy: ConflictPolicy, database: Database = db) {
+export async function restoreBackup(backup: BackupFile, mode: RestoreMode, policy: ConflictPolicy, database: Database = db, expectedPreview?: RestorePreview) {
   validate(backup.data); const preview = await previewRestore(backup, mode, database);
   if (preview.activeSessions) throw new Error('Wiederherstellung ist während einer laufenden oder pausierten Durchführung gesperrt.');
   if (mode === 'merge' && preview.conflicts && !policy) throw new Error('Für ID-Konflikte muss eine Behandlung gewählt werden.');
   await database.transaction('rw', [database.plans, database.sessions, database.notes, database.attachments, database.audio, database.settings, database.locks], async () => {
     if (await database.sessions.where('status').anyOf('active', 'paused').count()) throw new Error('Wiederherstellung ist während einer laufenden oder pausierten Durchführung gesperrt.');
+    const currentPreview: RestorePreview = { mode, additions: 0, duplicates: 0, conflicts: 0, removals: 0, activeSessions: 0 };
+    for (const key of stores) {
+      const existing = await database.table(key).toArray() as Array<{ id: string }>;
+      const incoming = backup.data[key] as Array<{ id: string }>;
+      const byId = new Map(existing.map(row => [row.id, row])); const incomingIds = new Set(incoming.map(row => row.id));
+      for (const row of incoming) { const old = byId.get(row.id); if (!old) currentPreview.additions++; else if (sameRecord(key, old, row)) currentPreview.duplicates++; else currentPreview.conflicts++; }
+      if (mode === 'replace') currentPreview.removals += existing.filter(row => !incomingIds.has(row.id)).length;
+    }
+    if (expectedPreview && ['additions', 'duplicates', 'conflicts', 'removals'].some(key => currentPreview[key as keyof RestorePreview] !== expectedPreview[key as keyof RestorePreview])) throw new Error('Der Datenbestand hat sich seit der Vorschau geändert. Lade die Sicherungsdatei erneut, um eine aktuelle Vorschau zu erhalten.');
     for (const key of stores) {
       const table = database.table(key); const incoming = backup.data[key] as Array<Record<string, unknown>>;
       if (mode === 'replace') await table.clear();

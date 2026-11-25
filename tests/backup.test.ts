@@ -36,4 +36,9 @@ test('aktive Durchführung sperrt Wiederherstellung ohne bestehende Daten zu ver
   const { backup } = await createBackup(database); const before = await database.plans.toArray(); await expect(restoreBackup(backup, 'replace', 'keep-existing', database)).rejects.toThrow('laufenden'); expect(await database.plans.toArray()).toEqual(before);
 }));
 
+test('geänderte Daten seit der Vorschau verhindern veraltetes Replace', async () => withDb(async database => {
+  const { backup } = await createBackup(database); const preview = await previewRestore(backup, 'replace', database); const plan = examples()[0]; await database.plans.add(plan);
+  await expect(restoreBackup(backup, 'replace', 'keep-existing', database, preview)).rejects.toThrow('seit der Vorschau geändert'); expect(await database.plans.get(plan.id)).toEqual(plan);
+}));
+
 async function digestBackup(backup: BackupFile) { const json = JSON.stringify(backup.data); const hash = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(json)); return [...new Uint8Array(hash)].map(x => x.toString(16).padStart(2, '0')).join(''); }
