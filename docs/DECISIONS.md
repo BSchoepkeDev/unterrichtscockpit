@@ -41,3 +41,11 @@
 32. Anhänge bleiben nach Planlöschung erhalten, damit Session-Snapshots nicht auf nicht mehr vorhandene Dateien zeigen. Anhänge werden beim Duplizieren eines Plans nicht automatisch kopiert.
 
 33. Der Audit-Fund `GHSA-hq66-cqwq-w95j` in PDF.js 5.x wird durch Upgrade auf 6.2.108 behoben; der abschließende lokale Audit meldet 0 Schwachstellen.
+
+## Stufe 7
+34. Das bereits angelegte `LessonNote`-Modell und IndexedDB-Schema v1 werden verwendet; keine parallelen Notizfelder und keine Migration.
+35. Plannotizen gehören zur stabilen Plan-ID; Durchführungsnotizen gehören zur Session-ID und optional zu einer Execution-ID. Eine Notiz darf nur dann gespeichert werden, wenn Referenzen existieren und zusammengehören.
+36. Notizen für beendete Sitzungen sind schreibgeschützt. Notizänderungen schreiben niemals in `snapshot`, `original` oder `adjusted` und verändern keine Timerintervalle.
+37. Das normale Textfeld mit iPadOS-Tastaturdiktat ist der verlässliche Sprachpfad. Browser-Spracherkennung ist optional, wird feature-detected und startet nur nach explizitem Tippen.
+38. Keine eigene Speech-API und keine Behauptung lokaler Browser-Audioverarbeitung. Die UI informiert darüber, dass der Browser einen Online-Dienst nutzen kann; Berechtigung wird erst beim Start durch den Browser angefordert.
+39. Lange Audioaufnahmen bleiben Stufe 11. Stufe 7 speichert nur den vom Nutzer bestätigten Textentwurf.

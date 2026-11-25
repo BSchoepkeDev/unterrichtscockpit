@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.7.0 – Entwicklungsstufe 7
+- Schriftliche Notizen erfassen, bearbeiten und löschen; Zuordnung zum wiederverwendbaren Plan, zur unabhängigen Durchführung oder optional zu einem Durchführungspunkt.
+- Speicherung über das vorhandene `LessonNote`-Modell in IndexedDB; Schema v1 bleibt erhalten. Sitzungsnotizen verändern weder Plansnapshot noch abgeschlossene Historie.
+- Diktierfreundliche Textfelder unterstützen iPadOS-Tastaturdiktat ohne Browser-Spracherkennungs-API.
+- Optionale Browser-Spracherkennung erscheint nur bei erkannter API und startet erst nach aktivem Druck. Start/Stop, Zwischen- und Endergebnisse, verweigerte Berechtigungen, fehlende Dienste und Abbruch werden behandelt.
+- Datenschutztext weist darauf hin, dass Spracherkennung browserabhängig online verarbeitet werden kann. Es wird keine lokale Audioverarbeitung behauptet.
+- Tests für Zuordnung, Reload-Persistenz, Plan-/Sitzungstrennung, Timerunabhängigkeit, schreibgeschützte Historie und Browser-End-to-End-Ablauf ergänzt.
+- Produktionsbuild, Unit-/Browser-Tests, Audit, PR-CI, Merge und Deployment werden nach Abschluss dokumentiert.
+
+## 0.6.2 – Safari-Folgekorrektur
+- PDF.js-Textstreams für iPadOS Safari mit `getReader()` statt AsyncIterator auslesen.
+- Nutzer bestätigte den PDF-Import anschließend auf dem iPad als funktionierend.
+
+## 0.6.1 – OCR-Folgekorrektur
+- OCR optional auch auf Seiten mit vorhandener PDF-Textebene ausführen, damit Text in eingebetteten Bildern erkannt wird.
+- Downloadbare Importvorlage mit erwarteten Feldnamen ergänzt.
+
+
 ## 0.6.0 – Entwicklungsstufe 6 (veröffentlicht)
 - Lokaler Import aus PDF, TXT, Markdown, CSV oder eingefügtem Text; PDF.js und deutsche Tesseract-OCR werden selbst gehostet.
 - PDF-Seiten mit Textebene, Scans und gemischte PDFs werden seitenweise verarbeitet; Fortschritt und Abbruch sind verfügbar.
