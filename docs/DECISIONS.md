@@ -51,3 +51,11 @@
 39. Lange Audioaufnahmen bleiben Stufe 11. Stufe 7 speichert nur den vom Nutzer bestätigten Textentwurf.
 40. Wird ein Unterrichtspunkt entfernt, bleibt die verknüpfte Plannotiz erhalten und wird in eine allgemeine Plannotiz umgewandelt. Planänderung und Notizbereinigung erfolgen gemeinsam.
 41. Die App kann nicht verlässlich erkennen, ob Text über die iPadOS-Tastatur diktiert oder eingegeben wurde. Die Herkunft wird nicht geraten; `dictated` kennzeichnet nur explizit verwendete direkte Browser-Spracherkennung.
+
+
+## Stufe 8
+42. PDF-Erzeugung erfolgt vollständig clientseitig aus den bereits lokal gespeicherten Daten; kein Upload, keine Telemetrie und kein Exportdienst.
+43. `pdf-lib` bleibt Laufzeitabhängigkeit, wird jedoch dynamisch geladen, um den initialen App-Chunk klein zu halten.
+44. Standard-PDF-Schriften unterstützen deutsche Umlaute. Nicht unterstützte Codepoints werden sichtbar durch `?` ersetzt statt den gesamten Export scheitern zu lassen.
+45. Web Share ist eine optionale Ergänzung. Herunterladen und Öffnen/Drucken funktionieren unabhängig davon.
+46. Exporte sind reine Lesevorgänge; Plan, Plansnapshot, Sitzung, Timer und Notizen bleiben unverändert.

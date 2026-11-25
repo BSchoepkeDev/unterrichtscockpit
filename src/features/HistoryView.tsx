@@ -4,6 +4,7 @@ import {db} from '../database';
 import type {LessonItem} from '../models';
 import {historySummary,listSessions} from './cockpitRepository';
 import {updateLessonPlan} from './lessonRepository';
+import {PdfExportControl} from './PdfExportControl';
 
 function itemChanged(original:LessonItem|undefined,adjusted:LessonItem){if(!original)return true;const keys=new Set([...Object.keys(original),...Object.keys(adjusted)] as (keyof LessonItem)[]);return [...keys].some(key=>original[key]!==adjusted[key]||Object.hasOwn(original,key)!==Object.hasOwn(adjusted,key));}
 
@@ -71,7 +72,7 @@ export function HistoryView({onOpen}:{onOpen:(id:string)=>void}){
       {s.durationAdjusted&&s.adjustedDurationSeconds!==s.snapshot.durationSeconds&&<label className="history-choice"><input type="checkbox" checked={(selected[s.id]??[]).includes('__total_duration__')} onChange={e=>choice(s.id,'__total_duration__',e.target.checked)}/>Angepasste Gesamtdauer übernehmen</label>}
       <button disabled={!selected[s.id]?.length} onClick={()=>void adopt(s.id)}>Ausgewählte Änderungen in Plan übernehmen</button>
      </>}
-     <div className="card-actions"><button onClick={()=>onOpen(s.id)}>Im Cockpit öffnen</button><button className="danger" disabled={s.status!=='ended'} onClick={()=>void remove(s.id,s.snapshot.title)}>Durchführung löschen …</button></div>
+     <div className="card-actions"><PdfExportControl plan={s.snapshot} session={s} label="Durchführung als PDF"/><button onClick={()=>onOpen(s.id)}>Im Cockpit öffnen</button><button className="danger" disabled={s.status!=='ended'} onClick={()=>void remove(s.id,s.snapshot.title)}>Durchführung löschen …</button></div>
     </>}
    </article>;
   })}

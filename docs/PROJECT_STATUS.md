@@ -1,4 +1,32 @@
-# Projektstatus – Entwicklungsstufe 7 / Version 0.7.0
+# Projektstatus – Entwicklungsstufe 8 / Version 0.8.0
+
+Stand: 25.11.2026. Ausgangspunkt ist `main` Commit `9ed646e7656653179e73452ab7e0de91d79c26f7`, Produktivversion 0.7.0. Ziel dieser Feature-Branch ist Stufe 8 (PDF-Export); Veröffentlichung und iPad-Abnahme sind noch offen.
+
+## Stufe 8 umgesetzt
+
+- PDF-Export für Plan und konkrete Durchführung, jeweils kompakt oder vollständig, aus Bibliothek, Cockpit und Historie.
+- Lokale Erzeugung mit `pdf-lib`; die Bibliothek wird erst beim Öffnen der Exportfunktion dynamisch geladen.
+- Berücksichtigt Planmetadaten, Ziele, geordnete Punkte, vollständige Punktfelder, Snapshot und Anpassungen, Status, Soll-/Ist-Zeiten, Pausen, Änderungsverlauf sowie optionale Plan-/Punkt-/Sitzungsnotizen.
+- Umbruch langer Inhalte, Seitennummerierung, Exportzeit und Titel in Fußzeilen. Keine Schreibzugriffe auf Plan, Sitzung oder IndexedDB.
+- Download; PDF lokal im Browser öffnen und über die Druckfunktion des Browsers drucken; optionales Teilen über Web Share API mit Capability-Prüfung und verständlichem Fallback.
+- Tests: PDF-Varianten, Mehrseitigkeit, Umlaute, leerer Plan und Unverändertheit der Eingabedaten.
+
+## Qualitätssicherung Stufe 8 – lokal
+
+- TypeScript erfolgreich; Unit-Suite: 56/56 Tests erfolgreich.
+- Produktionsbuild erfolgreich; Exportcode liegt in einem dynamischen Chunk mit 437 kB unkomprimiert / 181 kB gzip. Initialer Anwendungschunk: 464 kB / 144 kB gzip.
+- `npm audit --audit-level=moderate`: 0 Schwachstellen.
+- Neue Playwright-Fälle für Plan- und Durchführungsdownload hinzugefügt. Lokaler Browserlauf nicht ausführbar: Chromium- und WebKit-Binärdateien fehlen; die CI-Prüfung steht aus.
+
+## Noch offen für Stufe 8
+
+- Review und vollständige PR-CI einschließlich Chromium-/WebKit-E2E.
+- Merge, Main-/Pages-CI und Bestätigung des produktiven Deployments.
+- Echter iPad-Safari-/PWA-Test zu PDF-Erstellung, Anzeige, Download, Teilen/Drucken, langen Inhalten und Light-/Dark-Mode.
+
+---
+
+## Vorheriger Stand: Entwicklungsstufe 7 / Version 0.7.0
 
 Stand: 25.11.2026. Ausgangspunkt `95b4dc325becbb613a2b77a730c329c69261849e` (Version 0.6.2); die CI und das Pages-Deployment dieses Ausgangsstands waren erfolgreich. Produktiv: https://bschoepkedev.github.io/unterrichtscockpit/.
 
@@ -39,4 +67,4 @@ Stand: 25.11.2026. Ausgangspunkt `95b4dc325becbb613a2b77a730c329c69261849e` (Ver
 ## Nächste Schritte
 
 1. Auf dem 10–11-Zoll-iPad Textfeld, Tastaturdiktat, Notizzuordnungen, Reload während des Timers sowie Verhalten ohne verfügbare direkte Spracherkennung abnehmen.
-2. Nach der Geräteabnahme Stufe 8 (PDF-Export) beginnen.
+2. Nach der iPad-Abnahme von Stufe 8 Stufe 9 (Datensicherung und Wiederherstellung) beginnen.

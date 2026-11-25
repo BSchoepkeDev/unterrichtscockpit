@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.8.0 – Entwicklungsstufe 8 (PDF-Export)
+- Unterrichtspläne aus Bibliothek und Cockpit lokal als PDF exportieren: kompakte Übersicht oder vollständige Planung.
+- Konkrete Durchführungen aus Cockpit und Historie exportieren. Der Export unterscheidet den ursprünglichen Plansnapshot vom aktuellen Sitzungsstand und führt Punktstatus, spontane Änderungen, Soll-/Ist-Zeiten, Pausen und sitzungsbezogene Notizen auf.
+- Plan- und Punktnotizen können ein- oder ausgeschlossen werden. PDF-Seiten erhalten Exportzeit, Titel und Seitennummerierung; lange Inhalte werden umbrochen.
+- Herunterladen funktioniert ohne externe Dienste; Drucken öffnet die PDF lokal im Browser. Teilen wird optional über die Web Share API mit Feature Detection angeboten.
+- `pdf-lib` ist Laufzeitabhängigkeit, wird aber erst beim Öffnen der Exportaktion dynamisch geladen. IndexedDB-Daten werden beim Export nur gelesen.
+- Automatisierte Prüfungen decken Plan-/Durchführungsvarianten, Umlaute, lange Texte, Mehrseitigkeit und unveränderte Eingabedaten ab.
+
 ## 0.7.0 – Entwicklungsstufe 7
 - Schriftliche Notizen erfassen, bearbeiten und löschen; Zuordnung zum wiederverwendbaren Plan, zur unabhängigen Durchführung oder optional zu einem Durchführungspunkt.
 - Speicherung über das vorhandene `LessonNote`-Modell in IndexedDB; Schema v1 bleibt erhalten. Sitzungsnotizen verändern weder Plansnapshot noch abgeschlossene Historie.
