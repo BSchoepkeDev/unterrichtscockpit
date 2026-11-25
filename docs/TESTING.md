@@ -64,3 +64,10 @@ Der Ausgangsstand `95b4dc3` hatte am 25.11.2026 einen erfolgreichen Main-/Pages-
 - Main-/Pages-CI [Run 45572532166](https://github.com/BSchoepkeDev/unterrichtscockpit/actions/runs/45572532166) auf `4e6c50a32625f3d4939526e993a2c77cbe3ce78c`: Audit ohne Schwachstellen, TypeScript, Build, 50/50 Unit-Tests, 44/44 Chromium-/WebKit-E2E-Tests und GitHub-Pages-Deployment erfolgreich.
 - Die Produktionsseite lieferte anschließend ein JavaScript-Bundle mit `0.7.0` und Build-ID `4e6c50a` aus.
 - Playwright lokal nicht ausführbar: Browser-Binärdateien fehlten; `npx playwright install chromium webkit` wurde von `cdn.playwright.dev` mit HTTP 403 abgewiesen. Der lokale E2E-Lauf ist nicht als bestanden zu werten. Die Browserprüfungen liefen erfolgreich in GitHub Actions.
+
+
+## Stufe 8 – PDF-Export
+
+- Unit-Tests bauen PDF-Dateien für kompakte/vollständige Pläne sowie Durchführungen, laden die Ergebnisse erneut mit `pdf-lib` und prüfen, dass Quelldaten unverändert bleiben. Zusätzliche Fälle decken Umlaute, lange Inhalte mit Seitenumbruch und den leeren Plan ab.
+- Playwright deckt kompakten Download aus der Bibliothek und Durchführungsdownload aus dem Cockpit ab. Web Share, Browser-PDF-Druckoberflächen und echtes iPad-Verhalten müssen zusätzlich in CI beziehungsweise am Gerät geprüft werden.
+- Ein echter iPad-Test und produktive Veröffentlichung sind zum jetzigen Stand noch offen.
