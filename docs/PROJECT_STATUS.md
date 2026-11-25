@@ -81,7 +81,7 @@ Plannotizen können gezielt einem Punkt des aktuellen, wiederverwendbaren Plans 
 |---|---|---|
 | 1–7 | PWA, Bibliothek, Cockpit, Timer, Sitzungen, Import, Notizen | abgeschlossen |
 | 8 | PDF-Export | veröffentlicht; iPad-Abnahme offen |
-| 9 | Datensicherung und Wiederherstellung | offen |
+| 9 | Datensicherung und Wiederherstellung | veröffentlicht; iPad-Abnahme offen |
 | 10 | Offline-Validierung und Bereitstellung / MVP-Abschluss | in Arbeit |
 | 11 | Längere Audioaufnahmen | offen |
 | 12 | Abschließende Qualitätssicherung | offen |
