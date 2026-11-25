@@ -27,4 +27,4 @@ Die Dateiauswahl der Sicherungswiederherstellung filtert Dateien nicht mehr nach
 
 ## Weiterentwicklung
 
-Der aktuelle Release ist Version 1.0.0. Neue Funktionen folgen bei Bedarf über den Ablauf im [Abschlussprotokoll](FINAL_HANDOFF_VERSION_1.0.md).
+Der aktuelle Release ist Version 1.0.1. Neue Funktionen folgen bei Bedarf über den Ablauf im [Abschlussprotokoll](FINAL_HANDOFF_VERSION_1.0.md).
