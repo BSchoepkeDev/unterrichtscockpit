@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.9.1 – Offline-Update-Prüfung
+- Versions- und Buildkennung angehoben, damit installierte PWA-Clients eine neue Fassung erkennen und den Update-Hinweis anzeigen.
+- Keine Änderung am Datenbankschema oder an gespeicherten Daten; diese Version dient der praktischen Prüfung des Updateablaufs auf dem iPad.
+
 ## Unveröffentlicht – Stufe 10 begonnen
 - Offline-Status prüft App-Shell, aktuelle Einstiegsskripte/-Styles und lokale OCR-Ressourcen im Workbox-Precache. Der Status unterscheidet Prüfung, bestätigte Offline-Grundfunktionen und unvollständige Vorbereitung sowie den Browser-Netzstatus.
 - Ergänzt Hinweise zur Offline-Einrichtung und Installation auf iPad/Desktop sowie zur Verfügbarkeit lokaler Daten und netzabhängiger Funktionen.
