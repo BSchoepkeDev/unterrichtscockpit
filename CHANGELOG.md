@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.9.0 – Entwicklungsstufe 9 (Datensicherung und Wiederherstellung)
+- Vollständiger lokaler Sicherungsexport als versionierte JSON-Datei `.ucbackup`, mit Manifest und SHA-256-Prüfsumme. Enthalten sind Pläne, Sitzungen und Snapshots, Notizen, Einstellungen, Originaldateien sowie Audio-Metadaten und Audiodateien.
+- Wiederherstellung prüft Dateigröße, Kennung, Formatversion, Manifest, Prüfsumme, Datensatz-IDs und Referenzen vor dem Schreiben.
+- Vorschau zeigt neue Einträge, identische Duplikate, ID-Konflikte und beim Ersetzen entfallende Datensätze. Zusammenführen unterstützt eine gewählte Konfliktregel; Ersetzen und Zusammenführen brauchen ausdrückliche Bestätigung.
+- Änderungen werden atomar transaktional geschrieben. Aktive oder pausierte Durchführungen sperren Restore; Abbruch und Fehler erhalten den bisherigen Datenbestand.
+- Exportdatum, Sieben-Tage-Hinweis und Browser-Speicherquote (sofern verfügbar) werden in der Datensicherungsansicht angezeigt. Der Download kann auf iPadOS in „Dateien“ geprüft und dort abgelegt werden.
+- Dokumentation des Formats und seiner Grenzen ergänzt. iPadOS-Dateiauswahl, Download und Dateien-App müssen noch auf einem echten iPad abgenommen werden.
+
 ## 0.8.1 – Zuordnung von Plannotizen
 - Korrigiert die Zuordnung von Plannotizen zu Unterrichtspunkten: Auswahl und Validierung verwenden jetzt die Punkt-ID des wiederverwendbaren Plans, nicht die separate ID der Durchführung.
 - Planpunktbezogene Notizen werden mit ihrem Punktnamen angezeigt und bleiben von sitzungsbezogenen Notizen getrennt.

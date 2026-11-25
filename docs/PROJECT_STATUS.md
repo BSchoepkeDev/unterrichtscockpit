@@ -1,4 +1,32 @@
-# Projektstatus – Entwicklungsstufe 8 / Version 0.8.1
+# Projektstatus – Entwicklungsstufe 9 / Version 0.9.0 (Entwicklung)
+
+Stand: 25.11.2026. Ausgangspunkt `3f62f17f5d434d174c959532531210e1becf9b83` (main, Version 0.8.1). Die Stufe-9-Implementierung befindet sich im Branch `feat/stage-9-backup-restore`; sie ist lokal erstellt, noch nicht als PR-CI oder Pages-Deploy verifiziert. Der vorhandene Stand `main` und die Produktionsversion wurden zu Beginn abgeglichen.
+
+## Stufe 9 implementiert
+
+- Lokales, versioniertes JSON-Backup mit SHA-256, Zeitstempel, Manifest und Datensatzanzahlen; enthalten sind alle persistenten Tabellen und Binäranhänge.
+- Validierung von Datei, Formatversion, Prüfsumme, Plan-Schemas, IDs und Kernreferenzen; Größenlimit 100 MB.
+- Wiederherstellung mit Vorschau, Merge/Replace, Duplikatbehandlung, wählbarem ID-Konfliktverhalten und expliziter Bestätigung. Tabellenupdates sind transaktional; aktive/pausierte Sitzungen sperren Restore.
+- Datensicherungsansicht mit Exportzeit, veraltetem Backup-Hinweis, Speicherquotenschätzung, verständlichem iPadOS-Downloadhinweis.
+- Formatdokumentation ergänzt. Es gibt keine Verschlüsselung; der Browser kann die dauerhafte Speicherung eines Downloads nicht verifizieren.
+
+## Verifizierte Prüfungen Stufe 9 (lokal)
+
+- TypeScript-Prüfung erfolgreich.
+- 60/60 Unit-Tests erfolgreich, einschließlich Roundtrip von Plan, Durchführung/Snapshot, Notizen, Einstellungen, Originaldatei und Audiodaten sowie Prüfsummenfehler, inkompatible Version, Merge-Konflikte und Schutz aktiver Sitzungen.
+- Produktionsbuild, vollständiges Audit und Chromium-/WebKit-E2E stehen noch aus. CI/PR, Merge und Pages-Deploy sind noch nicht erfolgt.
+- iPadOS-Dateidialog, Downloadablage und Wiederherstellung in Dateien-App bleiben echte Geräteabnahme.
+
+## Nächste konkrete Schritte
+
+1. Vollständige lokale CI-Prüfungen ausführen und gefundene Fehler korrigieren.
+2. PR erstellen, grüne CI abwarten, Review-Findings beheben, mergen und Main-/Pages-Deploy verifizieren.
+3. Auf echtem iPad Export nach „Dateien“, Restorevorschau, Merge und ausdrücklich bestätigtes Replace testen; Ergebnisse anschließend dokumentieren.
+4. Offen bleibt zusätzlich die iPad-Praxisabnahme von Stufe 8.
+
+---
+
+## Historischer Stand: Entwicklungsstufe 8 / Version 0.8.1
 
 Stand: 25.11.2026. Entwicklungsstufe 8 ist in Version 0.8.0 veröffentlicht; die Korrektur der Plannotiz-Zuordnung ist als Version 0.8.1 ebenfalls gemergt und veröffentlicht. Produktiv: https://bschoepkedev.github.io/unterrichtscockpit/. Verifizierter Code-Release-Commit: `e35aa5bd640246225d38114fbe3d479d93f50eed`.
 

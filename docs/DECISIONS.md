@@ -59,3 +59,11 @@
 44. Standard-PDF-Schriften unterstützen deutsche Umlaute. Nicht unterstützte Codepoints werden sichtbar durch `?` ersetzt statt den gesamten Export scheitern zu lassen.
 45. Web Share ist eine optionale Ergänzung. Herunterladen und Öffnen/Drucken funktionieren unabhängig davon.
 46. Exporte sind reine Lesevorgänge; Plan, Plansnapshot, Sitzung, Timer und Notizen bleiben unverändert.
+
+## Stufe 9: Sicherung und Wiederherstellung
+47. Backup-Format v1 ist eine JSON-Datei mit `.ucbackup`-Endung statt ZIP. Damit entfällt entpackbarer Pfadinhalt; Binärdateien werden Base64-kodiert. Gesamtgröße maximal 100 MB für mobile Geräte.
+48. Der SHA-256-Hash deckt die serialisierten Nutzdaten ab und dient der Integritätsprüfung, nicht als digitale Signatur oder Schutz vor gezielter Manipulation.
+49. Export umfasst alle dauerhaften Tabellen (`plans`, `sessions`, `notes`, `attachments`, `audio`, `settings`); `locks` sind flüchtig und werden nicht exportiert. Schema v1 bleibt unverändert.
+50. Identische IDs und Inhalte werden beim Merge übersprungen. Abweichende Datensätze gleicher ID erhalten eine klare globale Auswahl: vorhandene Version behalten oder Backup-Version verwenden. Replace ist ein eigener, ausdrücklich bestätigter Modus.
+51. Vorprüfung und Referenzvalidierung erfolgen vor der IndexedDB-Transaktion; alle Tabellen werden atomar geschrieben. Laufende und pausierte Sitzungen verhindern Restore.
+52. Der Zeitpunkt markiert einen erzeugten und zum Download angebotenen Export, nicht den verifizierten dauerhaften Dateispeicher. Safari kann den Abschluss in „Dateien“ nicht rückmelden; die Oberfläche benennt diese Grenze.
