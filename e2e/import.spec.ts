@@ -53,7 +53,15 @@ test('Abbruch und ungültige PDF-Datei speichern keinen Plan',async({page})=>{
 });
 
 test('deutsche OCR-Ressourcen bleiben nach PWA-Einrichtung offline verfügbar',async({page})=>{
- test.setTimeout(90_000);await page.goto('./');await page.evaluate(async()=>{await navigator.serviceWorker.ready;});await page.reload();await page.context().setOffline(true);
+ test.setTimeout(90_000);await page.goto('./');await page.evaluate(async()=>{await navigator.serviceWorker.ready;});await expect(page.getByTestId('offline-status')).toContainText('Offline-Grundfunktionen vorbereitet');await page.reload();await expect(page.getByTestId('offline-status')).toContainText('Offline-Grundfunktionen vorbereitet');await page.context().setOffline(true);await expect(page.getByTestId('offline-status')).toContainText('Offlinebetrieb');
  const statuses=await page.evaluate(async()=>Promise.all(['./tessdata/deu.traineddata.gz','./ocr/tesseract-core-lstm.wasm','./ocr/tesseract-core-simd-lstm.wasm','./ocr/tesseract.worker.min.js'].map(async path=>(await fetch(path)).status)));
- expect(statuses).toEqual([200,200,200,200]);await page.reload();await expect(page.getByRole('heading',{name:'Bibliothek',level:2})).toBeVisible();
+ expect(statuses).toEqual([200,200,200,200]);await page.reload();await expect(page.getByRole('heading',{name:'Bibliothek',level:2})).toBeVisible();await expect(page.getByTestId('offline-status')).toContainText('Offlinebetrieb');
+});
+
+test('Erstaufruf ohne eingerichteten Offline-Cache benötigt eine Verbindung',async({page})=>{
+ await page.context().setOffline(true);
+ let navigationError='';
+ try{await page.goto('./');}catch(error){navigationError=error instanceof Error?error.message:String(error);}
+ expect(navigationError).not.toBe('');
+ expect(navigationError).toMatch(/navigation|failed|error|network|offline|disconnected/i);
 });

@@ -1,5 +1,11 @@
 # Changelog
 
+## Unveröffentlicht – Stufe 10 begonnen
+- Offline-Status prüft App-Shell, aktuelle Einstiegsskripte/-Styles und lokale OCR-Ressourcen im Workbox-Precache. Der Status unterscheidet Prüfung, bestätigte Offline-Grundfunktionen und unvollständige Vorbereitung sowie den Browser-Netzstatus.
+- Ergänzt Hinweise zur Offline-Einrichtung und Installation auf iPad/Desktop sowie zur Verfügbarkeit lokaler Daten und netzabhängiger Funktionen.
+- Update-Hinweis verlangt eine ausdrückliche Aktion und erläutert das Wiederaufnehmen lokaler Durchführungen nach dem Neuladen.
+- Offline-E2E-Prüfung um Status nach Reload, Netzverlust und Neustart, Offline-Planbearbeitung, Notiz-/Timerpersistenz sowie Erstaufruf ohne Cache erweitert. PR-CI [Run 45634413776](https://github.com/BSchoepkeDev/unterrichtscockpit/actions/runs/45634413776) bestand mit 62/62 Unit- und 56/56 Chromium-/WebKit-E2E-Tests, Audit, Typprüfung und Build. Update-/Cache-Wechsel- und Geräteabnahme stehen aus.
+
 ## 0.9.0 – Entwicklungsstufe 9 (Datensicherung und Wiederherstellung)
 - Vollständiger lokaler Sicherungsexport als versionierte JSON-Datei `.ucbackup`, mit Manifest und SHA-256-Prüfsumme. Enthalten sind Pläne, Sitzungen und Snapshots, Notizen, Einstellungen, Originaldateien sowie Audio-Metadaten und Audiodateien.
 - Wiederherstellung prüft Dateigröße, Kennung, Formatversion, Manifest, Prüfsumme, Datensatz-IDs und Referenzen vor dem Schreiben.

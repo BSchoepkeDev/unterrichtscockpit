@@ -1,5 +1,12 @@
 # Teststrategie und tatsächliche Ergebnisse
 
+## Stufe 10 – Offline-Validierung (in Arbeit)
+
+- Die Offline-Anzeige prüft den aktiven Workbox-Precache sowie App-Shell, aktuelle Einstiegsskripte/-Styles, Manifest, Icon und lokale deutsche OCR-Dateien. E2E prüft Bereitschaft nach Einrichtung und Reload, Statuswechsel nach Netzverlust, OCR-Ressourcen, Offline-Neustart, Bearbeitung eines Plans, eine Offline-Notiz und Timerfortsetzung nach Offline-Reload sowie den Erstaufruf ohne vorbereiteten Cache.
+- Lokal: Typprüfung, 62/62 Unit-Tests, Produktionsbuild, Audit (0 Befunde) und `git diff --check` bestanden. Der lokale Playwright-Lauf konnte mangels installierter Browser-Binärdateien nicht starten.
+- PR #19 CI [Run 45634413776](https://github.com/BSchoepkeDev/unterrichtscockpit/actions/runs/45634413776) auf `c1b2c6a669f439762a2bf6abe2f93cc59d45645e`: Audit, Typprüfung, Build, 62/62 Unit-Tests und 56/56 Chromium-/WebKit-E2E-Tests erfolgreich. PR-Deployment wurde erwartungsgemäß übersprungen.
+- Update-/Cache-Versionwechsel-Tests sowie echte iPadOS-Offline-Nutzung bleiben offen; die PR ist noch nicht gemergt.
+
 ## Automatisierte Prüfung
 `npm ci`, `npm audit --audit-level=moderate`, `npm run typecheck`, `npm run test`, `npm run build`, `npx playwright install --with-deps chromium webkit`, `npm run test:e2e`.
 
