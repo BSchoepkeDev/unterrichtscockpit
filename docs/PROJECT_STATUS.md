@@ -23,6 +23,8 @@ Stand: 25.11.2026. Ausgangspunkt `95b4dc325becbb613a2b77a730c329c69261849e` (Ver
 
 - Lokal: TypeScript, 50/50 Unit-Tests, Produktionsbuild und Audit ohne Befund bestanden.
 - PR-CI [Run 45571615271](https://github.com/BSchoepkeDev/unterrichtscockpit/actions/runs/45571615271) auf `54f9b756fbb76e5628af5257c523c39e49d1f93e`: Audit, TypeScript, Produktionsbuild, 50/50 Unit-Tests und 44/44 Chromium-/WebKit-E2E-Tests erfolgreich.
+- Main-/Pages-CI [Run 45572532166](https://github.com/BSchoepkeDev/unterrichtscockpit/actions/runs/45572532166) auf `4e6c50a32625f3d4939526e993a2c77cbe3ce78c`: dieselben Prüfungen bestanden; Pages-Deployment meldete Erfolg.
+- Produktionsseite am 25.11.2026 abgerufen: Build-Bundle enthält Version `0.7.0` und Build-ID `4e6c50a`.
 - E2E umfasst Notizzuordnung und Reload, simulierte finale Spracherkennung, verweigerte Berechtigung und funktionsfähigen Textfeld-Fallback.
 - Lokale Browserinstallation wurde mit HTTP 403 blockiert; die CI-Browserläufe konnten erfolgreich ausgeführt werden.
 - Der abschließende Test auf echtem iPadOS-Safari ist noch offen.
@@ -36,6 +38,5 @@ Stand: 25.11.2026. Ausgangspunkt `95b4dc325becbb613a2b77a730c329c69261849e` (Ver
 
 ## Nächste Schritte
 
-1. PR #10 nach erfolgreicher CI mergen und den Main-/Pages-Deploy verifizieren.
-2. Auf dem 10–11-Zoll-iPad Textfeld, Tastaturdiktat, Notizzuordnungen, Reload während des Timers sowie Verhalten ohne verfügbare direkte Spracherkennung abnehmen.
-3. Nach der Geräteabnahme Stufe 8 (PDF-Export) beginnen.
+1. Auf dem 10–11-Zoll-iPad Textfeld, Tastaturdiktat, Notizzuordnungen, Reload während des Timers sowie Verhalten ohne verfügbare direkte Spracherkennung abnehmen.
+2. Nach der Geräteabnahme Stufe 8 (PDF-Export) beginnen.
