@@ -24,7 +24,7 @@ Ein vorheriger Browser-Test meldete in Run 45453768870 einen mehrdeutigen Selekt
 - Echte iPad-Safari-Tests für Timer, Sperrbildschirm, Standalone-PWA, App-Wechsel und lange Pausen stehen aus.
 
 ## Offene Geräteabnahme
-Auf einem echten 10–11-Zoll-iPad mit iPadOS 26: Safari/Standalone, Querformat/Hochformat, Bildschirmtastatur, Touch, VoiceOver, Dark/Light Mode, Neuladen und PWA-Neustart. Browser-Persistenz ist keine garantierte Datensicherung. Vollständige Offline- und Backup-Abnahme erst in den entsprechenden späteren Entwicklungsstufen.
+Auf einem echten 10–11-Zoll-iPad mit iPadOS 26: Safari/Standalone, Querformat/Hochformat, Bildschirmtastatur, Touch, VoiceOver, Dark/Light Mode, Neuladen und PWA-Neustart. Für Stufe 9 zusätzlich Sicherung herunterladen, die Datei in „Dateien“ finden, wieder auswählen, Vorschau/Merge prüfen und Replace nur mit Bestätigung testen. Safari-Dateidialog und dauerhafte Dateispeicherung müssen am Gerät geprüft werden; Browser-Persistenz ist keine garantierte Datensicherung.
 
 ## Stufe 5 – lokale und PR-Prüfung
 - TypeScript: erfolgreich (`npm run typecheck`).
