@@ -24,12 +24,12 @@ test('Plan- und Durchführungsnotizen bleiben getrennt und nach Reload erhalten'
  await page.getByRole('article').filter({hasText:'Testplan: Brüche'}).getByRole('button',{name:'Cockpit öffnen'}).click();
  const plan=page.locator('details.notes-panel').filter({hasText:'Notizen zum Unterrichtsplan'}),session=page.locator('details.notes-panel').filter({hasText:'Notizen zu dieser Durchführung'});
  await plan.locator('summary').click();await plan.getByLabel('Zuordnung').selectOption({label:'Punkt: Impuls'});await plan.getByLabel('Neue Notiz').fill('Vorbereitung für den Einstieg');await plan.getByRole('button',{name:'Notiz speichern'}).click();await expect(plan.locator('.note-list').getByText('Punkt: Impuls')).toBeVisible();
- await session.locator('summary').click();await session.getByLabel('Zuordnung').selectOption({label:'Punkt: Impuls'});await session.getByLabel('Neue Notiz').fill('Beobachtung nur in dieser Stunde');await session.getByRole('button',{name:'Notiz speichern'}).click();
- await expect(plan.getByText('Vorbereitung für den Einstieg')).toBeVisible();await expect(session.getByText('Beobachtung nur in dieser Stunde')).toBeVisible();
+ await session.locator('summary').click();await session.getByLabel('Zuordnung').selectOption({label:'Punkt: Impuls'});await session.getByLabel('Neue Notiz').fill('Beobachtung nur in dieser Stunde');await session.getByRole('button',{name:'Notiz speichern'}).click();await expect(session.getByRole('status')).toHaveText('Notiz gespeichert.');
+ await expect(plan.locator('.note-list').getByText('Vorbereitung für den Einstieg')).toBeVisible();await expect(session.locator('.note-list').getByText('Beobachtung nur in dieser Stunde')).toBeVisible();
  await page.reload();
  const reopenedPlan=page.locator('details.notes-panel').filter({hasText:'Notizen zum Unterrichtsplan'}),reopenedSession=page.locator('details.notes-panel').filter({hasText:'Notizen zu dieser Durchführung'});
  await reopenedPlan.locator('summary').click();await expect(reopenedPlan.getByText('Vorbereitung für den Einstieg')).toBeVisible();await expect(reopenedPlan.locator('.note-list').getByText('Punkt: Impuls')).toBeVisible();
- await reopenedSession.locator('summary').click();await expect(reopenedSession.getByText('Beobachtung nur in dieser Stunde')).toBeVisible();
+ await reopenedSession.locator('summary').click();await expect(reopenedSession.locator('.note-list').getByText('Beobachtung nur in dieser Stunde')).toBeVisible();
 });
 
 test('optionale Spracherkennung übernimmt finale Ergebnisse erst nach Nutzeraktion',async({page})=>{
