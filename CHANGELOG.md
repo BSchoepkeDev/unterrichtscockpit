@@ -7,6 +7,7 @@
 - Änderungen werden atomar transaktional geschrieben. Aktive oder pausierte Durchführungen sperren Restore; Abbruch und Fehler erhalten den bisherigen Datenbestand.
 - Exportdatum, Sieben-Tage-Hinweis und Browser-Speicherquote (sofern verfügbar) werden in der Datensicherungsansicht angezeigt. Der Download kann auf iPadOS in „Dateien“ geprüft und dort abgelegt werden.
 - Dokumentation des Formats und seiner Grenzen ergänzt. iPadOS-Dateiauswahl, Download und Dateien-App müssen noch auf einem echten iPad abgenommen werden.
+- PR #16 gemergt. PR-CI [Run 45596595161](https://github.com/BSchoepkeDev/unterrichtscockpit/actions/runs/45596595161): Audit, TypeScript, 61/61 Unit-Tests, Build sowie Chromium-/WebKit-E2E erfolgreich. Main-/Pages-Lauf [45597064513](https://github.com/BSchoepkeDev/unterrichtscockpit/actions/runs/45597064513) veröffentlichte Version 0.9.0; die Live-Seite zeigte Build `c00f49f`.
 
 ## 0.8.1 – Zuordnung von Plannotizen
 - Korrigiert die Zuordnung von Plannotizen zu Unterrichtspunkten: Auswahl und Validierung verwenden jetzt die Punkt-ID des wiederverwendbaren Plans, nicht die separate ID der Durchführung.

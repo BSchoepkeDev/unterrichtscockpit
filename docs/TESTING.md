@@ -77,3 +77,11 @@ Der Ausgangsstand `95b4dc3` hatte am 25.11.2026 einen erfolgreichen Main-/Pages-
 ## Nachkorrektur 0.8.1 – Plannotizen an Planpunkte binden
 
 - Playwright prüft, dass eine Plannotiz dem vorhandenen Planpunkt „Einstieg“ zugeordnet, unter diesem Punkt angezeigt und nach einem Reload wiedergefunden wird. PR-CI [Run 45589186762](https://github.com/BSchoepkeDev/unterrichtscockpit/actions/runs/45589186762): 48/48 Chromium-/WebKit-E2E-Tests sowie 56/56 Unit-Tests, Audit, TypeScript und Build erfolgreich. Main-/Pages-Lauf [45589622301](https://github.com/BSchoepkeDev/unterrichtscockpit/actions/runs/45589622301) veröffentlichte Version 0.8.1 erfolgreich.
+
+## Stufe 9 – Datensicherung und Wiederherstellung
+
+- Unit-Tests prüfen vollständigen Roundtrip für alle sechs persistenten Tabellen samt Binäranhang und Audioverweis, Prüfsummen- und Formatfehler, Konfliktregeln, laufende Sitzungen sowie Änderungen nach der Vorschau.
+- Playwright prüft Download, Datei-Auswahl, Sicherungsvorschau, bestätigtes Replace sowie Ablehnung einer ungültigen Sicherung. Die alte fest codierte Versionserwartung im Import-E2E wurde auf 0.9.0 aktualisiert.
+- PR-CI [Run 45596595161](https://github.com/BSchoepkeDev/unterrichtscockpit/actions/runs/45596595161): Audit ohne Befunde, TypeScript, 61/61 Unit-Tests, Build und Chromium-/WebKit-E2E erfolgreich.
+- Main-/Pages-Lauf [45597064513](https://github.com/BSchoepkeDev/unterrichtscockpit/actions/runs/45597064513) auf `c00f49f0705f3206abb668f296ae02fa1408b79c`: vollständige CI und Deployment erfolgreich. Die Live-Seite zeigte Version 0.9.0 / Build `c00f49f`.
+- Echter iPadOS-Test für Safari/PWA-Dateiauswahl, Downloads in „Dateien“, Merge und Replace ist noch nicht erfolgt. Automatisierte WebKit-Prüfungen ersetzen ihn nicht.
