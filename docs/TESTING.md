@@ -72,3 +72,8 @@ Der Ausgangsstand `95b4dc3` hatte am 25.11.2026 einen erfolgreichen Main-/Pages-
 - Playwright deckt kompakten Download aus der Bibliothek sowie Snapshot-/Durchführungswahl und Durchführungsdownload aus dem Cockpit ab. PR-CI [Run 45585317152](https://github.com/BSchoepkeDev/unterrichtscockpit/actions/runs/45585317152) bestand mit 48/48 Chromium-/WebKit-E2E-Tests, 56/56 Unit-Tests, TypeScript, Build und Audit (0 Schwachstellen).
 - Main-/Pages-Lauf [45585798727](https://github.com/BSchoepkeDev/unterrichtscockpit/actions/runs/45585798727) bestätigte die vollständige CI und das Deployment. Die Live-Seite lieferte Version 0.8.0 / Build `e35aa5b`.
 - Der reale iPad-Test bleibt offen; automatisierte WebKit-Prüfungen decken weder native Druck-/Teilen-Dialoge noch iPadOS-PWA-Verhalten ab.
+
+
+## Nachkorrektur 0.8.1 – Plannotizen an Planpunkte binden
+
+- Playwright prüft, dass eine Plannotiz dem vorhandenen Planpunkt „Einstieg“ zugeordnet, unter diesem Punkt angezeigt und nach einem Reload wiedergefunden wird.

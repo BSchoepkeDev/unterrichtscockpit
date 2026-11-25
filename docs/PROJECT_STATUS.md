@@ -1,6 +1,6 @@
-# Projektstatus – Entwicklungsstufe 8 / Version 0.8.0
+# Projektstatus – Entwicklungsstufe 8 / Version 0.8.1
 
-Stand: 25.11.2026. Entwicklungsstufe 8 ist in Version 0.8.0 gemergt und auf GitHub Pages veröffentlicht. Produktiv: https://bschoepkedev.github.io/unterrichtscockpit/. Verifizierter Code-Release-Commit: `e35aa5bd640246225d38114fbe3d479d93f50eed`.
+Stand: 25.11.2026. Entwicklungsstufe 8 ist in Version 0.8.0 gemergt und auf GitHub Pages veröffentlicht. Ein Fehler in der Zuordnung von Plannotizen wird in Version 0.8.1 korrigiert; dessen Veröffentlichung steht aus. Produktiv: https://bschoepkedev.github.io/unterrichtscockpit/. Verifizierter Code-Release-Commit: `e35aa5bd640246225d38114fbe3d479d93f50eed`.
 
 ## Stufe 8 umgesetzt
 
@@ -18,6 +18,10 @@ Stand: 25.11.2026. Entwicklungsstufe 8 ist in Version 0.8.0 gemergt und auf GitH
 - PR #12 wurde am 25.11.2026 gemergt. Main-/Pages-Lauf [45585798727](https://github.com/BSchoepkeDev/unterrichtscockpit/actions/runs/45585798727) auf `e35aa5bd640246225d38114fbe3d479d93f50eed`: vollständige CI und Pages-Deployment erfolgreich.
 - Die Live-Seite lieferte nach dem Deployment Version `0.8.0` und Build-ID `e35aa5b` aus.
 - Playwright lokal nicht ausführbar, da Chromium-/WebKit-Binärdateien fehlen; die 48 Browserfälle liefen erfolgreich in GitHub Actions.
+
+## Nachkorrektur 0.8.1
+
+Plannotizen können jetzt gezielt einem Punkt des aktuellen, wiederverwendbaren Unterrichtsplans zugeordnet werden. Auswahl und Anzeige nutzen die Planpunkt-ID. Die Auswahl wird nicht mehr über IDs von Durchführungspunkten gebildet. Ein End-to-End-Test prüft Zuordnung und Erhalt nach dem Neuladen.
 
 ## Noch offen für Stufe 8
 
