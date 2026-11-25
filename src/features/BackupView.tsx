@@ -1,11 +1,11 @@
 import { useEffect, useState, type ChangeEvent } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '../database';
-import { createBackup, parseBackup, previewRestore, restoreBackup, type BackupFile, type ConflictPolicy, type RestoreMode, type RestorePreview } from './backupService';
+import { countRunningSessions, createBackup, parseBackup, previewRestore, restoreBackup, type BackupFile, type ConflictPolicy, type RestoreMode, type RestorePreview } from './backupService';
 
 function backupFilename(date: Date) { const stamp = date.toISOString().replace(/[:.]/g, '-').replace(/Z$/, 'Z'); return `Unterrichtscockpit-Sicherung-${stamp}.ucbackup`; }
 export function BackupView({ lastBackup, onLastBackup }: { lastBackup?: string; onLastBackup: (iso: string) => Promise<void> }) {
-  const activeSessions = useLiveQuery(() => db.sessions.where('status').anyOf('active', 'paused').count(), []);
+  const activeSessions = useLiveQuery(() => countRunningSessions(db), []);
   const [busy, setBusy] = useState(false); const [message, setMessage] = useState(''); const [error, setError] = useState(''); const [backup, setBackup] = useState<BackupFile>(); const [preview, setPreview] = useState<RestorePreview>(); const [mode, setMode] = useState<RestoreMode>('merge'); const [policy, setPolicy] = useState<ConflictPolicy>('keep-existing'); const [confirmed, setConfirmed] = useState(false);
   const [storageInfo, setStorageInfo] = useState('Speicherbelegung wird vom Browser nicht gemeldet.');
   useEffect(() => { let mounted = true; void navigator.storage?.estimate?.().then(value => { if (!mounted || value.usage === undefined || value.quota === undefined) return; const used = (value.usage / 1024 / 1024).toFixed(1); const total = (value.quota / 1024 / 1024).toFixed(0); setStorageInfo(`Browserdaten: etwa ${used} MB von ${total} MB verfügbarer Speicherquote belegt. Der Browser kann Daten dennoch entfernen; die Quote ist keine Sicherung.`); }).catch(() => undefined); return () => { mounted = false; }; }, []);
@@ -26,7 +26,7 @@ export function BackupView({ lastBackup, onLastBackup }: { lastBackup?: string; 
       <label>Wiederherstellungsart <select value={mode} onChange={e => void changeMode(e.target.value as RestoreMode)}><option value="merge">Zusammenführen</option><option value="replace">Vorhandenen Datenbestand ersetzen</option></select></label>
       <ul><li>Neue Datensätze: {preview.additions}</li><li>Identische Datensätze: {preview.duplicates} (werden übersprungen)</li><li>Gleiche IDs mit unterschiedlichen Inhalten: {preview.conflicts}</li>{mode === 'replace' && <li>Vorhandene Datensätze, die entfallen: {preview.removals}</li>}</ul>
       {mode === 'merge' && preview.conflicts > 0 && <label>Konflikte behandeln <select value={policy} onChange={e => setPolicy(e.target.value as ConflictPolicy)}><option value="keep-existing">Vorhandene Version behalten</option><option value="use-backup">Version aus der Sicherung übernehmen</option></select></label>}
-      {preview.activeSessions > 0 && <p role="alert" className="error">Es läuft eine Durchführung. Beende sie vor der Wiederherstellung.</p>}
+      {preview.activeSessions > 0 && <p role="alert" className="error">Eine gestartete oder pausierte Durchführung ist noch offen. Beende sie vor der Wiederherstellung.</p>}
       <label><input type="checkbox" checked={confirmed} onChange={e => setConfirmed(e.target.checked)} /> {mode === 'replace' ? 'Ich bestätige ausdrücklich, dass der vorhandene Datenbestand ersetzt wird.' : 'Ich bestätige die Zusammenführung mit der oben gewählten Konfliktbehandlung.'}</label>
       <button className={mode === 'replace' ? 'danger' : 'primary'} disabled={busy || !confirmed || preview.activeSessions > 0} onClick={() => void applyRestore()}>{mode === 'replace' ? 'Datenbestand ersetzen' : 'Zusammenführen und wiederherstellen'}</button>
       <button disabled={busy} onClick={() => { setBackup(undefined); setPreview(undefined); setConfirmed(false); }}>Abbrechen</button>

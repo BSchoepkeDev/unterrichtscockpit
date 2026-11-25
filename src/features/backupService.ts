@@ -11,6 +11,8 @@ export type RestoreMode = 'merge' | 'replace';
 export type ConflictPolicy = 'keep-existing' | 'use-backup';
 export type RestorePreview = { mode: RestoreMode; additions: number; duplicates: number; conflicts: number; removals: number; activeSessions: number };
 const stores = ['plans', 'sessions', 'notes', 'attachments', 'audio', 'settings'] as const;
+function isRunningSession(session: LessonSession) { return session.timerStartedAt !== undefined && (session.status === 'active' || session.status === 'paused'); }
+export async function countRunningSessions(database: Database = db) { return (await database.sessions.toArray()).filter(isRunningSession).length; }
 const recordId = (value: unknown): string => { const id = value && typeof value === 'object' ? (value as { id?: unknown }).id : undefined; if (typeof id !== 'string' || !/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(id)) throw new Error('Ein Datensatz hat keine gültige UUID.'); return id; };
 const canonical = (value: unknown) => JSON.stringify(value);
 function sameRecord(key: keyof BackupData, left: unknown, right: unknown) {
@@ -62,14 +64,14 @@ export async function previewRestore(backup: BackupFile, mode: RestoreMode, data
     for (const row of incoming) { const old = byId.get(row.id); if (!old) counts.additions++; else if (sameRecord(key, old, row)) counts.duplicates++; else counts.conflicts++; }
     if (mode === 'replace') counts.removals += existing.filter(row => !incoming.some(next => next.id === row.id)).length;
   }
-  return { mode, ...counts, activeSessions: await database.sessions.where('status').anyOf('active', 'paused').count() };
+  return { mode, ...counts, activeSessions: await countRunningSessions(database) };
 }
 export async function restoreBackup(backup: BackupFile, mode: RestoreMode, policy: ConflictPolicy, database: Database = db, expectedPreview?: RestorePreview) {
   validate(backup.data); const preview = await previewRestore(backup, mode, database);
   if (preview.activeSessions) throw new Error('Wiederherstellung ist während einer laufenden oder pausierten Durchführung gesperrt.');
   if (mode === 'merge' && preview.conflicts && !policy) throw new Error('Für ID-Konflikte muss eine Behandlung gewählt werden.');
   await database.transaction('rw', [database.plans, database.sessions, database.notes, database.attachments, database.audio, database.settings, database.locks], async () => {
-    if (await database.sessions.where('status').anyOf('active', 'paused').count()) throw new Error('Wiederherstellung ist während einer laufenden oder pausierten Durchführung gesperrt.');
+    if (await countRunningSessions(database)) throw new Error('Wiederherstellung ist während einer laufenden oder pausierten Durchführung gesperrt.');
     const currentPreview: RestorePreview = { mode, additions: 0, duplicates: 0, conflicts: 0, removals: 0, activeSessions: 0 };
     for (const key of stores) {
       const existing = await database.table(key).toArray() as Array<{ id: string }>;

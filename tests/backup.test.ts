@@ -32,8 +32,16 @@ test('Zusammenführen erkennt identische Duplikate und Konflikte; die gewählte 
 }));
 
 test('aktive Durchführung sperrt Wiederherstellung ohne bestehende Daten zu verändern', async () => withDb(async database => {
-  const plan = examples()[0]; await database.plans.add(plan); const session = exampleSessions([plan])[0]; session.status = 'active'; await database.sessions.add(session);
+  const plan = examples()[0]; await database.plans.add(plan); const session = exampleSessions([plan])[0]; session.status = 'active'; session.timerStartedAt = session.startedAt; await database.sessions.add(session);
   const { backup } = await createBackup(database); const before = await database.plans.toArray(); await expect(restoreBackup(backup, 'replace', 'keep-existing', database)).rejects.toThrow('laufenden'); expect(await database.plans.toArray()).toEqual(before);
+}));
+
+test('noch nicht gestartete Durchführung blockiert Wiederherstellung nicht', async () => withDb(async database => {
+  const plan = examples()[0]; await database.plans.add(plan); const session = exampleSessions([plan])[0]; session.status = 'active'; delete session.timerStartedAt; await database.sessions.add(session);
+  const { backup } = await createBackup(database); const preview = await previewRestore(backup, 'merge', database);
+  expect(preview.activeSessions).toBe(0);
+  await expect(restoreBackup(backup, 'merge', 'keep-existing', database)).resolves.toBeUndefined();
+  expect(await database.sessions.get(session.id)).toEqual(session);
 }));
 
 test('geänderte Daten seit der Vorschau verhindern veraltetes Replace', async () => withDb(async database => {
