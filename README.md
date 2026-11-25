@@ -2,7 +2,7 @@
 
 Local-first Progressive Web App für Unterrichtsplanung und -durchführung auf iPads. Produktiv: https://bschoepkedev.github.io/unterrichtscockpit/
 
-Version 0.6.2 behebt einen Safari-/iPadOS-Fehler beim Lesen des PDF-Textstreams. Die App zeigt Version und kurze Build-ID zur Standprüfung. Version 0.6.1 ergänzte Vollseiten-OCR für PDFs mit Text in eingebetteten Bildern und eine downloadbare Importvorlage. Version 0.6.0 führte den lokalen PDF- und Textimport mit PDF.js, deutscher Tesseract-OCR, regelbasierter Strukturierung, bearbeitbarer Vorschau und lokalem Originalanhang ein. Dateien und Ergebnisse verlassen das Gerät nicht. OCR und automatische Feldzuordnung können Fehler enthalten; jede Vorschau muss vor dem Speichern geprüft werden.
+Version 0.7.0 ergänzt schriftliche Notizen pro Unterrichtsplan und unabhängiger Durchführung sowie optionale Browser-Spracherkennung. Das iPad-Tastaturdiktat funktioniert im normalen Textfeld. Browser-Spracherkennung kann je nach Browser einen Online-Dienst verwenden; sie wird erst nach bewusster Aktivierung gestartet. Version 0.6.2 behebt einen Safari-/iPadOS-Fehler beim Lesen des PDF-Textstreams. Die App zeigt Version und kurze Build-ID zur Standprüfung. Version 0.6.1 ergänzte Vollseiten-OCR für PDFs mit Text in eingebetteten Bildern und eine downloadbare Importvorlage. Version 0.6.0 führte den lokalen PDF- und Textimport mit PDF.js, deutscher Tesseract-OCR, regelbasierter Strukturierung, bearbeitbarer Vorschau und lokalem Originalanhang ein. Dateien und Ergebnisse verlassen das Gerät nicht. OCR und automatische Feldzuordnung können Fehler enthalten; jede Vorschau muss vor dem Speichern geprüft werden.
 
 ## Lokale Entwicklung
 
@@ -16,6 +16,6 @@ Die regelbasierte Erkennung ist für beliebige Dokumentlayouts nicht garantiert.
 
 ## iPad, Datenschutz und Datenhaltung
 
-In Safari über **Teilen → Zum Home-Bildschirm** installieren. Pläne, Durchführungen und Anhänge werden ausschließlich lokal in IndexedDB gespeichert, nicht auf GitHub. Browserdaten können verloren gehen. Bis zur Implementierung vollständiger Sicherungen in Stufe 9 keine unersetzlichen Daten speichern. Der Import-Build bündelt die benötigten PDF- und OCR-Ressourcen im Service-Worker-Precache. Vollständige Offline- und iPad-Safari-Abnahme ist noch offen und wird nicht durch automatisierte WebKit-Tests ersetzt.
+In Safari über **Teilen → Zum Home-Bildschirm** installieren. Pläne, Durchführungen, Notizen und Anhänge werden ausschließlich lokal in IndexedDB gespeichert, nicht auf GitHub. Das Tastaturdiktat ist eine Funktion von iPadOS. Für die optionale Browser-Spracherkennung gelten die Datenverarbeitungsbedingungen des jeweiligen Browsers beziehungsweise seines Spracherkennungsdienstes; eine lokale Audioverarbeitung wird nicht zugesichert. Es wird kein eigener Speech-Dienst eingebunden. Browserdaten können verloren gehen. Bis zur Implementierung vollständiger Sicherungen in Stufe 9 keine unersetzlichen Daten speichern. Der Import-Build bündelt die benötigten PDF- und OCR-Ressourcen im Service-Worker-Precache. Vollständige Offline- und iPad-Safari-Abnahme ist noch offen und wird nicht durch automatisierte WebKit-Tests ersetzt.
 
 Weitere Details: [Projektstatus](docs/PROJECT_STATUS.md), [Architektur](docs/ARCHITECTURE.md), [Entscheidungen](docs/DECISIONS.md), [Tests](docs/TESTING.md), [Datensicherung](docs/BACKUP_FORMAT.md).
