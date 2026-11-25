@@ -1,6 +1,19 @@
-# Projektstatus – Entwicklungsstufe 9 / Version 0.9.0 (veröffentlicht)
+# Projektstatus – Stufe 10 in Entwicklung / Produktionsversion 0.9.0
 
-Stand: 25.11.2026. Stufe 9 wurde in PR #16 gemergt und als Version 0.9.0 veröffentlicht. Produktiv: https://bschoepkedev.github.io/unterrichtscockpit/. Main-Commit: `c00f49f0705f3206abb668f296ae02fa1408b79c`; Live-Build-ID: `c00f49f`.
+Stand: 25.11.2026. Stufen 1–9 sind umgesetzt. Die Produktionsversion bleibt 0.9.0 und wurde zuletzt auf `main` mit Restore-Fehlerkorrektur in PR #18 veröffentlicht. Produktiv: https://bschoepkedev.github.io/unterrichtscockpit/. Main-Commit: `8d304e64484dbf9cbb335fee8048ff31a11b6a9b`; Live-Build-ID: `8d304e6`. Stufe 10 ist auf `stage-10/offline-mvp` begonnen und noch nicht veröffentlicht.
+
+## Bereits abgeschlossene Stufen
+
+- Stufen 1–7: PWA-Grundlage, Bibliothek, Cockpit, Zeitmanagement, unabhängige Durchführungen, Import/OCR, Notizen und Spracheingabe.
+- Stufe 8: PDF-Export veröffentlicht; gezielte iPad-Datei-/Teilen-Abnahme bleibt offen.
+- Stufe 9: lokale Datensicherung und Wiederherstellung veröffentlicht. PR #18 korrigierte die fehlerhafte Sperre durch nie gestartete Durchführungen.
+
+## Stufe 10 – bisher umgesetzt
+
+- Vorhandene Workbox-Architektur und 17 Precache-Einträge (rund 17,6 MB) im Produktionsbuild geprüft; darunter App-Dateien sowie PDF-/OCR-Ressourcen.
+- Offline-Status prüft beim Start tatsächlich vorhandene Cache-Einträge und den aktuellen Netzstatus, statt die einmalige Erstinstallationsmeldung dauerhaft als Status zu verwenden.
+- Sichtbare Hinweise erklären Erstaufruf, lokale Datengrenze, iPad-Installation und netzabhängige Einschränkungen. Ein ausstehendes Update erfordert eine ausdrückliche Aktion; lokale Daten und offene Durchführung werden erklärt.
+- Erweiterter E2E-Test prüft Status nach Vorbereitung, Reload und Netzverlust sowie OCR-Verfügbarkeit und Offline-Neustart. CI-Ergebnis steht noch aus.
 
 ## Stufe 9 implementiert
 
@@ -23,7 +36,8 @@ Stand: 25.11.2026. Stufe 9 wurde in PR #16 gemergt und als Version 0.9.0 veröff
 
 1. Auf echtem iPad Safari und installierter PWA testen: Exportdatei in „Dateien“ ablegen und wieder auswählen, Vorschau prüfen, Merge durchführen, Replace nur nach ausdrücklicher Bestätigung prüfen.
 2. Zusätzlich bleibt die iPad-Praxisabnahme des PDF-Exports aus Stufe 8 offen.
-3. Danach Entwicklungsstufe 10 (Offline-Validierung und Bereitstellung) beginnen.
+3. Stufe 10 abschließen: Erstaufruf ohne Netz gegen vorbereiteten Offline-Neustart abgrenzen, kontrolliertes Update und Cache-Wechsel automatisiert prüfen, Offline-Kernfunktionen testen und CI/Pages auswerten.
+4. Auf echtem iPad Safari und installierter PWA Offline-Ersteinrichtung, Neustart, Timer-Wiederaufnahme, Update-Hinweis und Dateifunktionen abnehmen. Geräteabnahmen aus Stufen 8 und 9 bleiben ebenfalls offen.
 
 ---
 
@@ -68,7 +82,7 @@ Plannotizen können gezielt einem Punkt des aktuellen, wiederverwendbaren Plans 
 | 1–7 | PWA, Bibliothek, Cockpit, Timer, Sitzungen, Import, Notizen | abgeschlossen |
 | 8 | PDF-Export | veröffentlicht; iPad-Abnahme offen |
 | 9 | Datensicherung und Wiederherstellung | offen |
-| 10 | Offline-Validierung und Bereitstellung / MVP-Abschluss | offen |
+| 10 | Offline-Validierung und Bereitstellung / MVP-Abschluss | in Arbeit |
 | 11 | Längere Audioaufnahmen | offen |
 | 12 | Abschließende Qualitätssicherung | offen |
 

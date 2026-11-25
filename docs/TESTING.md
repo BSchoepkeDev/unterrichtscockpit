@@ -1,5 +1,10 @@
 # Teststrategie und tatsächliche Ergebnisse
 
+## Stufe 10 – Offline-Validierung (in Arbeit)
+
+- Die Offline-Anzeige prüft den aktiven Workbox-Precache sowie App-Shell, aktuelle Einstiegsskripte/-Styles, Manifest, Icon und lokale deutsche OCR-Dateien. `e2e/import.spec.ts` prüft Bereitschaft nach Einrichtung und Reload, Statuswechsel nach Netzverlust, OCR-Ressourcen und Offline-Neustart.
+- Lokale Typprüfung, Unit-Tests und Build bestanden am 25.11.2026; E2E muss in GitHub Actions in Chromium und WebKit bestätigt werden. Lokal konnte Playwright mangels installierter Browser-Binärdateien nicht starten. Update-Pfad, Cache-Versionwechsel, Netzfehler beim Erstaufruf und echte iPadOS-Offline-Nutzung sind noch nicht abgenommen.
+
 ## Automatisierte Prüfung
 `npm ci`, `npm audit --audit-level=moderate`, `npm run typecheck`, `npm run test`, `npm run build`, `npx playwright install --with-deps chromium webkit`, `npm run test:e2e`.
 
