@@ -49,3 +49,5 @@
 37. Das normale Textfeld mit iPadOS-Tastaturdiktat ist der verlässliche Sprachpfad. Browser-Spracherkennung ist optional, wird feature-detected und startet nur nach explizitem Tippen.
 38. Keine eigene Speech-API und keine Behauptung lokaler Browser-Audioverarbeitung. Die UI informiert darüber, dass der Browser einen Online-Dienst nutzen kann; Berechtigung wird erst beim Start durch den Browser angefordert.
 39. Lange Audioaufnahmen bleiben Stufe 11. Stufe 7 speichert nur den vom Nutzer bestätigten Textentwurf.
+40. Wird ein Unterrichtspunkt entfernt, bleibt die verknüpfte Plannotiz erhalten und wird in eine allgemeine Plannotiz umgewandelt. Planänderung und Notizbereinigung erfolgen gemeinsam.
+41. Die App kann nicht verlässlich erkennen, ob Text über die iPadOS-Tastatur diktiert oder eingegeben wurde. Die Herkunft wird nicht geraten; `dictated` kennzeichnet nur explizit verwendete direkte Browser-Spracherkennung.
