@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.0 – Erste vollständige Version
+- Bibliothek ohne eingebaute Beispieldaten; Pläne werden selbst erstellt, importiert oder aus einer Sicherung wiederhergestellt.
+- Vollständiger Reset löscht die IndexedDB mit Plänen, Durchführungen, Notizen, Anhängen, Aufnahmen, Einstellungen und Locks und startet mit Standardeinstellungen neu. Die Offline-App-Dateien bleiben installiert.
+- Aktive Unterrichtsphase wird anhand der konfigurierten Warnschwellen dezent grün (im Zeitrahmen), gelb (überschritten) oder rot (stark überschritten) hinterlegt; Farben passen sich dem Hell-/Dunkelmodus an.
+- Versionsnummer auf 1.0.0 angehoben.
+
 ## 0.9.1 – Offline-Update-Prüfung
 - Versions- und Buildkennung angehoben, damit installierte PWA-Clients eine neue Fassung erkennen und den Update-Hinweis anzeigen.
 - Keine Änderung am Datenbankschema oder an gespeicherten Daten; diese Version dient der praktischen Prüfung des Updateablaufs auf dem iPad.

@@ -2,7 +2,7 @@
 
 Local-first Progressive Web App für Unterrichtsplanung und -durchführung auf iPads. Produktiv: https://bschoepkedev.github.io/unterrichtscockpit/
 
-Version 0.9.0 ergänzt eine vollständige lokale Sicherung und Wiederherstellung. Die versionierte JSON-Datei enthält Pläne, Sitzungsverläufe, Notizen, Einstellungen, Originaldokumente und Audioanhänge und wird mit SHA-256 geprüft. Zusammenführen und Ersetzen zeigen vorab eine Vorschau und brauchen eine ausdrückliche Bestätigung. Details, Grenzen und Format stehen in [Datensicherung](docs/BACKUP_FORMAT.md). Frühere Versionen ergänzten PDF-Export, Notizen, Spracheingabe und PDF-/Textimport mit OCR; siehe [Changelog](CHANGELOG.md).
+Version 1.0.0 bündelt die getesteten Kernfunktionen für Unterrichtsplanung und -durchführung: Bibliothek ohne Beispieldaten, lokale Datensicherung und Wiederherstellung, PDF-/Textimport mit OCR, PDF-Export, Notizen, Timer, Offlinebetrieb und ein vollständiger Reset der lokalen Datenbank. Die aktive Phase wird je nach Zeitrahmen grün, gelb oder rot eingefärbt. Details zu Datensicherung, Grenzen und Projektübergabe stehen in [Datensicherung](docs/BACKUP_FORMAT.md), [Abschlussprotokoll](docs/FINAL_HANDOFF_VERSION_1.0.md) und [Changelog](CHANGELOG.md).
 
 ## Lokale Entwicklung
 

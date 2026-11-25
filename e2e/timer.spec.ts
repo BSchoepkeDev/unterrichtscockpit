@@ -1,9 +1,10 @@
 import {test,expect} from '@playwright/test';
+import {createTestPlan} from './helpers';
 
 async function openExample(page:import('@playwright/test').Page){
  await page.goto('./');
- await page.getByRole('button',{name:'Beispieldaten laden'}).click();
- await page.getByRole('article').filter({hasText:'Beispiel: 45 Minuten – Brüche'})
+ await createTestPlan(page);
+ await page.getByRole('article').filter({hasText:'Testplan: Brüche'})
    .getByRole('button',{name:'Cockpit öffnen'}).click();
  await expect(page.getByRole('button',{name:'Unterricht starten'})).toBeVisible();
 }
@@ -42,7 +43,7 @@ test('Unterrichtsende ist bestätigt und lässt Sitzung gespeichert',async({page
 test('derselbe Plan startet nach Ende eine neue Durchführung und erscheint in der Historie',async({page})=>{
  await openExample(page);await page.getByRole('button',{name:'Unterricht starten'}).click();page.once('dialog',dialog=>dialog.accept());await page.getByRole('button',{name:'Unterricht beenden'}).click();
  await page.getByRole('button',{name:'Neue Durchführung starten'}).click();await page.getByRole('button',{name:'Unterricht starten'}).click();
- await expect(page.getByRole('button',{name:'Pause',exact:true})).toBeVisible();await page.goto('./#Historie');await expect(page.getByRole('heading',{name:'Historie'})).toBeVisible();await expect(page.getByRole('heading',{name:'Beispiel: 45 Minuten – Brüche'})).toHaveCount(3);
+ await expect(page.getByRole('button',{name:'Pause',exact:true})).toBeVisible();await page.goto('./#Historie');await expect(page.getByRole('heading',{name:'Historie'})).toBeVisible();await expect(page.getByRole('heading',{name:'Testplan: Brüche'})).toHaveCount(2);
 });
 test('spontanes Überspringen und erneutes Aufnehmen bleiben im Sitzungsverlauf',async({page})=>{
  await openExample(page);await page.getByRole('button',{name:'Unterricht starten'}).click();const first=page.getByRole('article').filter({has:page.getByRole('button',{name:'Details: Impuls (1)'})});await first.getByRole('button',{name:'Überspringen'}).click();await expect(first.getByText('Übersprungen',{exact:true})).toBeVisible();await first.getByRole('button',{name:'Erneut aufnehmen'}).click();await expect(first.getByText('Offen',{exact:true})).toBeVisible();
@@ -70,12 +71,13 @@ test('Zeitampel wird genau bei +1 Sekunde gelb und ab +3 Minuten rot',async({pag
  await page.clock.install({time:new Date('2026-11-24T08:00:00.000Z')});
  await openExample(page);
  await page.getByRole('button',{name:'Unterricht starten'}).click();
- const first=page.getByRole('article').filter({has:page.getByRole('button',{name:'Details: Impuls (1)'})}).locator('.phase-clock');
- await expect(first).toHaveClass(/phase-green/);
+ const firstCard=page.getByRole('article').filter({has:page.getByRole('button',{name:'Details: Impuls (1)'})});
+ const first=firstCard.locator('.phase-clock');
+ await expect(first).toHaveClass(/phase-green/);await expect(firstCard).toHaveClass(/phase-tint-green/);
  await page.clock.fastForward(900000);
- await expect(first).toHaveClass(/phase-green/);
+ await expect(first).toHaveClass(/phase-green/);await expect(firstCard).toHaveClass(/phase-tint-green/);
  await page.clock.fastForward(1000);
- await expect(first).toHaveClass(/phase-yellow/);
+ await expect(first).toHaveClass(/phase-yellow/);await expect(firstCard).toHaveClass(/phase-tint-yellow/);
  await page.clock.fastForward(179000);
- await expect(first).toHaveClass(/phase-red/);
+ await expect(first).toHaveClass(/phase-red/);await expect(firstCard).toHaveClass(/phase-tint-red/);
 });
