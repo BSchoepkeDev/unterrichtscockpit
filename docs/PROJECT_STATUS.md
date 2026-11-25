@@ -13,7 +13,7 @@ Stand: 25.11.2026. Stufen 1–9 sind umgesetzt. Die Produktionsversion bleibt 0.
 - Vorhandene Workbox-Architektur und 17 Precache-Einträge (rund 17,6 MB) im Produktionsbuild geprüft; darunter App-Dateien sowie PDF-/OCR-Ressourcen.
 - Offline-Status prüft beim Start tatsächlich vorhandene Cache-Einträge und den aktuellen Netzstatus, statt die einmalige Erstinstallationsmeldung dauerhaft als Status zu verwenden.
 - Sichtbare Hinweise erklären Erstaufruf, lokale Datengrenze, iPad-Installation und netzabhängige Einschränkungen. Ein ausstehendes Update erfordert eine ausdrückliche Aktion; lokale Daten und offene Durchführung werden erklärt.
-- Erweiterter E2E-Test prüft Status nach Vorbereitung, Reload und Netzverlust sowie OCR-Verfügbarkeit und Offline-Neustart. CI-Ergebnis steht noch aus.
+- E2E prüft Status nach Vorbereitung, Reload und Netzverlust, OCR-Verfügbarkeit und Offline-Neustart sowie Offline-Planbearbeitung, Notizspeicherung und Fortsetzung der laufenden Durchführung. PR-CI [Run 45634413776](https://github.com/BSchoepkeDev/unterrichtscockpit/actions/runs/45634413776) bestand mit 62/62 Unit- und 56/56 Chromium-/WebKit-E2E-Tests, Audit, Typprüfung und Build.
 
 ## Stufe 9 implementiert
 
