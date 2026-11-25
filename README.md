@@ -2,7 +2,7 @@
 
 Local-first Progressive Web App für Unterrichtsplanung und -durchführung auf iPads. Produktiv: https://bschoepkedev.github.io/unterrichtscockpit/
 
-Version 0.6.1 macht Version und kurze Build-ID in der App sichtbar. Die Importkorrektur ergänzt Vollseiten-OCR für PDFs mit Text in eingebetteten Bildern sowie eine downloadbare Importvorlage. Version 0.6.0 führte den lokalen PDF- und Textimport mit PDF.js, deutscher Tesseract-OCR, regelbasierter Strukturierung, bearbeitbarer Vorschau und lokalem Originalanhang ein. Dateien und Ergebnisse verlassen das Gerät nicht. OCR und automatische Feldzuordnung können Fehler enthalten; jede Vorschau muss vor dem Speichern geprüft werden.
+Version 0.6.2 behebt einen Safari-/iPadOS-Fehler beim Lesen des PDF-Textstreams. Die App zeigt Version und kurze Build-ID zur Standprüfung. Version 0.6.1 ergänzte Vollseiten-OCR für PDFs mit Text in eingebetteten Bildern und eine downloadbare Importvorlage. Version 0.6.0 führte den lokalen PDF- und Textimport mit PDF.js, deutscher Tesseract-OCR, regelbasierter Strukturierung, bearbeitbarer Vorschau und lokalem Originalanhang ein. Dateien und Ergebnisse verlassen das Gerät nicht. OCR und automatische Feldzuordnung können Fehler enthalten; jede Vorschau muss vor dem Speichern geprüft werden.
 
 ## Lokale Entwicklung
 
