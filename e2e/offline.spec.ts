@@ -1,13 +1,14 @@
 import {test,expect} from '@playwright/test';
+import {createTestPlan} from './helpers';
 
 test('Pläne und eine laufende Durchführung bleiben nach Offline-Reload nutzbar',async({page})=>{
  await page.goto('./');
  await page.evaluate(async()=>{await navigator.serviceWorker.ready;});
  await expect(page.getByTestId('offline-status')).toContainText('Offline-Grundfunktionen vorbereitet');
  await page.reload();
- await page.getByRole('button',{name:'Beispieldaten laden'}).click();
+ await createTestPlan(page);
 
- const plan=page.getByRole('article').filter({hasText:'Beispiel: 45 Minuten – Brüche'});
+ const plan=page.getByRole('article').filter({hasText:'Testplan: Brüche'});
  await page.context().setOffline(true);
  await plan.getByRole('button',{name:'Bearbeiten'}).click();
  await page.getByLabel('Unterrichtstitel').fill('Offline bearbeiteter Plan');
