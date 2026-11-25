@@ -56,7 +56,8 @@ export async function createLessonPdf(plan:LessonPlan,options:{mode:ExportMode;n
  if(!items.length)write('Keine Unterrichtspunkte vorhanden.',10);
  for(const {item,execution,original} of items){
   const actual=execution?execution.intervals.reduce((sum,v)=>sum+Math.max(0,(v.end??session?.endedAt??exportedAt.getTime())-v.start),0)/1000:undefined;
-  const summary=[item.phase||'Phase offen',duration(item.durationSeconds),execution?status(execution.status):''].filter(Boolean).join(' · ');
+  const timeRange=[item.plannedStart,item.plannedEnd].filter(Boolean).join(' – ');
+  const summary=[item.phase||'Phase offen',duration(item.durationSeconds),timeRange?`Zeitfenster ${timeRange}`:'',execution?status(execution.status):''].filter(Boolean).join(' · ');
   write(`${(execution?.order??item.order)+1}. ${item.title}`,compact?11:12,{bold:true,gap:2});write(summary,9,{indent:10,gap:3});
   if(session&&execution){write(`Soll ${duration(original?.durationSeconds)} · angepasst ${duration(item.durationSeconds)} · Ist ${elapsedDuration(actual)}`,9,{indent:10,gap:3});}
   if(session&&original&&!compact){for(const [label,value] of [['Ursprünglicher Arbeitsauftrag',original.assignment],['Ursprüngliche Lehrerhinweise',original.teacherNotes]] as const){if(value?.trim()&&value!==item[label==='Ursprünglicher Arbeitsauftrag'?'assignment':'teacherNotes'])write(`${label}: ${value}`,8,{indent:10,gap:2});}}
