@@ -4,6 +4,7 @@
 - Korrigiert die Zuordnung von Plannotizen zu Unterrichtspunkten: Auswahl und Validierung verwenden jetzt die Punkt-ID des wiederverwendbaren Plans, nicht die separate ID der Durchführung.
 - Planpunktbezogene Notizen werden mit ihrem Punktnamen angezeigt und bleiben von sitzungsbezogenen Notizen getrennt.
 - Browser-End-to-End-Test ergänzt, der eine Notiz zum Planpunkt „Einstieg“ speichert und nach dem Neuladen prüft.
+- PR #14 gemergt. PR-CI [Run 45589186762](https://github.com/BSchoepkeDev/unterrichtscockpit/actions/runs/45589186762) bestand mit 56/56 Unit- und 48/48 Chromium-/WebKit-E2E-Tests, Audit, TypeScript und Build. Main-/Pages-Run [45589622301](https://github.com/BSchoepkeDev/unterrichtscockpit/actions/runs/45589622301) veröffentlichte Version 0.8.1.
 
 ## 0.8.0 – Entwicklungsstufe 8 (PDF-Export)
 - Unterrichtspläne aus Bibliothek und Cockpit lokal als PDF exportieren: kompakte Übersicht oder vollständige Planung.
