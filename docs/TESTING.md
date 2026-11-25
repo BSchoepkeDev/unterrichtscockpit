@@ -56,8 +56,8 @@ Auf einem echten 10–11-Zoll-iPad mit iPadOS 26: Safari/Standalone, Querformat/
 
 ## Stufe 7 – Notizen und Spracheingabe
 
-Hinzugefügt wurden Unit-Tests für Plan-/Punktzuordnung, Änderungszeitstempel, Persistenz nach erneutem Öffnen der Datenbank, Trennung unabhängiger Durchführungen, Timerunabhängigkeit, Ablehnung leerer/falsch zugeordneter Notizen, Schreibschutz abgeschlossener Sitzungen und eng begrenztes Löschen. Ein Playwright-Szenario erfasst getrennte Plan- und Sitzungsnotizen und prüft ihren Fortbestand nach Reload. Direkte Spracherkennung wird nur bei API-Verfügbarkeit angeboten; reale Berechtigungsdialoge und iPadOS-Tastaturdiktat müssen auf dem Gerät geprüft werden.
+Hinzugefügt wurden Unit-Tests für Plan-/Punktzuordnung, Änderungszeitstempel, Persistenz nach erneutem Öffnen der Datenbank, Trennung unabhängiger Durchführungen, Timerunabhängigkeit, Ablehnung leerer/falsch zugeordneter Notizen, Schreibschutz abgeschlossener Sitzungen, Erhalt von Notizen bei Planpunktlöschung und eng begrenztes Löschen. Playwright prüft getrennte Plan-/Sitzungsnotizen und Reload sowie simulierte finale Spracherkennung und Berechtigungsverweigerung mit funktionierendem Tastaturfallback. Reale Berechtigungsdialoge und iPadOS-Tastaturdiktat müssen auf dem Gerät geprüft werden.
 
 Der Ausgangsstand `95b4dc3` hatte am 25.11.2026 einen erfolgreichen Main-/Pages-Lauf (`45518326291`) sowie erfolgreiche PR-CI (`45517909734`). Ergebnisse der neuen Stufe-7-Prüfungen, des PR-Laufs und des Deployments folgen nach tatsächlicher Ausführung.
-- Lokal am 25.11.2026: `npm ci`, TypeScript, 49/49 Unit-Tests, Produktionsbuild und `npm audit --audit-level=moderate` (0 Befunde) erfolgreich.
+- Lokal am 25.11.2026: `npm ci`, TypeScript, 50/50 Unit-Tests, Produktionsbuild und `npm audit --audit-level=moderate` (0 Befunde) erfolgreich.
 - Playwright lokal nicht ausführbar: Browser-Binärdateien fehlten; `npx playwright install chromium webkit` wurde von `cdn.playwright.dev` mit HTTP 403 abgewiesen. Der lokale E2E-Lauf ist nicht als bestanden zu werten. Chromium-/WebKit-Prüfung erfolgt in PR-CI.
