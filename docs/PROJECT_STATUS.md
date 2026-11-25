@@ -1,8 +1,12 @@
-# Projektstatus – Version 1.0.0
+# Projektstatus – Version 1.0.1
 
 Unterrichtscockpit ist als lokal gespeicherte, installierbare PWA für die private Unterrichtsplanung und -durchführung umgesetzt. Die Anwendung wird über GitHub Pages veröffentlicht:
 
 https://bschoepkedev.github.io/unterrichtscockpit/
+
+## Version 1.0.1
+
+Die Dateiauswahl der Sicherungswiederherstellung filtert Dateien nicht mehr nach Endung oder MIME-Typ. Die ausgewählte Datei wird weiterhin streng validiert, bevor eine Vorschau oder Wiederherstellung möglich ist.
 
 ## Version 1.0
 
@@ -23,4 +27,4 @@ https://bschoepkedev.github.io/unterrichtscockpit/
 
 ## Weiterentwicklung
 
-Der aktuelle Release ist Version 1.0.0. Neue Funktionen folgen bei Bedarf über den Ablauf im [Abschlussprotokoll](FINAL_HANDOFF_VERSION_1.0.md).
+Der aktuelle Release ist Version 1.0.1. Neue Funktionen folgen bei Bedarf über den Ablauf im [Abschlussprotokoll](FINAL_HANDOFF_VERSION_1.0.md).

@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.1 – iPad-Dateiauswahl für Sicherungen
+- Die Dateiauswahl für die Wiederherstellung filtert Dateitypen nicht mehr vorab. Dadurch bleiben `.ucbackup`-Sicherungen im iPad-Dateidialog auswählbar, auch wenn iPadOS den eigenen Dateityp nicht als JSON einordnet.
+- Die ausgewählte Datei wird weiterhin vor jeder Vorschau anhand von Formatkennung, Version, Prüfsumme und Datenstruktur geprüft.
+
 ## 1.0.0 – Erste vollständige Version
 - Bibliothek ohne eingebaute Beispieldaten; Pläne werden selbst erstellt, importiert oder aus einer Sicherung wiederhergestellt.
 - Vollständiger Reset löscht die IndexedDB mit Plänen, Durchführungen, Notizen, Anhängen, Aufnahmen, Einstellungen und Locks und startet mit Standardeinstellungen neu. Die Offline-App-Dateien bleiben installiert.
