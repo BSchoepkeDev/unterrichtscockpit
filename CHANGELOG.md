@@ -7,7 +7,7 @@
 - Optionale Browser-Spracherkennung erscheint nur bei erkannter API und startet erst nach aktivem Druck. Start/Stop, Zwischen- und Endergebnisse, verweigerte Berechtigungen, fehlende Dienste und Abbruch werden behandelt.
 - Datenschutztext weist darauf hin, dass Spracherkennung browserabhängig online verarbeitet werden kann. Es wird keine lokale Audioverarbeitung behauptet.
 - Tests für Zuordnung, Reload-Persistenz, Plan-/Sitzungstrennung, Timerunabhängigkeit, schreibgeschützte Historie und Browser-End-to-End-Ablauf ergänzt.
-- Produktionsbuild, Unit-/Browser-Tests, Audit, PR-CI, Merge und Deployment werden nach Abschluss dokumentiert.
+- PR-CI [Run 45571615271](https://github.com/BSchoepkeDev/unterrichtscockpit/actions/runs/45571615271): 50/50 Unit- und 44/44 Chromium-/WebKit-E2E-Tests sowie Audit (0 Befunde), TypeScript und Build erfolgreich. Main-/Pages-Deployment nach Merge wird ergänzt.
 
 ## 0.6.2 – Safari-Folgekorrektur
 - PDF.js-Textstreams für iPadOS Safari mit `getReader()` statt AsyncIterator auslesen.
