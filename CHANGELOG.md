@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.8.1 – Zuordnung von Plannotizen
+- Korrigiert die Zuordnung von Plannotizen zu Unterrichtspunkten: Auswahl und Validierung verwenden jetzt die Punkt-ID des wiederverwendbaren Plans, nicht die separate ID der Durchführung.
+- Planpunktbezogene Notizen werden mit ihrem Punktnamen angezeigt und bleiben von sitzungsbezogenen Notizen getrennt.
+- Browser-End-to-End-Test ergänzt, der eine Notiz zum Planpunkt „Einstieg“ speichert und nach dem Neuladen prüft.
+
 ## 0.8.0 – Entwicklungsstufe 8 (PDF-Export)
 - Unterrichtspläne aus Bibliothek und Cockpit lokal als PDF exportieren: kompakte Übersicht oder vollständige Planung.
 - Konkrete Durchführungen aus Cockpit und Historie exportieren. Der Export unterscheidet den ursprünglichen Plansnapshot vom aktuellen Sitzungsstand und führt Punktstatus, spontane Änderungen, Soll-/Ist-Zeiten, Pausen und sitzungsbezogene Notizen auf.

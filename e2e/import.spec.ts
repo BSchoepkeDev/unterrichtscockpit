@@ -10,7 +10,7 @@ async function mixedPdf(page:Page):Promise<Buffer>{
 
 
 test('Textdatei wird geprüft, atomar gespeichert und Original bleibt nach Reload verfügbar',async({page})=>{
- await page.goto('./');await expect(page.getByText(/^Version 0\.8\.0 · Build /)).toBeVisible();await page.getByRole('link',{name:'Import',exact:true}).click();
+ await page.goto('./');await expect(page.getByText(/^Version 0\.8\.1 · Build /)).toBeVisible();await page.getByRole('link',{name:'Import',exact:true}).click();
  await page.locator('input[type=file]').setInputFiles({name:'Naturstunde.txt',mimeType:'text/plain',buffer:Buffer.from('# Naturstunde\nPhase 1: Einstieg · 5 Min.\nArbeitsauftrag: Beobachte den Becher.\nMaterialien: Glas, Wasser\n')});
  await expect(page.getByRole('heading',{name:'Vorschau bearbeiten'})).toBeVisible();await expect(page.getByLabel('Unterrichtstitel')).toHaveValue('Naturstunde');
  const first=page.locator('.import-item').first();await first.getByLabel('Inhalt').fill('Beobachte den Becher. || Notiere die Veränderung.');await first.getByRole('button',{name:'Punkt teilen'}).click();await first.getByLabel(/Teilungsstelle/).fill('Beobachte den Becher. || Notiere die Veränderung.');await first.getByRole('button',{name:'An dieser Stelle teilen'}).click();await expect(page.locator('.import-item')).toHaveCount(2);await page.locator('.import-item').nth(1).locator('summary').click();await page.locator('.import-item').nth(1).getByLabel('Titel').fill('Notiz');

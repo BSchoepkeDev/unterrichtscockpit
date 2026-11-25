@@ -1,7 +1,7 @@
 import {useEffect,useRef,useState,type FormEvent} from 'react';
 import {useLiveQuery} from 'dexie-react-hooks';
 import {db} from '../database';
-import type {LessonItemExecution,LessonNote} from '../models';
+import type {LessonItem,LessonItemExecution,LessonNote} from '../models';
 import {deleteNote,saveNote,type NoteOwner} from './noteRepository';
 
 type RecognitionResult={isFinal:boolean;[index:number]:{transcript:string}};
@@ -10,7 +10,7 @@ type RecognitionError={error:string};
 type Recognition={lang:string;continuous:boolean;interimResults:boolean;onresult:((event:RecognitionEvent)=>void)|null;onerror:((event:RecognitionError)=>void)|null;onend:(()=>void)|null;start:()=>void;stop:()=>void;abort:()=>void};
 type SpeechWindow=Window&{SpeechRecognition?:new()=>Recognition;webkitSpeechRecognition?:new()=>Recognition};
 
-export function NotesPanel({ownerType,ownerId,executions=[],locked=false,title}:{ownerType:'plan'|'session';ownerId:string;executions?:LessonItemExecution[];locked?:boolean;title:string}){
+export function NotesPanel({ownerType,ownerId,executions=[],planItems=[],locked=false,title}:{ownerType:'plan'|'session';ownerId:string;executions?:LessonItemExecution[];planItems?:LessonItem[];locked?:boolean;title:string}){
  const notes=useLiveQuery(()=>db.notes.where('ownerId').equals(ownerId).toArray(),[ownerId]);
  const [scope,setScope]=useState(''),[draft,setDraft]=useState(''),[mode,setMode]=useState<'manual'|'dictated'>('manual'),[editing,setEditing]=useState<string>(),[busy,setBusy]=useState(false),[message,setMessage]=useState(''),[listening,setListening]=useState(false);
  const recognition=useRef<Recognition|null>(null);
@@ -30,11 +30,11 @@ export function NotesPanel({ownerType,ownerId,executions=[],locked=false,title}:
  const inputId=`note-entry-${ownerType}-${ownerId}`;
  function edit(note:LessonNote){setScope(note.itemId??'');setDraft(note.text);setMode(note.mode);setEditing(note.id);setMessage('');document.getElementById(inputId)?.focus();}
  return <details className="notes-panel"><summary>{title} · {relevant.length}</summary><p>Notizen werden lokal in diesem Browser gespeichert. Das Diktat der iPad-Tastatur funktioniert im Textfeld. Direkte Browser-Spracherkennung ist optional und kann Audio an einen browserabhängigen Dienst übertragen.</p>
-  <form onSubmit={event=>void submit(event)}><label>Zuordnung<select disabled={locked||busy} value={scope} onChange={event=>setScope(event.target.value)}><option value="">{ownerType==='plan'?'Zum Unterrichtsplan':'Zur Durchführung'}</option>{executions.map(item=><option key={item.id} value={item.id}>Punkt: {item.adjusted.title}</option>)}</select></label>
+  <form onSubmit={event=>void submit(event)}><label>Zuordnung<select disabled={locked||busy} value={scope} onChange={event=>setScope(event.target.value)}><option value="">{ownerType==='plan'?'Zum Unterrichtsplan':'Zur Durchführung'}</option>{ownerType==='plan'?planItems.map(item=><option key={item.id} value={item.id}>Punkt: {item.title}</option>):executions.map(item=><option key={item.id} value={item.id}>Punkt: {item.adjusted.title}</option>)}</select></label>
    <label htmlFor={inputId}>{editing?'Notiz bearbeiten':'Neue Notiz'}</label><textarea id={inputId} value={draft} onChange={event=>{setDraft(event.target.value);setMode('manual');}} placeholder="Notiz eingeben oder Tastaturdiktat verwenden …" autoComplete="off" enterKeyHint="done" disabled={locked||busy}/>
    <div className="note-controls"><button type="submit" className="primary" disabled={locked||busy||!draft.trim()}>{busy?'Speichern …':editing?'Änderung speichern':'Notiz speichern'}</button>{editing&&<button type="button" disabled={busy} onClick={resetForm}>Abbrechen</button>}{available&&<button type="button" disabled={locked||busy} onClick={()=>listening?stopRecognition():startRecognition()}>{listening?'Diktat beenden':'Direkt diktieren'}</button>}</div>
   </form>{message&&<p role="status" className={message.includes('fehl')||message.includes('verweigert')||message.includes('nicht gefunden')?'error':''}>{message}</p>}
   {!available&&!locked&&<p>Direkte Browser-Spracherkennung ist nicht verfügbar. Für Spracheingabe kannst du das Diktat der Bildschirmtastatur nutzen.</p>}
-  {relevant.filter(note=>note.itemId===undefined||executions.some(item=>item.id===note.itemId)||ownerType==='plan').length>0?<ul className="note-list">{relevant.filter(note=>note.itemId===undefined||executions.some(item=>item.id===note.itemId)||ownerType==='plan').sort((a,b)=>b.updatedAt.localeCompare(a.updatedAt)).map(note=>{const point=executions.find(item=>item.id===note.itemId);return <li key={note.id}><div><small>{point?`Punkt: ${point.adjusted.title}`:ownerType==='plan'?'Unterrichtsplan':'Durchführung'} · {new Date(note.updatedAt).toLocaleString('de-DE')} · {note.mode==='dictated'?'Browser-Diktat':'Textfeld'}</small><p>{note.text}</p></div><div className="note-controls"><button type="button" disabled={locked||busy} onClick={()=>edit(note)}>Bearbeiten</button><button type="button" className="danger" disabled={locked||busy} onClick={()=>void remove(note)}>Löschen</button></div></li>;})}</ul>:<p>Noch keine Notizen gespeichert.</p>}
+  {relevant.filter(note=>note.itemId===undefined||ownerType==='plan'||executions.some(item=>item.id===note.itemId)).length>0?<ul className="note-list">{relevant.filter(note=>note.itemId===undefined||ownerType==='plan'||executions.some(item=>item.id===note.itemId)).sort((a,b)=>b.updatedAt.localeCompare(a.updatedAt)).map(note=>{const pointTitle=ownerType==='plan'?planItems.find(item=>item.id===note.itemId)?.title:executions.find(item=>item.id===note.itemId)?.adjusted.title;return <li key={note.id}><div><small>{pointTitle?`Punkt: ${pointTitle}`:ownerType==='plan'?'Unterrichtsplan':'Durchführung'} · {new Date(note.updatedAt).toLocaleString('de-DE')} · {note.mode==='dictated'?'Browser-Diktat':'Textfeld'}</small><p>{note.text}</p></div><div className="note-controls"><button type="button" disabled={locked||busy} onClick={()=>edit(note)}>Bearbeiten</button><button type="button" className="danger" disabled={locked||busy} onClick={()=>void remove(note)}>Löschen</button></div></li>;})}</ul>:<p>Noch keine Notizen gespeichert.</p>}
  </details>;
 }
