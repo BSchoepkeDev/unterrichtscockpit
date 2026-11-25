@@ -61,4 +61,6 @@ Hinzugefügt wurden Unit-Tests für Plan-/Punktzuordnung, Änderungszeitstempel,
 Der Ausgangsstand `95b4dc3` hatte am 25.11.2026 einen erfolgreichen Main-/Pages-Lauf (`45518326291`) sowie erfolgreiche PR-CI (`45517909734`).
 - Lokal am 25.11.2026: `npm ci`, TypeScript, 50/50 Unit-Tests, Produktionsbuild und `npm audit --audit-level=moderate` (0 Befunde) erfolgreich.
 - PR-CI [Run 45571615271](https://github.com/BSchoepkeDev/unterrichtscockpit/actions/runs/45571615271) auf `54f9b756fbb76e5628af5257c523c39e49d1f93e`: Audit ohne Schwachstellen, TypeScript, Build, 50/50 Unit-Tests und 44/44 Chromium-/WebKit-E2E-Tests erfolgreich. PR-Deployment wurde wie vorgesehen übersprungen.
+- Main-/Pages-CI [Run 45572532166](https://github.com/BSchoepkeDev/unterrichtscockpit/actions/runs/45572532166) auf `4e6c50a32625f3d4939526e993a2c77cbe3ce78c`: Audit ohne Schwachstellen, TypeScript, Build, 50/50 Unit-Tests, 44/44 Chromium-/WebKit-E2E-Tests und GitHub-Pages-Deployment erfolgreich.
+- Die Produktionsseite lieferte anschließend ein JavaScript-Bundle mit `0.7.0` und Build-ID `4e6c50a` aus.
 - Playwright lokal nicht ausführbar: Browser-Binärdateien fehlten; `npx playwright install chromium webkit` wurde von `cdn.playwright.dev` mit HTTP 403 abgewiesen. Der lokale E2E-Lauf ist nicht als bestanden zu werten. Die Browserprüfungen liefen erfolgreich in GitHub Actions.
